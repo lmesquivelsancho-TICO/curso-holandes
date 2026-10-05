@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0e1117">
+<title>Holandés B2 — Holandés avanzado</title>
+<style>:root{
+  --bg:#0e1117; --surface:#161b24; --surface2:#1d2330; --line:#2a3242;
+  --text:#e7eaf0; --muted:#9aa4b5; --faint:#6b7587;
+  --accent:#ff8a3d; --accent-soft:rgba(255,138,61,.14);
+  --blue:#6cb2ff; --blue-soft:rgba(108,178,255,.12);
+  --green:#44d19a; --green-soft:rgba(68,209,154,.13);
+  --red:#ff7272; --red-soft:rgba(255,114,114,.13);
+  --yellow:#ffd166;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+
+/* Header */
+.top{position:sticky;top:0;z-index:20;background:rgba(14,17,23,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-top:10px;padding-bottom:8px;flex-wrap:wrap}
+.back{color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap}
+.back:hover{color:var(--text)}
+.lvsel{background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:3px 6px;font:inherit;font-size:13px}
+.badge{background:var(--accent);color:#1a0f05;font-weight:800;border-radius:10px;padding:4px 10px;font-size:15px}
+.ttl{flex:1;min-width:180px}
+.ttl h1{font-size:17px;margin:0;line-height:1.3}
+.ttl p{margin:0;color:var(--muted);font-size:13px}
+.prog{min-width:160px;flex:0 1 220px}
+.bar{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--yellow));transition:width .5s}
+.prog small{color:var(--muted);font-size:12px}
+.speed{background:var(--surface2);border:1px solid var(--line);color:var(--text);border-radius:99px;padding:4px 12px;font-size:13px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 16px 10px;max-width:900px;margin:0 auto;scrollbar-width:thin}
+.tab{flex:0 0 auto;background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:6px 14px;font-size:14px;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.on{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}
+.tab.done::after{content:" ✓";color:var(--green);font-weight:700}
+.tab.special{border-style:dashed}
+
+main{padding:22px 0 80px}
+.panel{display:none}
+.panel.on{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+h2{font-size:26px;margin:4px 0 6px;line-height:1.25}
+h3{font-size:19px;margin:0 0 10px}
+.kicker{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:16px 0}
+.goal{background:var(--blue-soft);border-left:4px solid var(--blue);padding:12px 16px;border-radius:10px;margin:12px 0}
+
+/* stepper */
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+.chip{font-size:13px;padding:4px 10px;border-radius:99px;background:var(--surface2);color:var(--faint);border:1px solid transparent}
+.chip.reached{color:var(--text);border-color:var(--line);cursor:pointer}
+.chip.current{border-color:var(--accent);color:var(--accent)}
+.showall{background:none;border:none;color:var(--muted);font-size:13px;text-decoration:underline;padding:0;margin-left:auto}
+
+.stage{margin-top:18px}
+.stage.hidden,.step.hidden{display:none}
+.stage-title{display:flex;align-items:center;gap:10px;margin:26px 0 6px}
+.stage-title .num{background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:2px 9px;font-size:13px;color:var(--muted)}
+.stage-title h3{margin:0}
+
+.step{animation:fade .3s}
+.step h4{margin:0 0 8px;font-size:18px;color:var(--yellow)}
+.step p{margin:8px 0}
+.tip{background:var(--accent-soft);border-radius:10px;padding:10px 14px;margin:12px 0;font-size:15.5px}
+.tip b:first-child{color:var(--accent)}
+.nl{color:var(--accent);font-weight:600}
+.hl{background:rgba(255,209,102,.18);border-radius:4px;padding:0 3px}
+
+.ex{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-top:1px dashed var(--line)}
+.ex:first-child{border-top:none}
+.ex .t{flex:1}
+.ex .nlt{font-weight:600;font-size:18px}
+.ex .es{color:var(--muted);font-size:15px}
+.pron{color:var(--blue);font-size:14px;font-style:italic}
+.exs{background:var(--surface2);border-radius:10px;padding:6px 14px;margin:10px 0}
+
+table.t{border-collapse:collapse;width:100%;margin:10px 0;font-size:15.5px}
+table.t th,table.t td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+table.t th{background:var(--surface2);color:var(--muted);font-weight:600}
+.tscroll{overflow-x:auto}
+
+.say{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface2);color:var(--accent);display:inline-grid;place-items:center;padding:0}
+.say:hover{border-color:var(--accent)}
+.say svg{width:17px;height:17px}
+.say.playing{background:var(--accent);color:#1a0f05}
+
+.btn{background:var(--accent);color:#1a0f05;border:none;border-radius:10px;padding:10px 18px;font-weight:700;margin-top:10px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);font-weight:500}
+.btn.small{padding:6px 12px;font-size:14px;margin-top:6px}
+.btn.green{background:var(--green)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.check{margin-top:12px;background:var(--surface2);border-radius:10px;padding:10px 14px}
+.check .q{font-weight:600}
+.reveal{display:none;margin-top:6px;color:var(--green)}
+.reveal.on{display:block;animation:fade .25s}
+
+/* vocab */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.vitem{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start}
+.vitem .t{flex:1;min-width:0}
+.vitem .w{font-weight:700;font-size:17px}
+.vitem .m{color:var(--muted);font-size:15px}
+.vitem .n{color:var(--faint);font-size:13px;margin-top:2px}
+.art-de{color:var(--blue)} .art-het{color:#c792ea}
+
+/* dialogue */
+.dlg .line{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
+.who{flex:0 0 auto;min-width:80px;font-size:13px;color:var(--muted);padding-top:4px}
+.bubble{flex:1;background:var(--surface2);border-radius:12px;padding:8px 12px}
+.line:nth-child(even) .bubble{background:var(--blue-soft)}
+.bubble .es{display:none;color:var(--muted);font-size:15px}
+.dlg.tr .bubble .es{display:block}
+
+/* practice & quiz */
+.pq{padding:12px 0;border-top:1px dashed var(--line)}
+.pq:first-child{border-top:none}
+.rv{font-size:11px;font-weight:700;background:var(--yellow);color:#231a00;border-radius:6px;padding:1px 6px;margin-right:6px;vertical-align:middle}
+.qz{background:var(--surface2);border-radius:12px;padding:14px 16px;margin:12px 0}
+.qz .q{font-weight:600;margin-bottom:8px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--green-soft);border-color:var(--green)}
+.opt.wrong{background:var(--red-soft);border-color:var(--red)}
+.fb{margin-top:10px;padding:10px 12px;border-radius:10px;font-size:15.5px;display:none}
+.fb.on{display:block;animation:fade .25s}
+.fb.ok{background:var(--green-soft)} .fb.ko{background:var(--red-soft)}
+.fb b{display:block}
+.winput{width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}
+.winput:focus{outline:none;border-color:var(--accent)}
+.score{font-size:18px;font-weight:700}
+.result{border-radius:var(--radius);padding:16px 18px;margin:16px 0;background:var(--green-soft);border:1px solid var(--green)}
+.result.meh{background:var(--accent-soft);border-color:var(--accent)}
+
+.navbtns{display:flex;justify-content:space-between;gap:10px;margin-top:30px;flex-wrap:wrap}
+
+/* flashcards */
+.fc{perspective:1000px;margin:16px auto;max-width:460px}
+.fcard{background:var(--surface2);border:1px solid var(--line);border-radius:18px;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:6px}
+.fcard .big{font-size:30px;font-weight:800}
+.fcard .back{display:none}
+.fcard.flip .back{display:block;animation:fade .25s}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.filters select,.filters input{background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;font-size:15px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{background:var(--surface);color:var(--muted);border:none;padding:8px 14px;font-size:14px}
+.seg button.on{background:var(--accent-soft);color:var(--text)}
+
+.toplist{list-style:none;padding:0;margin:0}
+.toplist li{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.toplist li:first-child{border-top:none}
+.dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:12px}
+.dot.ok{background:var(--green);border-color:var(--green);color:#062017}
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 18px;margin:16px 0}
+summary{cursor:pointer;font-weight:600}
+.warn{color:var(--yellow);font-size:13px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--green);color:#062017;font-weight:700;padding:12px 20px;border-radius:12px;transition:transform .35s;z-index:50;max-width:90vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.celebrate{text-align:center;padding:24px;border-radius:18px;background:linear-gradient(135deg,rgba(255,138,61,.18),rgba(68,209,154,.16));border:1px solid var(--accent);margin:16px 0}
+.celebrate h3{font-size:24px}
+@media (max-width:600px){
+  body{font-size:16px}
+  h2{font-size:22px}
+  .who{min-width:60px}
+  .prog{flex:1 1 120px;min-width:120px}
+  .ttl p{display:none}
+  .badge{display:none}
+  .ttl{min-width:0;flex-basis:calc(100% - 150px)}
+  .top .wrap{gap:8px 12px}
+}
+</style></head>
+<body><noscript>Este curso necesita JavaScript activado.</noscript>
+<script>window.LEVEL = {
+  id: "B2",
+  title: "Nivel B2 — Holandés avanzado",
+  subtitle: "Matizar, argumentar, escribir como en la universidad y preparar el Staatsexamen NT2 II",
+  prev: "B1",
+  next: null,
+  intro: "Bienvenido al último nivel. Ya te defiendes en holandés; ahora vamos a <b>pulirlo</b>: sonar formal cuando hace falta, unir ideas con conectores elegantes, entender textos académicos y opinar con matices. <br><br>Aunque sea B2, seguimos igual que siempre: <b>un paso pequeño cada vez</b>, primero ejemplos y después la regla. No tienes que memorizarlo todo de golpe: con leer un paso al día y hacer sus ejercicios avanzas muchísimo. <span class='nl'>Oefening baart kunst</span> — la práctica hace al maestro.",
+  studyPlan: [
+    "Semanas 1-2: temas 1 y 2 (registro formal y conectores). Escribe cada día una frase formal sobre tu trabajo.",
+    "Semanas 3-4: temas 3 y 4 (pasiva avanzada y condicionales). Repite en voz alta los ejemplos del día.",
+    "Semanas 5-6: temas 5 y 6 (grupos de verbos y expresiones). Aprende 2 expresiones por día y úsalas con alguien.",
+    "Semanas 7-8: temas 7 y 8 (escritura académica y lenguaje abstracto). Lee un párrafo de noticias en holandés al día.",
+    "Semanas 9-10: temas 9 y 10 (actualidad y preparación del examen). Haz un examen de práctica por destreza.",
+    "Ritmo sugerido: 20-30 minutos al día. Si un día solo tienes 5 minutos, repasa las tarjetas de vocabulario: también cuenta."
+  ],
+  canDo: [
+    "Puedo elegir entre registro formal e informal y escribir correos formales complejos sin miedo.",
+    "Puedo unir ideas con conectores avanzados como bovendien, daarentegen, aangezien, mits y tenzij.",
+    "Puedo entender y usar la pasiva impersonal: Er wordt gezegd dat..., Het moet worden gedaan.",
+    "Puedo hablar de situaciones imaginarias y arrepentimientos: Als ik dat had geweten...",
+    "Puedo construir frases con tres verbos: Ik heb niet kunnen komen, Het zal moeten worden aangepast.",
+    "Puedo reconocer y usar expresiones idiomáticas frecuentes en conversaciones reales.",
+    "Puedo escribir un resumen, un informe o un texto argumentativo con estructura clara.",
+    "Puedo debatir temas de actualidad (vivienda, energía, educación) con matices y prepararme para el Staatsexamen NT2 II."
+  ],
+
+  review: [
+    { nl: "Hoewel het regent, ga ik op de fiets.", es: "Aunque llueve, voy en bici.", pron: "hu-WEL et REE-jent..." },
+    { nl: "Ik spreek langzaam, zodat iedereen het begrijpt.", es: "Hablo despacio para que todos lo entiendan.", pron: "zo-DAT ii-de-REEN et be-JREIPT" },
+    { nl: "De collega die naast me zit, komt uit Friesland.", es: "El colega que se sienta a mi lado es de Frisia.", pron: "de ko-LEE-ja dii naast me zit" },
+    { nl: "Het rapport wordt door mijn promotor gelezen.", es: "El informe es leído por mi director de tesis.", pron: "et ra-PORT wort door mein pro-MOO-tor je-LEE-ze(n)" },
+    { nl: "Ik zou graag een afspraak willen maken.", es: "Me gustaría concertar una cita.", pron: "ik zau jraaj en AF-spraak WI-le(n) MAA-ke(n)" },
+    { nl: "Ik denk er nog over na.", es: "Todavía lo estoy pensando.", pron: "ik denk er noj oo-ver NAA" },
+    { nl: "Volgens mij is dat een goed idee.", es: "En mi opinión es una buena idea.", pron: "VOL-je(n)s mei is dat en jut ii-DEE" },
+    { nl: "Ik ben het niet met je eens.", es: "No estoy de acuerdo contigo.", pron: "ik ben et niit met ye EENS" }
+  ],
+
+  topics: [
+    // ───────────────────────── t1 ─────────────────────────
+    {
+      id: "t1",
+      title: "Formal o informal",
+      goal: "Al terminar podrás elegir entre 'je' y 'u', cambiar palabras coloquiales por formales y escribir un correo formal completo.",
+      steps: [
+        {
+          title: "Paso 1: ¿je o u? Depende de la situación",
+          html: "Mira estas dos frases. Dicen lo mismo, pero la primera es para un amigo y la segunda para alguien a quien tratas de 'usted':<br><span class='nl'>Kun je me even helpen?</span><br><span class='nl'>Zou u mij kunnen helpen?</span><br><br>En Países Bajos se usa <b>je</b> muchísimo, incluso en la universidad con profesores. Usa <b>u</b> con personas mayores desconocidas, en oficinas oficiales (gemeente, IND, Belastingdienst) y en correos formales. Si alguien te dice <span class='nl'>Zeg maar je</span>, te está invitando a tutearle.",
+          examples: [
+            { nl: "Kun je me even helpen?", es: "¿Me ayudas un momento? (informal)" },
+            { nl: "Zou u mij kunnen helpen?", es: "¿Podría usted ayudarme? (formal)" },
+            { nl: "Zeg maar je, hoor.", es: "Tutéame, tranquilo.", pron: "zej maar YE, hoor" }
+          ],
+          tip: "Con <b>u</b> el verbo va como con 'hij': <span class='nl'>u bent, u heeft, u kunt</span>. Truco: si dudas, empieza con <b>u</b>; es fácil pasar a je, pero raro volver atrás.",
+          check: { q: "Escribes por primera vez a la gemeente Groningen. ¿je o u?", a: "u (es una institución oficial y no los conoces)" }
+        },
+        {
+          title: "Paso 2: Palabras de todos los días vs. palabras formales",
+          html: "En un correo formal, muchas palabras normales se cambian por otras 'más elegantes'. Compara:<br><span class='nl'>Ik heb je mail gekregen.</span> (normal)<br><span class='nl'>Ik heb uw e-mail in goede orde ontvangen.</span> (formal: 'he recibido correctamente su correo')<br><br>No necesitas usarlas al hablar; pero sí reconocerlas al leer cartas oficiales y usarlas al escribir.",
+          examples: [
+            { nl: "Ik heb uw e-mail in goede orde ontvangen.", es: "He recibido correctamente su correo.", pron: "in JU-de OR-de ont-VAN-je(n)" },
+            { nl: "Het formulier is echter nog niet compleet.", es: "Sin embargo, el formulario aún no está completo.", pron: "EJ-ter" },
+            { nl: "Wij verzoeken u het formulier te ondertekenen.", es: "Le rogamos que firme el formulario.", pron: "ver-ZU-ke(n) ... on-der-TEE-ke-ne(n)" }
+          ],
+          table: {
+            head: ["Normal (hablado)", "Formal (escrito)", "Significado"],
+            rows: [
+              ["krijgen", "ontvangen", "recibir"],
+              ["vragen", "verzoeken", "pedir / rogar"],
+              ["maar", "echter", "pero / sin embargo"],
+              ["ook", "eveneens", "también"],
+              ["over", "betreffende / inzake", "sobre / respecto a"],
+              ["snel", "spoedig", "pronto"],
+              ["tekenen", "ondertekenen", "firmar"]
+            ]
+          },
+          tip: "Es como en español 'le mando' vs. 'le remito', o 'pronto' vs. 'a la mayor brevedad'. Mismo significado, otro traje.",
+          check: { q: "¿Qué palabra formal usarías en vez de 'krijgen' en una carta?", a: "ontvangen" }
+        },
+        {
+          title: "Paso 3: Cómo suena el holandés hablado de verdad",
+          html: "Al hablar, los holandeses acortan palabras y añaden 'palabritas' que suavizan la frase. Escucha la diferencia:<br><span class='nl'>Heb je 't gezien?</span> (hablado) = <span class='nl'>Heeft u het gezien?</span> (formal)<br><br>Las palabritas <span class='nl'>even, maar, wel, hoor, toch</span> no se traducen literalmente: hacen la frase más amable o natural.<ul><li><span class='nl'>Kun je even kijken?</span> — ¿Puedes echar un vistazo? (even = 'un momentito', suaviza)</li><li><span class='nl'>Kom maar binnen.</span> — Pasa, pasa. (maar = invitación amable)</li><li><span class='nl'>Dat is goed, hoor.</span> — Está bien, de verdad. (hoor = tranquiliza)</li></ul>",
+          examples: [
+            { nl: "Heb je 't gezien?", es: "¿Lo has visto?", pron: "hep ye t je-ZIIN" },
+            { nl: "Kun je even kijken?", es: "¿Puedes echar un vistazo un momento?" },
+            { nl: "Je komt toch ook?", es: "Vienes también, ¿verdad?" }
+          ],
+          tip: "Usa <span class='nl'>even</span> cuando pidas algo: suena mucho más amable. <span class='nl'>Mag ik even iets vragen?</span> es perfecto con cualquier persona.",
+          check: { q: "¿Qué palabrita añadirías para que 'Kun je kijken?' suene más amable?", a: "even: Kun je even kijken?" }
+        },
+        {
+          title: "Paso 4: El correo formal completo, pieza a pieza",
+          html: "Un correo formal holandés tiene piezas fijas. Míralas en orden:<ul><li><b>Saludo (aanhef):</b> <span class='nl'>Geachte heer De Vries,</span> / <span class='nl'>Geachte mevrouw Bakker,</span> (si no sabes el nombre: <span class='nl'>Geachte heer/mevrouw,</span>)</li><li><b>Primera frase:</b> <span class='nl'>Naar aanleiding van uw e-mail van 3 maart...</span> (En relación con su correo del 3 de marzo...)</li><li><b>Enviar algo:</b> <span class='nl'>Hierbij stuur ik u...</span> / <span class='nl'>In de bijlage vindt u...</span></li><li><b>Cierre:</b> <span class='nl'>Ik zie uw reactie met belangstelling tegemoet.</span> (Quedo a la espera de su respuesta.)</li><li><b>Despedida:</b> <span class='nl'>Met vriendelijke groet,</span> (normal) o <span class='nl'>Hoogachtend,</span> (muy formal)</li></ul>",
+          examples: [
+            { nl: "Geachte mevrouw Bakker,", es: "Estimada señora Bakker:", pron: "je-AJ-te" },
+            { nl: "Naar aanleiding van uw e-mail van 3 maart wil ik u het volgende laten weten.", es: "En relación con su correo del 3 de marzo, quisiera comunicarle lo siguiente.", pron: "naar AAN-lei-ding" },
+            { nl: "In de bijlage vindt u mijn cv.", es: "Adjunto encontrará mi CV.", pron: "in de BEI-laa-je" },
+            { nl: "Ik zie uw reactie met belangstelling tegemoet.", es: "Quedo a la espera de su respuesta.", pron: "be-LANG-ste-ling te-je-MUT" }
+          ],
+          tip: "Ojo: después de la aanhef va una <b>coma</b> (no dos puntos como en español) y la frase siguiente empieza con <b>mayúscula</b>.",
+          check: { q: "¿Cómo empiezas un correo al señor Jansen, al que no conoces?", a: "Geachte heer Jansen," }
+        },
+        {
+          title: "Paso 5: Pedir y disculparse con elegancia",
+          html: "En situaciones formales, las peticiones se envuelven con <span class='nl'>zou</span> (el condicional que ya conoces de B1) y fórmulas de cortesía:<br><span class='nl'>Zou u zo vriendelijk willen zijn om mij het formulier te sturen?</span> — ¿Sería tan amable de enviarme el formulario?<br><br>Para disculparte: <span class='nl'>Mijn excuses voor het ongemak.</span> (Disculpe las molestias.)",
+          examples: [
+            { nl: "Zou u zo vriendelijk willen zijn om mij het formulier te sturen?", es: "¿Sería tan amable de enviarme el formulario?" },
+            { nl: "Mijn excuses voor het ongemak.", es: "Disculpe las molestias.", pron: "mein eks-KÜ-ze(s) voor et ON-je-mak" },
+            { nl: "Het spijt me dat ik niet eerder heb gereageerd.", es: "Siento no haber respondido antes.", pron: "et SPEIT me ... je-re-a-JEERT" }
+          ],
+          check: { q: "Traduce: 'Disculpe las molestias.'", a: "Mijn excuses voor het ongemak." }
+        }
+      ],
+      vocab: [
+        { nl: "de aanhef", pron: "de AAN-hef", es: "el saludo inicial de una carta", note: "Geachte..., Beste..." },
+        { nl: "geachte", pron: "je-AJ-te", es: "estimado/a (formal)", note: "Geachte heer / mevrouw" },
+        { nl: "in goede orde ontvangen", pron: "in JU-de OR-de ont-VAN-je(n)", es: "recibido correctamente" },
+        { nl: "naar aanleiding van", pron: "naar AAN-lei-ding van", es: "en relación con / a raíz de" },
+        { nl: "betreffende", pron: "be-TRE-fen-de", es: "relativo a / asunto", note: "En el asunto: 'Betreft: aanvraag'" },
+        { nl: "hierbij", pron: "hiir-BEI", es: "por la presente / adjunto" },
+        { nl: "de bijlage", pron: "de BEI-laa-je", es: "el archivo adjunto / anexo" },
+        { nl: "echter", pron: "EJ-ter", es: "sin embargo" },
+        { nl: "eveneens", pron: "ee-ve-NEENS", es: "asimismo / también (formal)" },
+        { nl: "verzoeken", pron: "ver-ZU-ke(n)", es: "rogar / solicitar (formal)", note: "het verzoek = la solicitud" },
+        { nl: "spoedig", pron: "SPU-dij", es: "pronto (formal)" },
+        { nl: "het ongemak", pron: "et ON-je-mak", es: "la molestia / el inconveniente" },
+        { nl: "hoogachtend", pron: "hooj-AJ-te(n)t", es: "atentamente (muy formal)" },
+        { nl: "met belangstelling tegemoet zien", pron: "be-LANG-ste-ling te-je-MUT ziin", es: "esperar con interés" },
+        { nl: "Zeg maar je.", es: "Tutéame." }
+      ],
+      dialogue: {
+        title: "En la secretaría de la facultad",
+        context: "Vas a la secretaría del Faculty of Science and Engineering para preguntar por tu solicitud de viaje a un congreso.",
+        lines: [
+          { who: "Secretaresse", nl: "Goedemorgen, waarmee kan ik u helpen?", es: "Buenos días, ¿en qué puedo ayudarle?" },
+          { who: "Tú", nl: "Goedemorgen. Ik wilde graag iets vragen over mijn aanvraag voor een congresreis.", es: "Buenos días. Quería preguntar algo sobre mi solicitud para un viaje a un congreso." },
+          { who: "Secretaresse", nl: "Natuurlijk. Zeg maar je, hoor, dat is hier gebruikelijk.", es: "Claro. Tutéame, que aquí es lo normal." },
+          { who: "Tú", nl: "Oké, dank je. Ik heb vorige week een formulier ingediend, maar nog geen reactie ontvangen.", es: "Vale, gracias. La semana pasada entregué un formulario, pero aún no he recibido respuesta." },
+          { who: "Secretaresse", nl: "Even kijken... Ja, je aanvraag is binnen. Die moet alleen nog door je promotor worden goedgekeurd.", es: "A ver... Sí, tu solicitud ha llegado. Solo falta que la apruebe tu director de tesis." },
+          { who: "Tú", nl: "Ah, dan stuur ik hem even een berichtje.", es: "Ah, entonces le mando un mensajito." },
+          { who: "Secretaresse", nl: "Prima. Zodra hij akkoord geeft, krijg je automatisch een bevestiging per e-mail.", es: "Perfecto. En cuanto él dé el visto bueno, recibirás automáticamente una confirmación por correo." },
+          { who: "Tú", nl: "Top, bedankt voor je hulp!", es: "¡Genial, gracias por tu ayuda!" }
+        ]
+      },
+      practice: [
+        { q: "Hazlo formal: 'Ik heb je mail gekregen.'", a: "Ik heb uw e-mail (in goede orde) ontvangen.", hint: "je → uw; krijgen → ontvangen" },
+        { q: "Hazlo formal: 'Kun je me helpen?'", a: "Zou u mij kunnen helpen?", hint: "u + zou + infinitivo al final" },
+        { q: "Escribe el saludo de un correo a la señora Jansen, a quien no conoces.", a: "Geachte mevrouw Jansen," },
+        { q: "Hazlo informal (para un colega): 'Wij verzoeken u het formulier te ondertekenen.'", a: "Wil je het formulier even tekenen?", hint: "Usa 'even' para sonar amable" },
+        { q: "Traduce usando 'zou graag' (repaso B1): 'Me gustaría hablar con usted sobre mi contrato.'", a: "Ik zou graag met u over mijn contract willen praten.", review: true }
+      ],
+      quiz: [
+        { q: "Llamas al Belastingdienst (Hacienda). ¿Qué frase es la adecuada?", options: ["Kun je me even helpen?", "Zou u mij kunnen helpen?", "Help me even, hoor."], answer: 1, explain: "Con una institución oficial se usa u, y 'zou ... kunnen' es la forma cortés." },
+        { q: "¿Cuál es la palabra formal para 'maar' (pero)?", options: ["eveneens", "spoedig", "echter"], answer: 2, explain: "echter = sin embargo. Suele ir después del verbo: 'Het is echter duur.'" },
+        { q: "¿Qué despedida es la más formal?", options: ["Hoogachtend,", "Groetjes,", "Met vriendelijke groet,"], answer: 0, explain: "Hoogachtend es muy formal (cartas oficiales). Met vriendelijke groet es formal neutro. Groetjes es para amigos." },
+        { type: "write", q: "Escribe en holandés: 'Adjunto encontrará mi CV.' (empieza con 'In de bijlage')", accept: ["In de bijlage vindt u mijn cv", "In de bijlage vindt u mijn CV"], explain: "In de bijlage vindt u... — el verbo (vindt) va en 2ª posición, después viene u." },
+        { q: "Alguien te dice 'Zeg maar je'. ¿Qué significa?", options: ["Habla más alto.", "Puedes tutearme.", "Di que sí."], answer: 1, explain: "Te invita a usar je en lugar de u." },
+        { type: "write", q: "Traduce: 'Disculpe las molestias.'", accept: ["Mijn excuses voor het ongemak", "Excuses voor het ongemak", "Onze excuses voor het ongemak"], explain: "het ongemak = la molestia. Es una fórmula fija muy usada." }
+      ]
+    },
+
+    // ───────────────────────── t2 ─────────────────────────
+    {
+      id: "t2",
+      title: "Conectores avanzados",
+      goal: "Al terminar podrás unir ideas como en un texto de nivel B2 y saber dónde va el verbo después de cada conector.",
+      steps: [
+        {
+          title: "Paso 1: Añadir información — bovendien, niet alleen... maar ook, zowel... als",
+          html: "Empieza con ejemplos:<br><span class='nl'>Fietsen is gezond. Bovendien is het goedkoop.</span> — Ir en bici es sano. Además, es barato.<br><span class='nl'>Het is niet alleen gezond, maar ook goedkoop.</span> — No solo es sano, sino también barato.<br><span class='nl'>Zowel studenten als docenten fietsen naar de campus.</span> — Tanto estudiantes como profesores van en bici al campus.<br><br>Fíjate: después de <b>bovendien</b> al principio, el verbo va justo detrás (<span class='nl'>Bovendien <b>is</b> het...</span>). Es la regla V2 que ya conoces: el verbo siempre en 2º lugar.",
+          examples: [
+            { nl: "Bovendien is het goedkoop.", es: "Además, es barato.", pron: "bo-ven-DIIN" },
+            { nl: "Het is niet alleen gezond, maar ook goedkoop.", es: "No solo es sano, sino también barato." },
+            { nl: "Zowel studenten als docenten fietsen naar de campus.", es: "Tanto estudiantes como profesores van en bici al campus.", pron: "zo-WEL ... als" }
+          ],
+          tip: "<span class='nl'>zowel ... als</span> = 'tanto ... como'. Casi palabra por palabra igual que en español.",
+          check: { q: "Completa: 'Bovendien ___ het snel.' (ser)", a: "is (el verbo va justo después de bovendien)" }
+        },
+        {
+          title: "Paso 2: Contrastar — daarentegen, desondanks, toch",
+          html: "<span class='nl'>Groningen is vlak. Limburg is daarentegen heuvelachtig.</span> — Groningen es llano. Limburgo, en cambio, tiene colinas.<br><span class='nl'>Het regende hard. Desondanks ging ik fietsen.</span> — Llovía mucho. A pesar de eso, fui en bici.<br><br><b>daarentegen</b> = en cambio (compara dos cosas distintas).<br><b>desondanks</b> = a pesar de eso (algo pasa aunque había un obstáculo). En el habla diaria se dice más <span class='nl'>toch</span>: <span class='nl'>Het regende, maar ik ging toch.</span>",
+          examples: [
+            { nl: "Limburg is daarentegen heuvelachtig.", es: "Limburgo, en cambio, tiene colinas.", pron: "daa-ren-TEE-je(n)" },
+            { nl: "Desondanks ging ik fietsen.", es: "A pesar de eso, fui en bici.", pron: "des-ON-danks" },
+            { nl: "Ondanks de regen ging ik fietsen.", es: "A pesar de la lluvia, fui en bici.", pron: "ON-danks" }
+          ],
+          tip: "<span class='nl'>ondanks</span> + sustantivo (ondanks de regen) / <span class='nl'>desondanks</span> solo, al empezar la frase (= ondanks dat). Mismo truco que 'a pesar de' / 'a pesar de eso'.",
+          check: { q: "Completa: '___ de kou gaan we naar buiten.' (a pesar de)", a: "Ondanks" }
+        },
+        {
+          title: "Paso 3: Dar la causa — aangezien y doordat",
+          html: "<span class='nl'>Aangezien de wind sterk is, draaien de turbines op vol vermogen.</span> — Ya que el viento es fuerte, las turbinas giran a plena potencia.<br><span class='nl'>Doordat een sensor kapot was, misten we data.</span> — Debido a que un sensor estaba roto, nos faltaron datos.<br><br>Ambos son como <span class='nl'>omdat</span>: mandan el verbo <b>al final</b>. <br><b>aangezien</b> = ya que / puesto que (más formal que omdat).<br><b>doordat</b> = debido a que (una causa 'mecánica', sin intención de nadie).",
+          examples: [
+            { nl: "Aangezien de wind sterk is, draaien de turbines op vol vermogen.", es: "Ya que el viento es fuerte, las turbinas giran a plena potencia.", pron: "aan-je-ZIIN ... ver-MOO-je(n)" },
+            { nl: "Doordat een sensor kapot was, misten we data.", es: "Debido a que un sensor estaba roto, nos faltaron datos.", pron: "door-DAT" },
+            { nl: "Ik kom niet, aangezien ik ziek ben.", es: "No vengo, puesto que estoy enfermo." }
+          ],
+          tip: "Cuando la frase empieza con aangezien/doordat, la parte siguiente empieza con el verbo: <span class='nl'>Aangezien ..., <b>draaien</b> de turbines...</span> (verbo-coma-verbo, como con omdat).",
+          check: { q: "Ordena: aangezien / is / het / laat / ... ga ik naar huis.", a: "Aangezien het laat is, ga ik naar huis." }
+        },
+        {
+          title: "Paso 4: Condiciones — mits y tenzij",
+          html: "<span class='nl'>We gaan morgen fietsen, mits het niet regent.</span> — Mañana vamos en bici, siempre que no llueva.<br><span class='nl'>Ik kom morgen, tenzij ik ziek ben.</span> — Vengo mañana, a menos que esté enfermo.<br><br><b>mits</b> = siempre que / con la condición de que.<br><b>tenzij</b> = a menos que / salvo que.<br>Los dos mandan el verbo al final. Y buena noticia: en holandés <b>no hay subjuntivo</b>, así que el verbo va en presente normal (<span class='nl'>regent, ben</span>).",
+          examples: [
+            { nl: "We gaan morgen fietsen, mits het niet regent.", es: "Mañana vamos en bici, siempre que no llueva.", pron: "mits" },
+            { nl: "Ik kom morgen, tenzij ik ziek ben.", es: "Vengo mañana, a menos que esté enfermo.", pron: "ten-ZEI" },
+            { nl: "U mag het lokaal gebruiken, mits u het netjes achterlaat.", es: "Puede usar el aula siempre que la deje ordenada." }
+          ],
+          tip: "Truco: <b>tenzij</b> contiene 'niet' escondido: 'tenzij ik ziek ben' = 'als ik niet ziek ben'.",
+          check: { q: "¿mits o tenzij? 'Ik help je, ___ je me later ook helpt.' (siempre que)", a: "mits" }
+        },
+        {
+          title: "Paso 5: El mapa del verbo — ¿qué hace cada conector?",
+          html: "Lo más importante de los conectores no es solo su significado, sino <b>qué le pasa al verbo</b>. Hay tres grupos:",
+          examples: [
+            { nl: "Het is duur, maar het werkt goed.", es: "Es caro, pero funciona bien. (grupo 1: orden normal)" },
+            { nl: "Het is duur. Bovendien werkt het slecht.", es: "Es caro. Además, funciona mal. (grupo 2: verbo justo después)" },
+            { nl: "Ik koop het, hoewel het duur is.", es: "Lo compro, aunque es caro. (grupo 3: verbo al final)" }
+          ],
+          table: {
+            head: ["Grupo", "Conectores", "Verbo"],
+            rows: [
+              ["1", "en, maar, of, want, dus*", "orden normal: sujeto + verbo"],
+              ["2", "bovendien, daarentegen, desondanks, toch, echter, kortom, daarom", "verbo justo después (inversión)"],
+              ["3", "omdat, aangezien, doordat, hoewel, mits, tenzij, zodat, als", "verbo al final"]
+            ]
+          },
+          tip: "*<span class='nl'>dus</span> admite las dos: <span class='nl'>dus ik ga</span> / <span class='nl'>dus ga ik</span>. Y un conector formal extra para textos: <span class='nl'>hetzij ... hetzij</span> = 'ya sea ... o': <span class='nl'>U kunt betalen hetzij contant, hetzij per pin.</span>",
+          check: { q: "¿En qué grupo está 'tenzij'? ¿Dónde va el verbo?", a: "Grupo 3: el verbo va al final." }
+        }
+      ],
+      vocab: [
+        { nl: "bovendien", pron: "bo-ven-DIIN", es: "además" },
+        { nl: "daarentegen", pron: "daa-ren-TEE-je(n)", es: "en cambio / por el contrario" },
+        { nl: "desondanks", pron: "des-ON-danks", es: "a pesar de eso" },
+        { nl: "ondanks", pron: "ON-danks", es: "a pesar de (+ sustantivo)" },
+        { nl: "aangezien", pron: "aan-je-ZIIN", es: "ya que / puesto que", note: "verbo al final" },
+        { nl: "doordat", pron: "door-DAT", es: "debido a que", note: "causa sin intención; verbo al final" },
+        { nl: "mits", es: "siempre que / con tal de que", note: "verbo al final" },
+        { nl: "tenzij", pron: "ten-ZEI", es: "a menos que", note: "verbo al final" },
+        { nl: "zowel ... als", pron: "zo-WEL ... als", es: "tanto ... como" },
+        { nl: "niet alleen ... maar ook", es: "no solo ... sino también" },
+        { nl: "hetzij ... hetzij", pron: "het-ZEI", es: "ya sea ... o (formal)" },
+        { nl: "echter", pron: "EJ-ter", es: "sin embargo" },
+        { nl: "bijgevolg", pron: "bei-je-VOLJ", es: "en consecuencia" },
+        { nl: "kortom", pron: "kort-OM", es: "en resumen / en pocas palabras" },
+        { nl: "enerzijds ... anderzijds", pron: "EE-ner-zeits ... AN-der-zeits", es: "por un lado ... por otro lado" }
+      ],
+      dialogue: {
+        title: "Texto modelo: la energía eólica marina",
+        context: "Un texto corto, como los del examen, lleno de conectores. Léelo frase por frase y fíjate dónde está el verbo.",
+        lines: [
+          { who: "Tekst", nl: "Windenergie op zee wordt steeds belangrijker in Nederland.", es: "La energía eólica marina es cada vez más importante en Países Bajos." },
+          { who: "Tekst", nl: "Het levert niet alleen veel stroom op, maar het neemt ook geen ruimte op het land in.", es: "No solo produce mucha electricidad, sino que tampoco ocupa espacio en tierra." },
+          { who: "Tekst", nl: "Bovendien waait het op zee vaker en harder dan op het land.", es: "Además, en el mar sopla el viento más a menudo y más fuerte que en tierra." },
+          { who: "Tekst", nl: "Het onderhoud is daarentegen duur, aangezien schepen en technici ver moeten varen.", es: "El mantenimiento, en cambio, es caro, ya que barcos y técnicos tienen que navegar lejos." },
+          { who: "Tekst", nl: "Desondanks investeren zowel de overheid als bedrijven er flink in.", es: "A pesar de eso, tanto el gobierno como las empresas invierten mucho en ello." },
+          { who: "Tekst", nl: "Sensoren kunnen daarbij helpen, mits ze betrouwbare data leveren.", es: "Los sensores pueden ayudar en eso, siempre que proporcionen datos fiables." },
+          { who: "Tekst", nl: "Het onderhoud blijft echter duur, tenzij schade vroeg wordt ontdekt.", es: "Sin embargo, el mantenimiento sigue siendo caro, a menos que los daños se detecten pronto." },
+          { who: "Tekst", nl: "Kortom: slimme monitoring van de rotorbladen kan veel geld besparen.", es: "En resumen: una monitorización inteligente de las palas puede ahorrar mucho dinero." }
+        ]
+      },
+      practice: [
+        { q: "Une con 'bovendien': 'De kamer is groot. De kamer is goedkoop.'", a: "De kamer is groot. Bovendien is hij goedkoop.", hint: "Grupo 2: verbo justo después" },
+        { q: "Une con 'aangezien': 'Ik blijf thuis. Het regent.' (empieza con Aangezien)", a: "Aangezien het regent, blijf ik thuis." },
+        { q: "Traduce: 'Vengo a la fiesta, a menos que tenga que trabajar.'", a: "Ik kom naar het feest, tenzij ik moet werken." },
+        { q: "Traduce: 'Tanto mi director de tesis como mis colegas hablan neerlandés.'", a: "Zowel mijn promotor als mijn collega's spreken Nederlands." },
+        { q: "Repaso B1: une con 'hoewel': 'Het is koud. Ik ga fietsen.' (empieza con Hoewel)", a: "Hoewel het koud is, ga ik fietsen.", review: true }
+      ],
+      quiz: [
+        { q: "'We gaan picknicken, ___ het mooi weer is.' (siempre que)", options: ["tenzij", "mits", "desondanks"], answer: 1, explain: "mits = siempre que / con la condición de que." },
+        { q: "¿Qué frase es correcta?", options: ["Bovendien het is goedkoop.", "Bovendien is het goedkoop.", "Bovendien goedkoop het is."], answer: 1, explain: "Bovendien es del grupo 2: el verbo va justo detrás (inversión)." },
+        { q: "¿Qué frase es correcta?", options: ["Aangezien hij is ziek, komt hij niet.", "Aangezien hij ziek is, hij komt niet.", "Aangezien hij ziek is, komt hij niet."], answer: 2, explain: "aangezien manda el verbo al final (is), y la frase principal empieza con el verbo (komt)." },
+        { type: "write", q: "Escribe la palabra: 'en cambio / por el contrario' (formal)", accept: ["daarentegen"], explain: "daarentegen: 'Limburg is daarentegen heuvelachtig.'" },
+        { q: "'___ een storing reed de trein niet.' Queremos decir 'debido a una avería'. ¿Qué palabra va?", options: ["Door", "Ondanks", "Mits"], answer: 0, explain: "door + sustantivo = por, debido a. (doordat + frase). Ondanks = a pesar de." },
+        { type: "write", q: "Traduce: 'a menos que' (una palabra)", accept: ["tenzij"], explain: "tenzij = a menos que; lleva el verbo al final." }
+      ]
+    }
+    ,
+    // ───────────────────────── t3 ─────────────────────────
+    {
+      id: "t3",
+      title: "Pasiva avanzada",
+      goal: "Al terminar podrás usar la pasiva sin sujeto (Er wordt gezegd dat...), con verbos modales y en pasado.",
+      steps: [
+        {
+          title: "Paso 1: 'Se' + verbo — la pasiva sin nadie",
+          html: "Recuerda de B1: <span class='nl'>Het rapport wordt door mijn promotor gelezen.</span> (El informe es leído por mi director.)<br><br>Ahora mira esta frase: <span class='nl'>Er wordt in Groningen veel gefietst.</span> — En Groningen <b>se</b> va mucho en bici.<br><br>No hay sujeto: no importa <i>quién</i> lo hace. El holandés usa <span class='nl'>er + wordt + participio</span> justo donde el español usa 'se'.",
+          examples: [
+            { nl: "Er wordt in Groningen veel gefietst.", es: "En Groningen se va mucho en bici.", pron: "er wort ... je-FIITST" },
+            { nl: "Er wordt hier niet gerookt.", es: "Aquí no se fuma." },
+            { nl: "Op vrijdag wordt er vaak geborreld.", es: "Los viernes a menudo se toma algo (con los colegas).", pron: "je-BO-relt" }
+          ],
+          tip: "Si la frase empieza con otra cosa (Op vrijdag...), <span class='nl'>er</span> se pone detrás del verbo: <span class='nl'>Op vrijdag wordt er...</span>",
+          check: { q: "Traduce: 'Aquí se trabaja mucho.'", a: "Er wordt hier veel gewerkt. / Hier wordt (er) veel gewerkt." }
+        },
+        {
+          title: "Paso 2: 'Se dice que...' — Er wordt gezegd dat...",
+          html: "En noticias y textos académicos verás mucho esto:<br><span class='nl'>Er wordt gezegd dat de huren weer stijgen.</span> — Se dice que los alquileres vuelven a subir.<br><span class='nl'>Er wordt verwacht dat...</span> — Se espera que...<br><span class='nl'>Er wordt algemeen aangenomen dat...</span> — Se suele dar por hecho que...<br><br>Otra forma, más formal, es con <span class='nl'>men</span> (= 'uno', 'la gente'): <span class='nl'>Men zegt dat...</span>",
+          examples: [
+            { nl: "Er wordt gezegd dat de huren weer stijgen.", es: "Se dice que los alquileres vuelven a subir." },
+            { nl: "Er wordt verwacht dat het project volgend jaar klaar is.", es: "Se espera que el proyecto esté listo el año que viene." },
+            { nl: "Men neemt aan dat de schade door vermoeiing ontstaat.", es: "Se supone que el daño surge por fatiga (del material).", pron: "men neemt AAN ... ver-MU-ing ont-STAAT" }
+          ],
+          tip: "Después de <span class='nl'>dat</span> ya sabes qué pasa: verbo al final (<span class='nl'>...dat de huren weer <b>stijgen</b></span>).",
+          check: { q: "Traduce: 'Se espera que llueva mañana.'", a: "Er wordt verwacht dat het morgen regent." }
+        },
+        {
+          title: "Paso 3: Pasiva con 'tiene que / puede' — moet worden gedaan",
+          html: "<span class='nl'>De sensoren moeten elk jaar worden gekalibreerd.</span> — Los sensores tienen que ser calibrados cada año.<br><span class='nl'>Dit kan niet worden bewezen.</span> — Esto no se puede demostrar.<br><br>Receta: <b>modal</b> (moet/kan/mag) en 2ª posición + al final <b>worden + participio</b>. El orden del final puede ser <span class='nl'>worden gekalibreerd</span> o <span class='nl'>gekalibreerd worden</span>: los dos son correctos.",
+          examples: [
+            { nl: "De sensoren moeten elk jaar worden gekalibreerd.", es: "Los sensores tienen que calibrarse cada año.", pron: "je-ka-li-BREERT" },
+            { nl: "Dit kan niet worden bewezen.", es: "Esto no se puede demostrar.", pron: "be-WEE-ze(n)" },
+            { nl: "Het formulier mag niet met potlood ingevuld worden.", es: "El formulario no se puede rellenar a lápiz." }
+          ],
+          check: { q: "Traduce: 'El informe tiene que ser entregado el viernes.' (inleveren)", a: "Het verslag moet vrijdag worden ingeleverd. / ...ingeleverd worden." }
+        },
+        {
+          title: "Paso 4: La pasiva en pasado — ¡worden desaparece!",
+          html: "<span class='nl'>Het huis is verkocht.</span> — La casa ha sido vendida (ya está vendida).<br><span class='nl'>De data zijn geanalyseerd.</span> — Los datos han sido analizados.<br><br>¡Ojo! En el perfecto <b>no</b> se dice 'is geworden verkocht'. El <span class='nl'>worden</span> se cae y queda <span class='nl'>zijn + participio</span>. Mira la tabla completa:",
+          examples: [
+            { nl: "Het huis is verkocht.", es: "La casa ha sido vendida." },
+            { nl: "De data werden vorige week geanalyseerd.", es: "Los datos fueron analizados la semana pasada.", pron: "je-a-na-li-ZEERT" },
+            { nl: "Het probleem was al opgelost.", es: "El problema ya había sido resuelto." }
+          ],
+          table: {
+            head: ["Tiempo", "Holandés", "Español"],
+            rows: [
+              ["presente", "wordt verkocht", "es vendido / se vende"],
+              ["pasado simple", "werd verkocht", "fue vendido / se vendió"],
+              ["perfecto", "is verkocht", "ha sido vendido"],
+              ["pluscuamperfecto", "was verkocht", "había sido vendido"],
+              ["futuro", "zal worden verkocht", "será vendido"]
+            ]
+          },
+          check: { q: "¿Es correcto 'Het rapport is geworden geschreven'? Corrígelo.", a: "No. Correcto: Het rapport is geschreven." }
+        },
+        {
+          title: "Paso 5: 'Podría haberse hecho' — had gedaan kunnen worden",
+          html: "Un nivel más, para leer textos formales:<br><span class='nl'>Het ongeluk had voorkomen kunnen worden.</span> — El accidente podría haberse evitado.<br><span class='nl'>De turbine heeft niet op tijd gerepareerd kunnen worden.</span> — No se pudo reparar la turbina a tiempo.<br><br>No te asustes por los tres verbos: lee de derecha a izquierda. <i>worden</i> (ser) ← <i>kunnen</i> (poder) ← <i>had</i> (había). = 'había podido ser evitado'. En el tema 5 practicaremos más estos 'trenes' de verbos.",
+          examples: [
+            { nl: "Het ongeluk had voorkomen kunnen worden.", es: "El accidente podría haberse evitado.", pron: "voor-KOO-me(n)" },
+            { nl: "De turbine heeft niet op tijd gerepareerd kunnen worden.", es: "No se pudo reparar la turbina a tiempo." }
+          ],
+          tip: "Para entender, no para producir todavía: con reconocer esta estructura al leer ya vas muy bien.",
+          check: { q: "¿Qué significa 'Dat had beter gecommuniceerd kunnen worden'?", a: "Eso se podría haber comunicado mejor." }
+        }
+      ],
+      vocab: [
+        { nl: "er wordt gezegd dat", es: "se dice que" },
+        { nl: "er wordt verwacht dat", pron: "ver-WAJT", es: "se espera que" },
+        { nl: "men", es: "uno / se (formal)", note: "Men zegt dat... = Se dice que..." },
+        { nl: "aannemen", pron: "AA-nee-me(n)", es: "suponer / dar por hecho", note: "también: contratar a alguien" },
+        { nl: "goedkeuren", pron: "JUT-kö-re(n)", es: "aprobar (una solicitud)", note: "is goedgekeurd" },
+        { nl: "afwijzen", pron: "AF-wei-ze(n)", es: "rechazar", note: "is afgewezen" },
+        { nl: "indienen", pron: "IN-dii-ne(n)", es: "presentar / entregar (una solicitud)", note: "is ingediend" },
+        { nl: "uitvoeren", pron: "ÖIT-vu-re(n)", es: "realizar / llevar a cabo", note: "de metingen worden uitgevoerd" },
+        { nl: "vervangen", pron: "ver-VAN-je(n)", es: "sustituir / reemplazar", note: "is vervangen (participio igual)" },
+        { nl: "vaststellen", pron: "VAST-ste-le(n)", es: "constatar / determinar" },
+        { nl: "voorkomen", pron: "voor-KOO-me(n)", es: "evitar / prevenir", note: "acento en KOO; VOOR-komen = ocurrir" },
+        { nl: "de meting", pron: "de MEE-ting", es: "la medición" },
+        { nl: "het verslag", pron: "et ver-SLAJ", es: "el informe" },
+        { nl: "de fout", pron: "de faut", es: "el error" },
+        { nl: "inmiddels", pron: "in-MI-dels", es: "entretanto / a estas alturas / ya" }
+      ],
+      dialogue: {
+        title: "Reunión con tu director de tesis",
+        context: "Tu promotor te pregunta por las mediciones de la semana pasada en un aerogenerador de prueba.",
+        lines: [
+          { who: "Promotor", nl: "Zijn de metingen van vorige week al geanalyseerd?", es: "¿Ya se han analizado las mediciones de la semana pasada?" },
+          { who: "Tú", nl: "Gedeeltelijk. Er werd een fout in de data gevonden.", es: "En parte. Se encontró un error en los datos." },
+          { who: "Promotor", nl: "O, hoe kan dat?", es: "Vaya, ¿cómo es posible?" },
+          { who: "Tú", nl: "Een van de sensoren was niet goed geïnstalleerd. Hij is inmiddels vervangen.", es: "Uno de los sensores no estaba bien instalado. Ya ha sido sustituido." },
+          { who: "Promotor", nl: "Goed. Had dat voorkomen kunnen worden?", es: "Bien. ¿Se podría haber evitado?" },
+          { who: "Tú", nl: "Ik denk het wel. Er wordt nu een checklist gemaakt, zodat het niet opnieuw gebeurt.", es: "Creo que sí. Ahora se está haciendo una lista de control para que no vuelva a pasar." },
+          { who: "Promotor", nl: "Prima. En wanneer moet het verslag worden ingediend?", es: "Perfecto. ¿Y cuándo hay que entregar el informe?" },
+          { who: "Tú", nl: "Het moet voor het eind van de maand worden ingediend.", es: "Tiene que entregarse antes de fin de mes." }
+        ]
+      },
+      practice: [
+        { q: "Traduce: 'En los Países Bajos se habla mucho inglés.'", a: "In Nederland wordt veel Engels gesproken.", hint: "spreken → gesproken" },
+        { q: "Pon en perfecto: 'De data worden geanalyseerd.'", a: "De data zijn geanalyseerd.", hint: "worden desaparece" },
+        { q: "Traduce: 'Se dice que el examen es difícil.'", a: "Er wordt gezegd dat het examen moeilijk is." },
+        { q: "Traduce: 'Esta ventana no se puede abrir.'", a: "Dit raam kan niet worden geopend. / Dit raam kan niet geopend worden." },
+        { q: "Repaso B1: pasa a pasiva con 'door': 'Mijn promotor leest het rapport.'", a: "Het rapport wordt door mijn promotor gelezen.", review: true }
+      ],
+      quiz: [
+        { q: "'Se fuma mucho en esa oficina.' ¿Cuál es correcta?", options: ["Er wordt in dat kantoor veel gerookt.", "Het wordt in dat kantoor veel gerookt.", "Er is in dat kantoor veel roken."], answer: 0, explain: "La pasiva sin sujeto usa er + wordt + participio." },
+        { q: "¿Cuál es el perfecto de 'Het huis wordt verkocht'?", options: ["Het huis is geworden verkocht.", "Het huis heeft verkocht.", "Het huis is verkocht."], answer: 2, explain: "En el perfecto de la pasiva desaparece worden: is + participio." },
+        { q: "'Men zegt dat...' significa:", options: ["Mi hombre dice que...", "Se dice que...", "Menos dice que..."], answer: 1, explain: "men = 'uno / se', forma formal e impersonal." },
+        { type: "write", q: "Completa: 'Het formulier moet vóór vrijdag worden ___.' (invullen → participio)", accept: ["ingevuld"], explain: "invullen es separable: in + ge + vuld → ingevuld." },
+        { q: "'Het ongeluk had voorkomen kunnen worden' significa:", options: ["El accidente iba a ocurrir.", "El accidente podría haberse evitado.", "El accidente ocurrió por culpa de alguien."], answer: 1, explain: "voorkomen (acento en KOO) = evitar; had ... kunnen worden = podría haber sido." },
+        { type: "write", q: "Traduce: 'Se espera que...' (empieza con 'Er')", accept: ["Er wordt verwacht dat"], explain: "Er wordt verwacht dat... + verbo al final." }
+      ]
+    },
+
+    // ───────────────────────── t4 ─────────────────────────
+    {
+      id: "t4",
+      title: "Si hubiera... / Ojalá",
+      goal: "Al terminar podrás hablar de situaciones imaginarias, arrepentimientos y deseos: Als ik dat had geweten..., Had ik maar...",
+      steps: [
+        {
+          title: "Paso 1: Imaginar el presente — Als ik meer tijd had, zou ik...",
+          html: "<span class='nl'>Als ik meer tijd had, zou ik vaker sporten.</span> — Si tuviera más tiempo, haría deporte más a menudo.<br><span class='nl'>Als ik jou was, zou ik het vragen.</span> — Yo que tú, lo preguntaría.<br><br>La receta es fácil: <b>als + pasado simple</b> (had, was, woonde...) y en la otra parte <b>zou + infinitivo</b>. El español usa 'tuviera' (subjuntivo); el holandés usa simplemente el pasado. ¡Más fácil!",
+          examples: [
+            { nl: "Als ik meer tijd had, zou ik vaker sporten.", es: "Si tuviera más tiempo, haría deporte más a menudo." },
+            { nl: "Als ik jou was, zou ik het vragen.", es: "Yo que tú, lo preguntaría.", pron: "als ik yau was, zau ik..." },
+            { nl: "Als het niet zo hard waaide, zou ik op de fiets gaan.", es: "Si no hiciera tanto viento, iría en bici." }
+          ],
+          tip: "<span class='nl'>Als ik jou was...</span> es una frase comodín buenísima para dar consejos.",
+          check: { q: "Traduce: 'Si viviera en Ámsterdam, pagaría más alquiler.'", a: "Als ik in Amsterdam woonde, zou ik meer huur betalen." }
+        },
+        {
+          title: "Paso 2: Imaginar el pasado — Als ik dat had geweten...",
+          html: "<span class='nl'>Als ik dat had geweten, zou ik eerder zijn gekomen.</span> — Si lo hubiera sabido, habría venido antes.<br><br>Es el mismo esquema, pero un escalón más atrás:<br><b>als + had/was + participio</b>, <b>zou + hebben/zijn + participio</b>.<br><br>En la conversación, casi todos lo acortan: <span class='nl'>Als ik dat had geweten, <b>was</b> ik eerder <b>gekomen</b>.</span> (had/was ocupan el lugar de 'zou hebben/zou zijn').",
+          examples: [
+            { nl: "Als ik dat had geweten, zou ik eerder zijn gekomen.", es: "Si lo hubiera sabido, habría venido antes." },
+            { nl: "Als ik dat had geweten, was ik eerder gekomen.", es: "(Igual, versión hablada más corta.)" },
+            { nl: "Als de sensor goed was geïnstalleerd, hadden we geen data gemist.", es: "Si el sensor se hubiera instalado bien, no habríamos perdido datos.", pron: "je-ins-ta-LEERT" }
+          ],
+          tip: "¿hebben o zijn? El mismo que en el perfecto normal: <span class='nl'>ik ben gekomen → ik was gekomen</span>; <span class='nl'>ik heb gewerkt → ik had gewerkt</span>.",
+          check: { q: "Traduce: 'Si hubiera estudiado más, habría aprobado.' (slagen, con zijn)", a: "Als ik meer had gestudeerd, was ik geslaagd. / ..., zou ik geslaagd zijn." }
+        },
+        {
+          title: "Paso 3: ¡Ojalá! — Had ik maar... / Was het maar...",
+          html: "<span class='nl'>Had ik dat maar geweten!</span> — ¡Ojalá lo hubiera sabido!<br><span class='nl'>Was het maar vrijdag!</span> — ¡Ojalá fuera viernes!<br><span class='nl'>Kon ik maar beter Nederlands spreken.</span> — Ojalá pudiera hablar mejor neerlandés.<br><br>Receta: el verbo en pasado va <b>primero</b> + <span class='nl'>maar</span>. Esa palabrita <span class='nl'>maar</span> aquí significa 'ojalá'.",
+          examples: [
+            { nl: "Had ik dat maar geweten!", es: "¡Ojalá lo hubiera sabido!" },
+            { nl: "Was het maar vrijdag!", es: "¡Ojalá fuera viernes!" },
+            { nl: "Was ik maar eerder vertrokken!", es: "¡Ojalá hubiera salido antes!", pron: "ver-TROK-ke(n)" }
+          ],
+          tip: "vertrekken va con <b>zijn</b> (ik ben vertrokken), por eso es <span class='nl'>Was ik maar...</span>, no 'Had ik maar vertrokken'.",
+          check: { q: "Traduce: '¡Ojalá tuviera más tiempo!'", a: "Had ik maar meer tijd!" }
+        },
+        {
+          title: "Paso 4: Ik wou dat... y Stel dat...",
+          html: "Dos frases más para deseos e hipótesis:<br><span class='nl'>Ik wou dat ik meer tijd had.</span> — Ojalá tuviera más tiempo. (Literal: 'quisiera que...')<br><span class='nl'>Stel dat de turbine stilvalt, wat doe je dan?</span> — Supongamos que la turbina se para, ¿qué haces entonces?<br><br><span class='nl'>Stel dat...</span> = 'supongamos que / pongamos que'. Muy útil en debates y en el examen oral.",
+          examples: [
+            { nl: "Ik wou dat ik meer tijd had.", es: "Ojalá tuviera más tiempo.", pron: "ik wau dat..." },
+            { nl: "Stel dat de turbine stilvalt, wat doe je dan?", es: "Supongamos que la turbina se para, ¿qué haces?", pron: "stel dat ... STIL-valt" },
+            { nl: "Stel dat je de loterij wint, wat zou je doen?", es: "Pongamos que ganas la lotería, ¿qué harías?" }
+          ],
+          check: { q: "Traduce: 'Supongamos que no hay tren mañana.'", a: "Stel dat er morgen geen trein is." }
+        },
+        {
+          title: "Paso 5: En correos formales — Mocht u vragen hebben...",
+          html: "Una joya para tus correos:<br><span class='nl'>Mocht u nog vragen hebben, neem dan gerust contact met mij op.</span> — Si tuviera alguna pregunta, no dude en ponerse en contacto conmigo.<br><br><span class='nl'>Mocht u...</span> al principio es una forma elegante de decir 'si usted...'. Detrás viene <span class='nl'>dan</span> + verbo.",
+          examples: [
+            { nl: "Mocht u nog vragen hebben, neem dan gerust contact met mij op.", es: "Si tuviera alguna pregunta, no dude en contactarme.", pron: "MOJT ü noj VRAA-je(n) ... JE-rust" },
+            { nl: "Mocht het niet lukken, dan hoor ik het graag.", es: "Si no fuera posible, le agradecería que me lo dijera." }
+          ],
+          tip: "Cópiala tal cual en el penúltimo renglón de tus correos formales. Suena muy profesional.",
+          check: { q: "¿Qué significa 'Mocht u vragen hebben...'?", a: "Si tuviera (usted) preguntas..." }
+        }
+      ],
+      vocab: [
+        { nl: "als ... zou ...", es: "si ... (condicional)", note: "Als ik tijd had, zou ik gaan." },
+        { nl: "Als ik jou was, ...", pron: "als ik yau was", es: "Yo que tú, ..." },
+        { nl: "Had ik maar...", es: "Ojalá hubiera / tuviera..." },
+        { nl: "Was ik maar...", es: "Ojalá fuera / hubiera (con verbos de zijn)..." },
+        { nl: "Ik wou dat...", pron: "ik wau dat", es: "Ojalá... / Quisiera que..." },
+        { nl: "Stel dat...", es: "Supongamos que..." },
+        { nl: "Mocht u...", pron: "MOJT ü", es: "Si usted... (formal)" },
+        { nl: "in dat geval", pron: "in dat je-VAL", es: "en ese caso" },
+        { nl: "anders", es: "si no / de lo contrario" },
+        { nl: "achteraf", pron: "aj-te-RAF", es: "a posteriori / visto ahora", note: "achteraf gezien = visto en retrospectiva" },
+        { nl: "de spijt", pron: "de speit", es: "el arrepentimiento", note: "spijt hebben van = arrepentirse de" },
+        { nl: "de wens", es: "el deseo" },
+        { nl: "gerust", pron: "je-RUST", es: "sin problema / con toda confianza", note: "Bel gerust! = ¡Llama sin problema!" },
+        { nl: "stilvallen", pron: "STIL-va-le(n)", es: "pararse (una máquina)" }
+      ],
+      dialogue: {
+        title: "Un café en la Grote Markt",
+        context: "Quedas con tu amiga Anouk después de un viaje complicado en tren.",
+        lines: [
+          { who: "Anouk", nl: "Hé, je ziet er moe uit. Alles goed?", es: "Oye, se te ve cansado. ¿Todo bien?" },
+          { who: "Tú", nl: "Gisteren heb ik de laatste trein uit Utrecht gemist. Was ik maar eerder vertrokken!", es: "Ayer perdí el último tren desde Utrecht. ¡Ojalá hubiera salido antes!" },
+          { who: "Anouk", nl: "Ai. Als je de app had gecheckt, had je gezien dat er vertraging was.", es: "Uf. Si hubieras mirado la app, habrías visto que había retraso." },
+          { who: "Tú", nl: "Ja, achteraf gezien wel. Ik wou dat ik niet zo lang was gebleven.", es: "Sí, visto ahora, sí. Ojalá no me hubiera quedado tanto tiempo." },
+          { who: "Anouk", nl: "Als ik jou was, zou ik vandaag vroeg naar bed gaan.", es: "Yo que tú, hoy me iría pronto a la cama." },
+          { who: "Tú", nl: "Goed idee. Stel dat ik morgen nog steeds zo moe ben, dan werk ik thuis.", es: "Buena idea. Si mañana sigo tan cansado, trabajo desde casa." },
+          { who: "Anouk", nl: "Mits je promotor dat goedvindt, natuurlijk!", es: "¡Siempre que a tu director le parezca bien, claro!" },
+          { who: "Tú", nl: "Ha, die vindt alles goed, zolang de data binnenkomen.", es: "Ja, a él todo le parece bien mientras lleguen los datos." }
+        ]
+      },
+      practice: [
+        { q: "Traduce: 'Si tuviera un coche, iría a la playa.'", a: "Als ik een auto had, zou ik naar het strand gaan." },
+        { q: "Traduce: 'Si lo hubiera sabido, te habría llamado.'", a: "Als ik het had geweten, had ik je gebeld. / ..., zou ik je gebeld hebben." },
+        { q: "Traduce: '¡Ojalá hiciera sol!' (Was ... maar)", a: "Was het maar zonnig! / Scheen de zon maar!" },
+        { q: "Da un consejo empezando con 'Als ik jou was': 'Yo que tú, aprendería neerlandés.'", a: "Als ik jou was, zou ik Nederlands leren." },
+        { q: "Repaso B1: usa 'zou graag' para ser cortés: 'Me gustaría hablar con usted.'", a: "Ik zou graag met u (willen) praten.", review: true }
+      ],
+      quiz: [
+        { q: "'Si tuviera dinero, viajaría.'", options: ["Als ik geld heb, reis ik.", "Als ik geld had, zou ik reizen.", "Als ik geld zou hebben, reisde ik."], answer: 1, explain: "Situación imaginaria: als + pasado (had) + zou + infinitivo." },
+        { q: "'¡Ojalá hubiera salido antes!' (vertrekken)", options: ["Had ik maar eerder vertrokken!", "Was ik maar eerder vertrokken!", "Ik was maar eerder vertrokken!"], answer: 1, explain: "vertrekken va con zijn, y el verbo va primero: Was ik maar..." },
+        { type: "write", q: "Traduce: 'Yo que tú...' (4 palabras)", accept: ["Als ik jou was"], explain: "Als ik jou was, zou ik... — perfecta para dar consejos." },
+        { q: "¿Qué significa 'Stel dat het morgen regent'?", options: ["Supongamos que mañana llueve.", "Seguro que mañana llueve.", "Ojalá mañana no llueva."], answer: 0, explain: "Stel dat... = supongamos que..." },
+        { q: "Para cerrar un correo formal: 'Si tuviera preguntas, no dude en contactarme.'", options: ["Als je vragen hebt, bel maar.", "Mocht u nog vragen hebben, neem dan gerust contact met mij op.", "Heb je vragen? Stuur een appje."], answer: 1, explain: "Mocht u... es la forma formal y elegante." },
+        { type: "write", q: "Completa: 'Als ik dat had ___, was ik gekomen.' (weten → participio)", accept: ["geweten"], explain: "weten → geweten (participio irregular)." }
+      ]
+    }
+    ,
+    // ───────────────────────── t5 ─────────────────────────
+    {
+      id: "t5",
+      title: "Trenes de verbos",
+      goal: "Al terminar podrás usar dos y tres verbos juntos (heeft kunnen komen, zal moeten worden aangepast) y las construcciones con 'te'.",
+      steps: [
+        {
+          title: "Paso 1: 'No he podido venir' — Ik heb niet kunnen komen",
+          html: "Mira esto:<br><span class='nl'>Ik heb niet kunnen komen.</span> — No he podido venir.<br><span class='nl'>Hij heeft gisteren moeten werken.</span> — Ayer tuvo que trabajar.<br><br>¿Esperabas 'gekund' o 'gemoeten'? Es lógico, pero cuando el modal tiene otro verbo al lado, el modal <b>se queda en infinitivo</b>: <span class='nl'>kunnen, moeten, willen, mogen</span>. Parece raro, pero es una regla muy fija.",
+          examples: [
+            { nl: "Ik heb niet kunnen komen.", es: "No he podido venir." },
+            { nl: "Hij heeft gisteren moeten werken.", es: "Ayer tuvo que trabajar." },
+            { nl: "We hebben het bestand niet kunnen vinden.", es: "No hemos podido encontrar el archivo." }
+          ],
+          tip: "Sin otro verbo sí se usa el participio: <span class='nl'>Ik heb het niet gekund.</span> (No he podido.) Pero con otro verbo al lado: <span class='nl'>heb ... kunnen doen</span>.",
+          check: { q: "Traduce: 'He tenido que esperar.'", a: "Ik heb moeten wachten." }
+        },
+        {
+          title: "Paso 2: Tres verbos en una frase",
+          html: "<span class='nl'>Ze zal moeten verhuizen.</span> — Tendrá que mudarse.<br><span class='nl'>Ik had het graag willen zien.</span> — Me habría gustado verlo.<br><span class='nl'>Het model zal moeten worden aangepast.</span> — El modelo tendrá que ser ajustado.<br><br>Regla sencilla: el verbo <b>conjugado</b> (zal, had, heeft) va en 2º lugar. Todos los demás verbos se van <b>al final</b>, en fila, casi en el mismo orden que en español: <i>tendrá - que - mudarse</i> = <i>zal - moeten - verhuizen</i>.",
+          examples: [
+            { nl: "Ze zal moeten verhuizen.", es: "Tendrá que mudarse.", pron: "ver-HÖI-ze(n)" },
+            { nl: "Ik had het graag willen zien.", es: "Me habría gustado verlo." },
+            { nl: "Het model zal moeten worden aangepast.", es: "El modelo tendrá que ser ajustado.", pron: "AAN-je-past" }
+          ],
+          tip: "Lee el final del 'tren' como en español: zal moeten verhuizen = va a tener que mudarse.",
+          check: { q: "Ordena: moeten / ik / werken / zal / morgen", a: "Ik zal morgen moeten werken." }
+        },
+        {
+          title: "Paso 3: Los trenes en frases con omdat, dat, als...",
+          html: "Cuando hay <span class='nl'>omdat, dat, als...</span> ya sabes que el verbo va al final. Con varios verbos, <b>todo el tren</b> va al final:<br><span class='nl'>Ik was er niet, omdat ik niet heb kunnen komen.</span> — No estaba porque no he podido venir.<br><span class='nl'>Hij zegt dat het model zal moeten worden aangepast.</span> — Dice que el modelo tendrá que ser ajustado.<br><br>Consejo práctico: pon el verbo conjugado (heb, zal) <b>delante</b> de los otros. Así siempre suena bien.",
+          examples: [
+            { nl: "..., omdat ik niet heb kunnen komen.", es: "..., porque no he podido venir." },
+            { nl: "Hij zegt dat het model zal moeten worden aangepast.", es: "Dice que habrá que ajustar el modelo." },
+            { nl: "Ik weet niet of ik morgen zal kunnen komen.", es: "No sé si mañana podré venir." }
+          ],
+          check: { q: "Completa: 'Het spijt me dat ik gisteren niet ___ ___ ___.' (no he podido venir)", a: "heb kunnen komen" }
+        },
+        {
+          title: "Paso 4: Verbos con 'te' — proberen te, vergeten te",
+          html: "<span class='nl'>Ik probeer elke dag Nederlands te spreken.</span> — Intento hablar neerlandés cada día.<br><span class='nl'>Vergeet niet je moeder op te bellen!</span> — ¡No te olvides de llamar a tu madre!<br><span class='nl'>Het is lastig om vroeg op te staan.</span> — Es difícil levantarse temprano.<br><br>Algunos verbos piden <span class='nl'>te</span> antes del infinitivo: <span class='nl'>proberen, beginnen, vergeten, hopen, besluiten, weigeren</span>. Y en los verbos separables, <span class='nl'>te</span> se mete en medio: <span class='nl'>opbellen → op <b>te</b> bellen</span>.",
+          examples: [
+            { nl: "Ik probeer elke dag Nederlands te spreken.", es: "Intento hablar neerlandés cada día." },
+            { nl: "Vergeet niet je moeder op te bellen!", es: "¡No te olvides de llamar a tu madre!" },
+            { nl: "Het script weigert het bestand te openen.", es: "El script se niega a abrir el archivo.", pron: "WEI-jert" }
+          ],
+          tip: "Los modales (kunnen, moeten, willen, mogen) y <span class='nl'>gaan</span> <b>nunca</b> llevan te: <span class='nl'>Ik wil komen</span>, no 'Ik wil te komen'.",
+          check: { q: "Traduce: 'Intento llegar a tiempo.' (op tijd komen)", a: "Ik probeer op tijd te komen." }
+        },
+        {
+          title: "Paso 5: 'Estar haciendo' — zitten/staan/liggen te",
+          html: "<span class='nl'>Ik zit te werken.</span> — Estoy (sentado) trabajando.<br><span class='nl'>Hij staat op de bus te wachten.</span> — Está (de pie) esperando el autobús.<br><span class='nl'>De kinderen liggen te slapen.</span> — Los niños están (acostados) durmiendo.<br><br>El holandés dice la postura: <span class='nl'>zitten</span> (sentado), <span class='nl'>staan</span> (de pie), <span class='nl'>liggen</span> (acostado) + te + infinitivo. Otra forma general: <span class='nl'>Ik ben aan het koken.</span> (Estoy cocinando.)<br><br>Curiosidad: en perfecto, el <i>te</i> desaparece: <span class='nl'>Ik heb de hele dag zitten programmeren.</span> — He estado todo el día programando.",
+          examples: [
+            { nl: "Ik zit te werken.", es: "Estoy trabajando (sentado)." },
+            { nl: "Hij staat op de bus te wachten.", es: "Está esperando el autobús." },
+            { nl: "Ik ben aan het koken.", es: "Estoy cocinando." },
+            { nl: "Ik heb de hele dag zitten programmeren.", es: "He estado todo el día programando." }
+          ],
+          check: { q: "Traduce con 'zitten te': 'Estoy leyendo.'", a: "Ik zit te lezen." }
+        }
+      ],
+      vocab: [
+        { nl: "proberen te", pron: "pro-BEE-re(n)", es: "intentar" },
+        { nl: "beginnen te", es: "empezar a" },
+        { nl: "vergeten te", pron: "ver-JEE-te(n)", es: "olvidar(se de)" },
+        { nl: "hopen te", es: "esperar (tener la esperanza de)" },
+        { nl: "besluiten te", pron: "be-SLÖI-te(n)", es: "decidir" },
+        { nl: "weigeren te", pron: "WEI-je-re(n)", es: "negarse a" },
+        { nl: "durven (te)", pron: "DÜR-ve(n)", es: "atreverse a" },
+        { nl: "dreigen te", pron: "DREI-je(n)", es: "amenazar con / estar a punto de", note: "De deadline dreigt te verlopen." },
+        { nl: "erin slagen om te", pron: "e-RIN SLAA-je(n)", es: "lograr / conseguir", note: "Ik ben erin geslaagd om... = He logrado..." },
+        { nl: "van plan zijn om te", es: "tener la intención de" },
+        { nl: "zitten te + inf.", es: "estar (sentado) haciendo algo" },
+        { nl: "staan te + inf.", es: "estar (de pie) haciendo algo" },
+        { nl: "liggen te + inf.", es: "estar (acostado) haciendo algo" },
+        { nl: "aan het ... zijn", es: "estar haciendo algo", note: "Ik ben aan het koken." },
+        { nl: "afronden", pron: "AF-ron-de(n)", es: "terminar / rematar (un trabajo)" }
+      ],
+      dialogue: {
+        title: "Un problema con el script",
+        context: "Tu colega Pieter pasa por tu despacho en el edificio de ingeniería.",
+        lines: [
+          { who: "Pieter", nl: "Hoi! Heb je de nieuwe data al kunnen verwerken?", es: "¡Hola! ¿Ya has podido procesar los datos nuevos?" },
+          { who: "Tú", nl: "Nee, nog niet. Ik heb de hele ochtend zitten debuggen.", es: "No, todavía no. Me he pasado toda la mañana depurando código." },
+          { who: "Pieter", nl: "Balen. Wat ging er mis?", es: "Qué fastidio. ¿Qué salió mal?" },
+          { who: "Tú", nl: "Het script weigerde de bestanden te openen. Ik had het eerder moeten testen.", es: "El script se negaba a abrir los archivos. Tendría que haberlo probado antes." },
+          { who: "Pieter", nl: "Zal ik even meekijken? Ik heb vorig jaar hetzelfde probleem moeten oplossen.", es: "¿Le echo un vistazo contigo? El año pasado tuve que resolver el mismo problema." },
+          { who: "Tú", nl: "Graag! Ik probeer het vandaag af te ronden, want morgen moet het naar mijn promotor.", es: "¡Sí, por favor! Intento terminarlo hoy, porque mañana tiene que ir a mi director." },
+          { who: "Pieter", nl: "Dan proberen we het samen op te lossen.", es: "Entonces intentamos resolverlo juntos." },
+          { who: "Tú", nl: "Top. Ik zat al op je hulp te hopen, haha.", es: "Genial. Ya estaba esperando tu ayuda, jaja." }
+        ]
+      },
+      practice: [
+        { q: "Traduce: 'No he podido dormir.'", a: "Ik heb niet kunnen slapen." },
+        { q: "Traduce: 'Tendremos que irnos pronto.' (zullen + moeten + vertrekken)", a: "We zullen vroeg moeten vertrekken." },
+        { q: "Traduce: 'Intento levantarme a las 7.' (opstaan)", a: "Ik probeer om 7 uur op te staan.", hint: "te va en medio del verbo separable" },
+        { q: "Traduce con 'staan te': 'Está esperando el tren.'", a: "Hij/Zij staat op de trein te wachten." },
+        { q: "Repaso B1: une con 'zodat': 'Ik spreek langzaam. Iedereen begrijpt het.'", a: "Ik spreek langzaam, zodat iedereen het begrijpt.", review: true }
+      ],
+      quiz: [
+        { q: "'No he podido venir.'", options: ["Ik heb niet gekund komen.", "Ik heb niet kunnen komen.", "Ik ben niet kunnen komen."], answer: 1, explain: "Con otro verbo al lado, el modal queda en infinitivo: heb ... kunnen komen." },
+        { q: "¿Cuál es correcta?", options: ["Ik wil te slapen.", "Ik probeer slapen.", "Ik probeer te slapen."], answer: 2, explain: "proberen lleva te; los modales como willen no lo llevan." },
+        { q: "'No olvides llamarme.' (opbellen)", options: ["Vergeet niet me op te bellen.", "Vergeet niet me te opbellen.", "Vergeet niet me opbellen te."], answer: 0, explain: "En los separables, te se mete entre las dos partes: op te bellen." },
+        { type: "write", q: "Traduce con 'zitten': 'Estoy trabajando.'", accept: ["Ik zit te werken"], explain: "zitten te + infinitivo = estar haciendo algo (sentado)." },
+        { q: "'..., omdat ik moest werken' → en perfecto:", options: ["..., omdat ik heb moeten werken.", "..., omdat ik moeten werken heb gehad.", "..., omdat ik heb gemoeten werken."], answer: 0, explain: "Todo el tren al final: heb moeten werken." },
+        { type: "write", q: "Traduce: 'Tendrá que mudarse.' (ze, zullen, moeten, verhuizen)", accept: ["Ze zal moeten verhuizen", "Zij zal moeten verhuizen"], explain: "zal en 2º lugar; moeten verhuizen al final." }
+      ]
+    },
+
+    // ───────────────────────── t6 ─────────────────────────
+    {
+      id: "t6",
+      title: "Expresiones y refranes",
+      goal: "Al terminar reconocerás y podrás usar 15-20 expresiones idiomáticas que los holandeses usan de verdad.",
+      steps: [
+        {
+          title: "Paso 1: En el trabajo",
+          html: "Imagina una reunión de proyecto. Oirás cosas así:<ul><li><span class='nl'>Het project loopt op rolletjes.</span> — El proyecto va sobre ruedas. (literal: 'corre sobre rueditas')</li><li><span class='nl'>Er is een kink in de kabel.</span> — Ha surgido un problema. (literal: 'hay un nudo en el cable')</li><li><span class='nl'>We moeten de handen uit de mouwen steken.</span> — Tenemos que arremangarnos.</li><li><span class='nl'>De manager kijkt de kat uit de boom.</span> — El jefe espera a ver qué pasa antes de actuar. (literal: 'mira al gato desde el árbol')</li></ul>",
+          examples: [
+            { nl: "Het project loopt op rolletjes.", es: "El proyecto va sobre ruedas.", pron: "op RO-le-tyes" },
+            { nl: "Er is een kink in de kabel.", es: "Ha surgido un imprevisto.", pron: "er is en kink in de KAA-bel" },
+            { nl: "We moeten de handen uit de mouwen steken.", es: "Tenemos que arremangarnos.", pron: "MAU-we(n)" },
+            { nl: "Hij kijkt de kat uit de boom.", es: "Espera a ver cómo evoluciona la cosa." }
+          ],
+          check: { q: "Si todo va perfecto en tu proyecto, ¿qué dices?", a: "Het loopt op rolletjes." }
+        },
+        {
+          title: "Paso 2: Hablar claro (¡muy holandés!)",
+          html: "La cultura holandesa valora la franqueza. Por eso hay muchas expresiones para decir 'hablar sin rodeos':<ul><li><span class='nl'>Hij neemt geen blad voor de mond.</span> — No tiene pelos en la lengua.</li><li><span class='nl'>Ik zal er geen doekjes om winden.</span> — No me voy a andar con rodeos.</li><li><span class='nl'>met de deur in huis vallen</span> — ir directo al grano (literal: 'caer con la puerta dentro de casa')</li><li><span class='nl'>Je slaat de spijker op de kop.</span> — Has dado en el clavo.</li></ul>",
+          examples: [
+            { nl: "Hij neemt geen blad voor de mond.", es: "No tiene pelos en la lengua." },
+            { nl: "Ik zal er geen doekjes om winden: het is niet goed genoeg.", es: "No me voy a andar con rodeos: no es suficientemente bueno.", pron: "DUK-yes" },
+            { nl: "Sorry dat ik met de deur in huis val, maar...", es: "Perdona que vaya directo al grano, pero..." },
+            { nl: "Je slaat de spijker op de kop.", es: "Has dado en el clavo.", pron: "SPEI-ker" }
+          ],
+          tip: "<span class='nl'>de spijker op de kop slaan</span> es casi igual que en español: 'dar en el clavo'. ¡Fácil de recordar!",
+          check: { q: "¿Qué significa 'Hij neemt geen blad voor de mond'?", a: "No tiene pelos en la lengua (dice lo que piensa)." }
+        },
+        {
+          title: "Paso 3: Dinero y sentido común",
+          html: "<ul><li><span class='nl'>Doe maar gewoon, dan doe je al gek genoeg.</span> — Compórtate normal, que eso ya es bastante raro. (¡el lema no oficial del país! Valoran no presumir.)</li><li><span class='nl'>de eindjes aan elkaar knopen</span> — llegar a fin de mes (literal: 'anudar los extremos')</li><li><span class='nl'>Voor wat hoort wat.</span> — Favor con favor se paga.</li><li><span class='nl'>Wie niet waagt, die niet wint.</span> — Quien no arriesga, no gana.</li></ul>",
+          examples: [
+            { nl: "Doe maar gewoon, dan doe je al gek genoeg.", es: "Sé normal, que eso ya es bastante raro." },
+            { nl: "Veel studenten kunnen de eindjes nauwelijks aan elkaar knopen.", es: "Muchos estudiantes apenas llegan a fin de mes.", pron: "EIN-tyes ... KNOO-pe(n)" },
+            { nl: "Ik help jou met verhuizen, jij helpt mij met mijn Nederlands. Voor wat hoort wat!", es: "Yo te ayudo con la mudanza, tú me ayudas con mi neerlandés. ¡Favor con favor se paga!" }
+          ],
+          check: { q: "Traduce la idea: 'Quien no arriesga, no gana.'", a: "Wie niet waagt, die niet wint." }
+        },
+        {
+          title: "Paso 4: Refranes para la vida (y para aprender idiomas)",
+          html: "<ul><li><span class='nl'>Oefening baart kunst.</span> — La práctica hace al maestro.</li><li><span class='nl'>Al doende leert men.</span> — Se aprende haciendo.</li><li><span class='nl'>Beter laat dan nooit.</span> — Más vale tarde que nunca.</li><li><span class='nl'>Oost west, thuis best.</span> — Como en casa, en ningún sitio.</li><li><span class='nl'>Wie het laatst lacht, lacht het best.</span> — El que ríe último ríe mejor.</li></ul>",
+          examples: [
+            { nl: "Oefening baart kunst.", es: "La práctica hace al maestro.", pron: "U-fe-ning baart kunst" },
+            { nl: "Al doende leert men.", es: "Se aprende haciendo.", pron: "al DUN-de leert men" },
+            { nl: "Oost west, thuis best.", es: "Como en casa, en ningún sitio.", pron: "oost west, töis best" }
+          ],
+          tip: "Tu lema para este curso: <span class='nl'>Al doende leert men</span>. No hace falta saberlo todo antes de hablar: se aprende hablando.",
+          check: { q: "¿Cuál es el equivalente de 'Más vale tarde que nunca'?", a: "Beter laat dan nooit." }
+        },
+        {
+          title: "Paso 5: El tiempo y las sorpresas",
+          html: "<ul><li><span class='nl'>Het regent pijpenstelen.</span> — Llueve a cántaros. (¡en Groningen la usarás mucho!)</li><li><span class='nl'>Nu komt de aap uit de mouw.</span> — Ahora se descubre la verdad. (literal: 'ahora sale el mono de la manga')</li><li><span class='nl'>Er is niets aan de hand.</span> — No pasa nada.</li><li><span class='nl'>Dat is niet mijn pakkie-an.</span> — Eso no es asunto mío. (coloquial)</li></ul>",
+          examples: [
+            { nl: "Het regent pijpenstelen.", es: "Llueve a cántaros.", pron: "PEI-pe(n)-stee-le(n)" },
+            { nl: "Nu komt de aap uit de mouw!", es: "¡Ahora se descubre la verdad!" },
+            { nl: "Rustig maar, er is niets aan de hand.", es: "Tranquilo, no pasa nada." }
+          ],
+          check: { q: "Sales de casa y está diluviando. ¿Qué dices?", a: "Het regent pijpenstelen!" }
+        }
+      ],
+      vocab: [
+        { nl: "op rolletjes lopen", pron: "op RO-le-tyes LOO-pe(n)", es: "ir sobre ruedas" },
+        { nl: "een kink in de kabel", pron: "KAA-bel", es: "un imprevisto / un problema" },
+        { nl: "de handen uit de mouwen steken", pron: "MAU-we(n)", es: "arremangarse / ponerse manos a la obra" },
+        { nl: "de kat uit de boom kijken", es: "esperar a ver qué pasa" },
+        { nl: "geen blad voor de mond nemen", es: "no tener pelos en la lengua" },
+        { nl: "er geen doekjes om winden", pron: "DUK-yes", es: "no andarse con rodeos" },
+        { nl: "met de deur in huis vallen", es: "ir directo al grano" },
+        { nl: "de spijker op de kop slaan", pron: "SPEI-ker", es: "dar en el clavo" },
+        { nl: "de eindjes aan elkaar knopen", pron: "EIN-tyes", es: "llegar a fin de mes" },
+        { nl: "Voor wat hoort wat.", es: "Favor con favor se paga." },
+        { nl: "Oefening baart kunst.", pron: "U-fe-ning", es: "La práctica hace al maestro." },
+        { nl: "Al doende leert men.", pron: "DUN-de", es: "Se aprende haciendo." },
+        { nl: "Oost west, thuis best.", pron: "töis", es: "Como en casa, en ningún sitio." },
+        { nl: "Het regent pijpenstelen.", pron: "PEI-pe(n)-stee-le(n)", es: "Llueve a cántaros." },
+        { nl: "Nu komt de aap uit de mouw.", pron: "mau", es: "Ahora se descubre la verdad." },
+        { nl: "Er is niets aan de hand.", es: "No pasa nada." }
+      ],
+      dialogue: {
+        title: "Reunión de grupo del lunes",
+        context: "Tu grupo de investigación comenta el estado del proyecto de monitorización.",
+        lines: [
+          { who: "Groepsleider", nl: "Goedemorgen allemaal. Hoe staat het met de metingen op het testpark?", es: "Buenos días a todos. ¿Cómo van las mediciones en el parque de pruebas?" },
+          { who: "Tú", nl: "Tot vorige week liep alles op rolletjes, maar nu is er een kink in de kabel.", es: "Hasta la semana pasada todo iba sobre ruedas, pero ahora ha surgido un problema." },
+          { who: "Groepsleider", nl: "Vertel. Je mag er geen doekjes om winden.", es: "Cuéntame. No hace falta que te andes con rodeos." },
+          { who: "Tú", nl: "Twee sensoren geven rare waarden. Ik denk dat de bevestiging los is gegaan.", es: "Dos sensores dan valores raros. Creo que la sujeción se ha soltado." },
+          { who: "Marieke", nl: "Dan sla je de spijker op de kop, denk ik. Bij ons was dat ook de oorzaak.", es: "Entonces creo que das en el clavo. En nuestro caso esa también era la causa." },
+          { who: "Groepsleider", nl: "Oké, dan moeten we de handen uit de mouwen steken. Wie gaat er mee naar het park?", es: "Vale, entonces hay que ponerse manos a la obra. ¿Quién va al parque?" },
+          { who: "Tú", nl: "Ik ga, mits het niet weer pijpenstelen regent!", es: "Voy yo, ¡siempre que no vuelva a llover a cántaros!" },
+          { who: "Marieke", nl: "Haha, in Groningen? Dat is wel een risico. Maar wie niet waagt, die niet wint.", es: "Jaja, ¿en Groningen? Eso es un riesgo. Pero quien no arriesga, no gana." }
+        ]
+      },
+      practice: [
+        { q: "¿Qué expresión usas para decir que un proyecto va perfecto?", a: "Het loopt op rolletjes." },
+        { q: "Tu amigo dice exactamente lo que tú pensabas. ¿Qué le dices?", a: "Je slaat de spijker op de kop!" },
+        { q: "Completa: 'Er is een ___ in de kabel.'", a: "kink" },
+        { q: "¿Qué refrán le dirías a alguien que tiene miedo de hablar neerlandés?", a: "Al doende leert men. / Oefening baart kunst." },
+        { q: "Repaso B1: da tu opinión empezando con 'Volgens mij': 'En mi opinión, este refrán es muy útil.'", a: "Volgens mij is dit spreekwoord heel nuttig.", review: true }
+      ],
+      quiz: [
+        { q: "'Er is een kink in de kabel' significa:", options: ["Hay un cable roto.", "Ha surgido un problema.", "Todo va bien."], answer: 1, explain: "Es una expresión: ha surgido un imprevisto." },
+        { q: "¿Cuál significa 'no tener pelos en la lengua'?", options: ["geen blad voor de mond nemen", "de kat uit de boom kijken", "de eindjes aan elkaar knopen"], answer: 0, explain: "Literal: no ponerse una hoja delante de la boca." },
+        { type: "write", q: "Completa el refrán: 'Oefening baart ___.'", accept: ["kunst"], explain: "Oefening baart kunst = la práctica hace al maestro." },
+        { q: "'Hij kijkt de kat uit de boom' significa:", options: ["Tiene miedo a los gatos.", "Espera a ver qué pasa antes de actuar.", "Trabaja mucho."], answer: 1, explain: "Observa la situación antes de decidir." },
+        { q: "¿Qué dices cuando llueve muchísimo?", options: ["Het regent katten en honden.", "Het regent pijpenstelen.", "Het regent emmers."], answer: 1, explain: "'katten en honden' es una traducción del inglés; lo holandés es pijpenstelen." },
+        { type: "write", q: "Completa: 'Oost west, thuis ___.'", accept: ["best"], explain: "Oost west, thuis best = como en casa, en ningún sitio." }
+      ]
+    }
+    ,
+    // ───────────────────────── t7 ─────────────────────────
+    {
+      id: "t7",
+      title: "Escritura académica",
+      goal: "Al terminar podrás estructurar un texto, argumentar, escribir un informe corto y resumir un texto en holandés.",
+      steps: [
+        {
+          title: "Paso 1: La estructura — inleiding, kern, slot",
+          html: "Todo texto holandés 'bien hecho' tiene tres partes:<ul><li><b>de inleiding</b> (introducción): <span class='nl'>In deze tekst bespreek ik...</span> — En este texto trato...</li><li><b>de kern</b> (el cuerpo): varios párrafos (<span class='nl'>alinea's</span>), cada uno con una idea. La primera frase del párrafo dice la idea: es la <span class='nl'>kernzin</span>.</li><li><b>het slot</b> (conclusión): <span class='nl'>Tot slot...</span> / <span class='nl'>Samenvattend...</span></li></ul>Para ordenar las ideas: <span class='nl'>ten eerste, ten tweede, ten slotte</span> (en primer lugar, en segundo lugar, por último).",
+          examples: [
+            { nl: "In deze tekst bespreek ik de voor- en nadelen van thuiswerken.", es: "En este texto trato las ventajas y desventajas del teletrabajo.", pron: "be-SPREEK" },
+            { nl: "Ten eerste bespaart het reistijd.", es: "En primer lugar, ahorra tiempo de viaje.", pron: "ten EER-ste" },
+            { nl: "Tot slot wil ik benadrukken dat...", es: "Por último, quiero subrayar que...", pron: "be-NAA-drü-ke(n)" }
+          ],
+          tip: "Después de <span class='nl'>Ten eerste, Tot slot, Samenvattend</span>... ¡verbo en 2º lugar! (<span class='nl'>Ten eerste <b>bespaart</b> het...</span>)",
+          check: { q: "¿Cómo se llaman las tres partes de un texto?", a: "de inleiding, de kern, het slot" }
+        },
+        {
+          title: "Paso 2: Argumentar — standpunt + argument + voorbeeld",
+          html: "Un buen argumento tiene tres piezas:<br>1. Tu <b>postura</b>: <span class='nl'>Ik ben van mening dat studenten meer Nederlands moeten leren.</span><br>2. Un <b>argumento</b>: <span class='nl'>Een belangrijk argument is dat ze dan makkelijker werk vinden.</span><br>3. Un <b>ejemplo</b>: <span class='nl'>Dit blijkt uit het feit dat veel vacatures Nederlands vereisen.</span><br><br>Y para responder a la otra postura: <span class='nl'>Tegenstanders stellen dat..., maar...</span> (Los que están en contra afirman que..., pero...)",
+          examples: [
+            { nl: "Ik ben van mening dat studenten meer Nederlands moeten leren.", es: "Opino que los estudiantes deberían aprender más neerlandés.", pron: "van MEE-ning" },
+            { nl: "Dit blijkt uit het feit dat veel vacatures Nederlands vereisen.", es: "Esto se ve en el hecho de que muchas ofertas de empleo exigen neerlandés.", pron: "bleikt ... va-ka-TÜ-res ver-EI-se(n)" },
+            { nl: "Tegenstanders stellen dat Engels genoeg is, maar dat klopt niet helemaal.", es: "Los detractores afirman que el inglés basta, pero eso no es del todo cierto.", pron: "TEE-je(n)-stan-ders" },
+            { nl: "Hieruit volgt dat...", es: "De esto se deduce que...", pron: "HII-röit voljt" }
+          ],
+          check: { q: "Traduce: 'Opino que...' (formal, 5 palabras)", a: "Ik ben van mening dat..." }
+        },
+        {
+          title: "Paso 3: El informe (verslag) — frases de investigación",
+          html: "Estas frases te sirven para tu propio trabajo:<ul><li><span class='nl'>Het doel van dit onderzoek is om...</span> — El objetivo de esta investigación es...</li><li><span class='nl'>Uit de metingen blijkt dat...</span> — De las mediciones se desprende que...</li><li><span class='nl'>De resultaten laten zien dat...</span> — Los resultados muestran que...</li><li><span class='nl'>Op basis van deze resultaten concluderen wij dat...</span> — Basándonos en estos resultados, concluimos que...</li></ul>",
+          examples: [
+            { nl: "Het doel van dit onderzoek is om schade vroegtijdig op te sporen.", es: "El objetivo de esta investigación es detectar daños a tiempo.", pron: "vruj-TEI-dij OP-spoo-re(n)" },
+            { nl: "Uit de metingen blijkt dat de frequentie daalt.", es: "Las mediciones muestran que la frecuencia baja.", pron: "fre-KWEN-sii" },
+            { nl: "De resultaten laten zien dat de methode werkt.", es: "Los resultados muestran que el método funciona." }
+          ],
+          tip: "<span class='nl'>blijken</span> = 'resultar / quedar claro'. <span class='nl'>Uit X blijkt dat...</span> es LA frase estrella de los informes holandeses.",
+          check: { q: "Traduce: 'Los resultados muestran que...'", a: "De resultaten laten zien dat..." }
+        },
+        {
+          title: "Paso 4: Resumir (samenvatten) — lo que dice el autor",
+          html: "En un resumen <b>no</b> das tu opinión; cuentas lo que dice otra persona. Para eso se usan verbos como:<br><span class='nl'>De auteur stelt dat...</span> (afirma que)<br><span class='nl'>De schrijver betoogt dat...</span> (argumenta que)<br><span class='nl'>Hij benadrukt dat...</span> (subraya que)<br><span class='nl'>Volgens de auteur...</span> (según el autor)<br><br>Y para cerrar: <span class='nl'>Samenvattend kan worden gesteld dat...</span> — En resumen, se puede afirmar que...",
+          examples: [
+            { nl: "De auteur stelt dat de woningnood groter wordt.", es: "El autor afirma que la escasez de vivienda aumenta." },
+            { nl: "Hij benadrukt dat de overheid moet ingrijpen.", es: "Subraya que el gobierno debe intervenir.", pron: "IN-jrei-pe(n)" },
+            { nl: "Samenvattend kan worden gesteld dat het plan te duur is.", es: "En resumen, se puede afirmar que el plan es demasiado caro.", pron: "SAA-me(n)-va-te(n)t" }
+          ],
+          check: { q: "¿Qué verbo usas para 'el autor subraya que...'?", a: "benadrukken: De auteur benadrukt dat..." }
+        },
+        {
+          title: "Paso 5: Ser prudente — matizar como un académico",
+          html: "En ciencia no se dice 'esto es así' sin más. Se matiza:<br><span class='nl'>Het lijkt erop dat...</span> — Parece que...<br><span class='nl'>Dit zou kunnen wijzen op...</span> — Esto podría indicar...<br><span class='nl'>waarschijnlijk</span> — probablemente<br><span class='nl'>voor zover bekend</span> — hasta donde se sabe<br><span class='nl'>in zekere mate</span> — en cierta medida",
+          examples: [
+            { nl: "Het lijkt erop dat de scheur groter wordt.", es: "Parece que la grieta se hace más grande.", pron: "et LEIKT e-ROP ... SJÖR" },
+            { nl: "Dit zou kunnen wijzen op schade aan het blad.", es: "Esto podría indicar daños en la pala.", pron: "WEI-ze(n)" },
+            { nl: "Voor zover bekend is dit nog niet eerder onderzocht.", es: "Hasta donde se sabe, esto no se ha investigado antes.", pron: "on-der-ZOJT" }
+          ],
+          check: { q: "Traduce: 'Esto podría indicar un error.'", a: "Dit zou kunnen wijzen op een fout." }
+        }
+      ],
+      vocab: [
+        { nl: "de inleiding", pron: "de IN-lei-ding", es: "la introducción" },
+        { nl: "de kern", es: "el cuerpo / el núcleo" },
+        { nl: "het slot", es: "la conclusión / el final", note: "tot slot = por último" },
+        { nl: "de alinea", pron: "de a-LII-nee-ya", es: "el párrafo", note: "plural: alinea's" },
+        { nl: "de kernzin", es: "la frase principal de un párrafo" },
+        { nl: "het standpunt", pron: "et STANT-punt", es: "la postura / el punto de vista" },
+        { nl: "het argument", pron: "et ar-jü-MENT", es: "el argumento" },
+        { nl: "de conclusie", pron: "de kon-KLÜ-sii", es: "la conclusión" },
+        { nl: "de samenvatting", pron: "de SAA-me(n)-va-ting", es: "el resumen" },
+        { nl: "uit ... blijkt dat", pron: "bleikt", es: "de ... se desprende que" },
+        { nl: "ten eerste / ten tweede / ten slotte", es: "en primer / segundo lugar / por último" },
+        { nl: "hieruit volgt dat", pron: "HII-röit voljt", es: "de esto se deduce que" },
+        { nl: "van mening zijn", pron: "van MEE-ning", es: "ser de la opinión / opinar" },
+        { nl: "de tegenstander", pron: "de TEE-je(n)-stan-der", es: "el detractor / el adversario" },
+        { nl: "de bron", es: "la fuente" },
+        { nl: "opsporen", pron: "OP-spoo-re(n)", es: "detectar / localizar" }
+      ],
+      dialogue: {
+        title: "Texto modelo: resumen de tu investigación",
+        context: "Así podría ser el resumen (samenvatting) de tu doctorado en holandés. Fíjate en las frases de informe.",
+        lines: [
+          { who: "Tekst", nl: "Windturbines worden steeds groter, waardoor de rotorbladen zwaarder worden belast.", es: "Los aerogeneradores son cada vez más grandes, por lo que las palas soportan más carga." },
+          { who: "Tekst", nl: "Het doel van dit onderzoek is om schade aan de bladen vroegtijdig op te sporen.", es: "El objetivo de esta investigación es detectar a tiempo los daños en las palas." },
+          { who: "Tekst", nl: "Hiervoor worden trillingen gemeten met sensoren die in het blad zijn ingebouwd.", es: "Para ello se miden vibraciones con sensores integrados en la pala." },
+          { who: "Tekst", nl: "Uit de eerste metingen blijkt dat kleine veranderingen in de trillingsfrequentie op schade kunnen wijzen.", es: "Las primeras mediciones muestran que pequeños cambios en la frecuencia de vibración pueden indicar daños." },
+          { who: "Tekst", nl: "Er is echter meer onderzoek nodig om de methode onder wisselende weersomstandigheden te testen.", es: "Sin embargo, hace falta más investigación para probar el método en condiciones meteorológicas variables." },
+          { who: "Tekst", nl: "Op basis van deze resultaten concluderen wij dat trillingsmonitoring het onderhoud efficiënter kan maken.", es: "Basándonos en estos resultados, concluimos que la monitorización de vibraciones puede hacer más eficiente el mantenimiento." },
+          { who: "Tekst", nl: "Dit zou op termijn de kosten van windenergie kunnen verlagen.", es: "Esto podría reducir a largo plazo los costes de la energía eólica." }
+        ]
+      },
+      practice: [
+        { q: "Traduce: 'En este texto trato las ventajas del transporte público.'", a: "In deze tekst bespreek ik de voordelen van het openbaar vervoer." },
+        { q: "Traduce: 'De las mediciones se desprende que la temperatura sube.'", a: "Uit de metingen blijkt dat de temperatuur stijgt." },
+        { q: "Escribe una frase de resumen: 'El autor afirma que el alquiler es demasiado alto.'", a: "De auteur stelt dat de huur te hoog is." },
+        { q: "Hazla más prudente: 'Dit is een fout in de sensor.'", a: "Dit zou kunnen wijzen op een fout in de sensor. / Het lijkt erop dat de sensor een fout heeft." },
+        { q: "Repaso B1: usa una relativa con 'die': 'Los sensores que están en la pala miden vibraciones.'", a: "De sensoren die in het blad zitten, meten trillingen.", review: true }
+      ],
+      quiz: [
+        { q: "¿Qué parte del texto va al final?", options: ["de inleiding", "de kern", "het slot"], answer: 2, explain: "het slot = la conclusión. Tot slot... = Por último..." },
+        { q: "'Uit de resultaten blijkt dat...' significa:", options: ["Los resultados muestran que...", "Fuera de los resultados...", "Los resultados parecen falsos..."], answer: 0, explain: "blijken = quedar claro; uit X blijkt dat = de X se desprende que." },
+        { q: "¿Cuál es correcta?", options: ["Ten eerste het is goedkoop.", "Ten eerste is het goedkoop.", "Ten eerste goedkoop is het."], answer: 1, explain: "Después de 'Ten eerste' el verbo va en 2º lugar." },
+        { type: "write", q: "Traduce: 'en resumen' (una palabra, empieza con S)", accept: ["samenvattend", "samengevat"], explain: "Samenvattend kan worden gesteld dat... Otra opción: kortom." },
+        { q: "En un resumen, ¿qué NO debes hacer?", options: ["Usar 'De auteur stelt dat...'", "Dar tu propia opinión.", "Nombrar las ideas principales."], answer: 1, explain: "En un resumen cuentas lo que dice el autor, sin tu opinión." },
+        { type: "write", q: "Traduce: 'Opino que...' (formal: Ik ben van ... dat)", accept: ["Ik ben van mening dat"], explain: "van mening zijn = opinar (formal)." }
+      ]
+    },
+
+    // ───────────────────────── t8 ─────────────────────────
+    {
+      id: "t8",
+      title: "Lenguaje abstracto",
+      goal: "Al terminar podrás entender y formar sustantivos a partir de verbos y usar expresiones formales como 'ter verbetering van'.",
+      steps: [
+        {
+          title: "Paso 1: Del verbo al sustantivo con -ing",
+          html: "Compara:<br><span class='nl'>De gemeente verbetert de fietspaden.</span> — El ayuntamiento mejora los carriles bici.<br><span class='nl'>De verbetering van de fietspaden kost veel geld.</span> — La mejora de los carriles bici cuesta mucho dinero.<br><br>Muchos verbos se convierten en sustantivo quitando <i>-en</i> y añadiendo <b>-ing</b>: <span class='nl'>verbeteren → de verbetering</span>, <span class='nl'>meten → de meting</span>, <span class='nl'>ontwikkelen → de ontwikkeling</span>.<br>Buena noticia: las palabras en <b>-ing</b> son <b>siempre 'de'</b>.",
+          examples: [
+            { nl: "De verbetering van de fietspaden kost veel geld.", es: "La mejora de los carriles bici cuesta mucho dinero.", pron: "ver-BEE-te-ring" },
+            { nl: "De ontwikkeling van windparken gaat snel.", es: "El desarrollo de parques eólicos va rápido.", pron: "ont-WI-ke-ling" },
+            { nl: "De beslissing is nog niet genomen.", es: "La decisión aún no se ha tomado.", pron: "be-SLI-sing" }
+          ],
+          tip: "Es como '-ción' en español: mejorar → mejora, desarrollar → desarrollo, decidir → decisión. Y como '-ción' en español es femenino, <b>-ing</b> en holandés es siempre <b>de</b>.",
+          check: { q: "¿Qué artículo lleva 'verwarming' (calefacción)?", a: "de (todas las palabras en -ing son de)" }
+        },
+        {
+          title: "Paso 2: Otros finales y su artículo",
+          html: "Hay otros finales que te dicen el artículo. ¡Muy útil para el eterno problema de/het!",
+          examples: [
+            { nl: "de duurzaamheid", es: "la sostenibilidad", pron: "de DÜÜR-zaam-heit" },
+            { nl: "de installatie", es: "la instalación", pron: "de in-sta-LAA-tsii" },
+            { nl: "het fietsen", es: "el ir en bici (el infinitivo como sustantivo)" },
+            { nl: "het toerisme", es: "el turismo", pron: "et tu-RIS-me" }
+          ],
+          table: {
+            head: ["Final", "Artículo", "Ejemplo"],
+            rows: [
+              ["-ing", "de", "de meting, de oplossing"],
+              ["-heid", "de", "de veiligheid, de mogelijkheid"],
+              ["-tie / -sie", "de", "de situatie, de discussie"],
+              ["-isme", "het", "het toerisme, het racisme"],
+              ["infinitivo", "het", "het lezen, het meten"]
+            ]
+          },
+          tip: "El infinitivo usado como sustantivo es muy frecuente: <span class='nl'>Het meten van trillingen is lastig.</span> = Medir vibraciones es difícil.",
+          check: { q: "¿de o het? '___ mogelijkheid' y '___ lezen'", a: "de mogelijkheid, het lezen" }
+        },
+        {
+          title: "Paso 3: Sustantivos con su preposición fija",
+          html: "Igual que los verbos con preposición (B1: <span class='nl'>wachten op</span>), muchos sustantivos van con su propia preposición. Apréndelos <b>en pareja</b>:<ul><li><span class='nl'>het onderzoek naar</span> — la investigación sobre</li><li><span class='nl'>de invloed op</span> — la influencia en</li><li><span class='nl'>de behoefte aan</span> — la necesidad de</li><li><span class='nl'>het gebrek aan</span> — la falta de</li><li><span class='nl'>de oorzaak van</span> — la causa de</li><li><span class='nl'>de oplossing voor</span> — la solución para</li><li><span class='nl'>de bijdrage aan</span> — la contribución a</li></ul>",
+          examples: [
+            { nl: "Ik doe onderzoek naar trillingen in rotorbladen.", es: "Investigo las vibraciones en palas de rotor.", pron: "ON-der-zuk naar TRI-lin-je(n)" },
+            { nl: "Er is een groot gebrek aan betaalbare woningen.", es: "Hay una gran falta de viviendas asequibles.", pron: "je-BREK aan be-TAAL-baa-re" },
+            { nl: "Wind heeft invloed op de levensduur van het blad.", es: "El viento influye en la vida útil de la pala.", pron: "IN-vlut" }
+          ],
+          tip: "Ojo a la trampa: 'investigación <b>sobre</b>' NO es 'onderzoek over', sino <span class='nl'>onderzoek naar</span>.",
+          check: { q: "Completa: 'Er is behoefte ___ meer woningen.'", a: "aan" }
+        },
+        {
+          title: "Paso 4: Expresiones formales con preposición",
+          html: "En textos oficiales y académicos aparecen estas 'piezas' fijas. No las traduzcas palabra por palabra; apréndelas como bloques:<ul><li><span class='nl'>ter verbetering van</span> — para mejorar</li><li><span class='nl'>ter voorbereiding op</span> — como preparación para</li><li><span class='nl'>ten behoeve van</span> — en beneficio de / para</li><li><span class='nl'>in het kader van</span> — en el marco de</li><li><span class='nl'>met betrekking tot</span> — con respecto a</li><li><span class='nl'>ten aanzien van</span> — en cuanto a / respecto a</li></ul>",
+          examples: [
+            { nl: "Ter voorbereiding op het examen maak ik oefentoetsen.", es: "Como preparación para el examen, hago pruebas de práctica.", pron: "ter VOOR-be-rei-ding" },
+            { nl: "In het kader van de energietransitie worden meer windparken gebouwd.", es: "En el marco de la transición energética se construyen más parques eólicos.", pron: "in et KAA-der van de e-ner-ZJII-tran-sii-tsii" },
+            { nl: "Met betrekking tot uw vraag kan ik het volgende zeggen.", es: "Con respecto a su pregunta, puedo decir lo siguiente.", pron: "be-TRE-king" }
+          ],
+          check: { q: "Traduce: 'en el marco de'", a: "in het kader van" }
+        },
+        {
+          title: "Paso 5: Truco para leer — vuelve a poner los verbos",
+          html: "Las frases llenas de sustantivos son difíciles de leer. Truco: <b>conviértelas mentalmente en frases con verbos</b>.<br><br><span class='nl'>Na de invoering van de nieuwe regels daalde het aantal ongelukken.</span><br>= <span class='nl'>Nadat de nieuwe regels waren ingevoerd, daalde het aantal ongelukken.</span><br>— Después de que se introdujeran las nuevas reglas, bajó el número de accidentes.<br><br>Al escribir, puedes hacer lo contrario para sonar más formal; al hablar, usa verbos: suena más natural.",
+          examples: [
+            { nl: "Na de invoering van de nieuwe regels daalde het aantal ongelukken.", es: "Tras la introducción de las nuevas reglas, bajó el número de accidentes.", pron: "IN-vu-ring" },
+            { nl: "Nadat de nieuwe regels waren ingevoerd, daalde het aantal ongelukken.", es: "(La misma idea, con verbos.)" }
+          ],
+          check: { q: "Pon con verbo: 'Na de opening van het station...' (openen)", a: "Nadat het station was geopend, ..." }
+        }
+      ],
+      vocab: [
+        { nl: "de ontwikkeling", pron: "de ont-WI-ke-ling", es: "el desarrollo" },
+        { nl: "de verbetering", pron: "de ver-BEE-te-ring", es: "la mejora" },
+        { nl: "de toepassing", pron: "de TU-pa-sing", es: "la aplicación (práctica)" },
+        { nl: "de invoering", pron: "de IN-vu-ring", es: "la introducción (de una regla)" },
+        { nl: "het onderzoek naar", pron: "et ON-der-zuk naar", es: "la investigación sobre" },
+        { nl: "de invloed op", pron: "de IN-vlut op", es: "la influencia en" },
+        { nl: "de behoefte aan", pron: "de be-HUF-te aan", es: "la necesidad de" },
+        { nl: "het gebrek aan", pron: "et je-BREK aan", es: "la falta de" },
+        { nl: "de oorzaak van", pron: "de OOR-zaak", es: "la causa de" },
+        { nl: "de oplossing voor", pron: "de OP-lo-sing", es: "la solución para" },
+        { nl: "de bijdrage aan", pron: "de BEI-draa-je aan", es: "la contribución a" },
+        { nl: "ter verbetering van", es: "para mejorar" },
+        { nl: "ter voorbereiding op", es: "como preparación para" },
+        { nl: "ten behoeve van", pron: "ten be-HU-ve", es: "en beneficio de / para" },
+        { nl: "in het kader van", pron: "KAA-der", es: "en el marco de" },
+        { nl: "met betrekking tot", pron: "be-TRE-king", es: "con respecto a" }
+      ],
+      dialogue: {
+        title: "Texto modelo: noticia de la universidad",
+        context: "Un texto tipo boletín universitario, lleno de sustantivos abstractos. Lee despacio y 'vuelve a poner los verbos' en tu cabeza.",
+        lines: [
+          { who: "Tekst", nl: "In het kader van de energietransitie heeft een onderzoeksgroep in Groningen een nieuw project gestart.", es: "En el marco de la transición energética, un grupo de investigación de Groningen ha iniciado un nuevo proyecto." },
+          { who: "Tekst", nl: "Het project richt zich op de verbetering van het onderhoud van windparken op zee.", es: "El proyecto se centra en la mejora del mantenimiento de parques eólicos marinos." },
+          { who: "Tekst", nl: "De aanleiding voor het onderzoek is de sterke stijging van de onderhoudskosten.", es: "El motivo de la investigación es el fuerte aumento de los costes de mantenimiento." },
+          { who: "Tekst", nl: "Ter voorbereiding op de metingen op zee zijn de sensoren eerst in het laboratorium getest.", es: "Como preparación para las mediciones en el mar, los sensores se probaron primero en el laboratorio." },
+          { who: "Tekst", nl: "Met betrekking tot de eerste resultaten zijn de onderzoekers voorzichtig optimistisch.", es: "Con respecto a los primeros resultados, los investigadores son prudentemente optimistas." },
+          { who: "Tekst", nl: "Een snelle toepassing in de praktijk is volgens hen echter nog niet realistisch.", es: "Sin embargo, según ellos, una aplicación rápida en la práctica aún no es realista." },
+          { who: "Tekst", nl: "De bijdrage van het project aan de verlaging van de kosten wordt later geëvalueerd.", es: "La contribución del proyecto a la reducción de costes se evaluará más adelante." }
+        ]
+      },
+      practice: [
+        { q: "Convierte en sustantivo con artículo: ontwikkelen, oplossen, veilig (→ -heid)", a: "de ontwikkeling, de oplossing, de veiligheid" },
+        { q: "Traduce: 'Investigo la influencia del viento en las palas.'", a: "Ik doe onderzoek naar de invloed van de wind op de bladen." },
+        { q: "Traduce: 'Hay falta de tiempo.'", a: "Er is gebrek aan tijd." },
+        { q: "'Vuelve a poner el verbo': 'Na de verbouwing van het huis...' (verbouwen)", a: "Nadat het huis was verbouwd, ..." },
+        { q: "Repaso B1: usa 'er + preposición': 'Pienso en ello.' (denken aan)", a: "Ik denk eraan.", review: true }
+      ],
+      quiz: [
+        { q: "¿Qué artículo lleva 'oplossing'?", options: ["het", "de"], answer: 1, explain: "Todas las palabras en -ing son de." },
+        { q: "'La investigación sobre el cambio climático' es:", options: ["het onderzoek over klimaatverandering", "het onderzoek naar klimaatverandering", "het onderzoek van klimaatverandering"], answer: 1, explain: "onderzoek naar = investigación sobre. ¡Trampa típica!" },
+        { q: "'in het kader van' significa:", options: ["en el marco de", "en el cuadro de", "a causa de"], answer: 0, explain: "Expresión fija formal: en el marco de." },
+        { type: "write", q: "Completa: 'Er is grote behoefte ___ betaalbare woningen.'", accept: ["aan"], explain: "de behoefte aan = la necesidad de." },
+        { q: "¿de o het? '___ zwemmen is gezond.'", options: ["Het", "De"], answer: 0, explain: "El infinitivo usado como sustantivo siempre es het." },
+        { type: "write", q: "Traduce: 'con respecto a' (3 palabras)", accept: ["met betrekking tot"], explain: "met betrekking tot (a veces abreviado m.b.t.)." }
+      ]
+    }
+    ,
+    // ───────────────────────── t9 ─────────────────────────
+    {
+      id: "t9",
+      title: "Actualidad y debate",
+      goal: "Al terminar podrás hablar de vivienda, energía, educación, sanidad e integración, y opinar con matices en un debate.",
+      steps: [
+        {
+          title: "Paso 1: La vivienda (de woningnood)",
+          html: "Es EL tema de conversación en Groningen. Empieza con estas frases:<br><span class='nl'>Er is een groot tekort aan betaalbare woningen.</span> — Hay una gran escasez de viviendas asequibles.<br><span class='nl'>Veel studenten kunnen moeilijk een kamer vinden.</span> — A muchos estudiantes les cuesta encontrar habitación.<br><span class='nl'>De wachtlijst voor een sociale huurwoning is lang.</span> — La lista de espera para una vivienda social de alquiler es larga.",
+          examples: [
+            { nl: "Er is een groot tekort aan betaalbare woningen.", es: "Hay una gran escasez de viviendas asequibles.", pron: "te-KORT ... be-TAAL-baa-re WOO-nin-je(n)" },
+            { nl: "Veel studenten kunnen moeilijk een kamer vinden.", es: "A muchos estudiantes les cuesta encontrar habitación." },
+            { nl: "De huurprijzen zijn de afgelopen jaren flink gestegen.", es: "Los alquileres han subido mucho en los últimos años.", pron: "HÜÜR-prei-ze(n) ... je-STEE-je(n)" }
+          ],
+          check: { q: "Traduce: 'la escasez de viviendas' (una palabra con 'de')", a: "de woningnood (o: het woningtekort)" }
+        },
+        {
+          title: "Paso 2: Clima y energía — ¡tu tema!",
+          html: "Aquí tienes ventaja: es tu campo. Frases clave:<br><span class='nl'>De energietransitie</span> = la transición energética.<br><span class='nl'>We moeten de uitstoot van CO2 verminderen.</span> — Tenemos que reducir las emisiones de CO2.<br><span class='nl'>Windparken op zee leveren steeds meer stroom.</span> — Los parques eólicos marinos producen cada vez más electricidad.<br><br>Y un tema muy de Groningen: <span class='nl'>De gaswinning in Groningen heeft tot aardbevingen en schade aan huizen geleid.</span> — La extracción de gas en Groningen ha provocado terremotos y daños en las casas. Por eso aquí es un tema sensible.",
+          examples: [
+            { nl: "We moeten de uitstoot van CO2 verminderen.", es: "Tenemos que reducir las emisiones de CO2.", pron: "ÖIT-stoot ... ver-MIN-de-re(n)" },
+            { nl: "Steeds meer mensen hebben zonnepanelen op hun dak.", es: "Cada vez más gente tiene paneles solares en el tejado.", pron: "ZO-ne-pa-nee-le(n)" },
+            { nl: "De gaswinning in Groningen heeft tot aardbevingen geleid.", es: "La extracción de gas en Groningen ha provocado terremotos.", pron: "JAS-wi-ning ... AART-bee-vin-je(n)" }
+          ],
+          tip: "<span class='nl'>leiden tot</span> = llevar a / provocar. Muy útil en debates: <span class='nl'>Dit leidt tot problemen.</span>",
+          check: { q: "Traduce: 'sostenible'", a: "duurzaam" }
+        },
+        {
+          title: "Paso 3: Educación, sanidad e integración",
+          html: "Tres temas que salen mucho en el examen y en las noticias:<ul><li><b>Educación:</b> <span class='nl'>de verengelsing van het hoger onderwijs</span> — el uso creciente del inglés en la universidad (¿más programas en inglés o en neerlandés?)</li><li><b>Sanidad:</b> <span class='nl'>De huisarts is de poortwachter.</span> — El médico de cabecera es el 'portero': decide si vas al especialista. <span class='nl'>het eigen risico</span> = la franquicia del seguro médico.</li><li><b>Integración:</b> <span class='nl'>de inburgering</span> (el proceso de integración), <span class='nl'>de arbeidsmarkt</span> (el mercado laboral).</li></ul>",
+          examples: [
+            { nl: "Er is veel discussie over de verengelsing van het hoger onderwijs.", es: "Hay mucho debate sobre el uso creciente del inglés en la enseñanza superior.", pron: "ver-ENG-el-sing" },
+            { nl: "De huisarts is de poortwachter van de zorg.", es: "El médico de cabecera es el filtro de acceso a la sanidad.", pron: "POORT-waj-ter" },
+            { nl: "Taal is de sleutel tot integratie.", es: "El idioma es la clave de la integración.", pron: "SLÖ-tel" }
+          ],
+          check: { q: "¿Qué significa 'het eigen risico'?", a: "La franquicia del seguro médico (lo que pagas tú antes de que pague el seguro)." }
+        },
+        {
+          title: "Paso 4: Opinar con matices",
+          html: "En B1 aprendiste <span class='nl'>Ik ben het (niet) met je eens</span>. En B2 añades grises:<ul><li><span class='nl'>Ik ben het er gedeeltelijk mee eens.</span> — Estoy de acuerdo en parte.</li><li><span class='nl'>Dat hangt ervan af.</span> — Depende.</li><li><span class='nl'>Enerzijds..., anderzijds...</span> — Por un lado..., por otro...</li><li><span class='nl'>Daar zit wel wat in.</span> — Algo de razón tiene eso.</li><li><span class='nl'>Dat is kort door de bocht.</span> — Eso es demasiado simplista. (literal: 'tomar la curva muy cerrada')</li><li><span class='nl'>Het is maar hoe je het bekijkt.</span> — Depende de cómo lo mires.</li></ul>",
+          examples: [
+            { nl: "Ik ben het er gedeeltelijk mee eens.", es: "Estoy de acuerdo en parte.", pron: "je-DEEL-te-lek" },
+            { nl: "Enerzijds is windenergie schoon, anderzijds vinden veel mensen de molens lelijk.", es: "Por un lado la eólica es limpia; por otro, a mucha gente le parecen feos los molinos." },
+            { nl: "Dat is wel erg kort door de bocht.", es: "Eso es muy simplista.", pron: "kort door de BOJT" }
+          ],
+          tip: "Fíjate: <span class='nl'>Enerzijds <b>is</b> ..., anderzijds <b>vinden</b> ...</span> — tras estas palabras, verbo en 2º lugar.",
+          check: { q: "¿Cómo dices 'depende' en holandés?", a: "Dat hangt ervan af." }
+        },
+        {
+          title: "Paso 5: Participar en un debate",
+          html: "Para entrar en una conversación de grupo (¡los holandeses hablan rápido y se interrumpen!):<ul><li><span class='nl'>Mag ik hier even op reageren?</span> — ¿Puedo responder a esto un momento?</li><li><span class='nl'>Om terug te komen op wat je zei...</span> — Volviendo a lo que decías...</li><li><span class='nl'>Wat bedoel je precies met...?</span> — ¿Qué quieres decir exactamente con...?</li><li><span class='nl'>Laat me even uitpraten.</span> — Déjame terminar.</li></ul>",
+          examples: [
+            { nl: "Mag ik hier even op reageren?", es: "¿Puedo responder a esto un momento?", pron: "re-a-JEE-re(n)" },
+            { nl: "Om terug te komen op wat je zei: ik denk dat het duurder wordt.", es: "Volviendo a lo que decías: creo que será más caro." },
+            { nl: "Laat me even uitpraten.", es: "Déjame terminar (de hablar).", pron: "ÖIT-praa-te(n)" }
+          ],
+          tip: "Interrumpir con amabilidad es normal en Países Bajos. Si esperas un silencio perfecto, ¡puede que nunca llegue!",
+          check: { q: "Traduce: '¿Qué quieres decir exactamente?'", a: "Wat bedoel je precies?" }
+        }
+      ],
+      vocab: [
+        { nl: "de woningnood", pron: "de WOO-ning-noot", es: "la escasez de vivienda" },
+        { nl: "betaalbaar", pron: "be-TAAL-baar", es: "asequible" },
+        { nl: "de sociale huurwoning", pron: "so-SJAA-le HÜÜR-woo-ning", es: "la vivienda social de alquiler" },
+        { nl: "de energietransitie", pron: "e-ner-ZJII-tran-sii-tsii", es: "la transición energética" },
+        { nl: "duurzaam", pron: "DÜÜR-zaam", es: "sostenible" },
+        { nl: "de uitstoot", pron: "de ÖIT-stoot", es: "las emisiones" },
+        { nl: "de gaswinning", pron: "de JAS-wi-ning", es: "la extracción de gas" },
+        { nl: "de aardbeving", pron: "de AART-bee-ving", es: "el terremoto" },
+        { nl: "het draagvlak", pron: "et DRAAJ-vlak", es: "el apoyo (social) a una medida" },
+        { nl: "het hoger onderwijs", pron: "HOO-jer ON-der-weis", es: "la enseñanza superior" },
+        { nl: "het eigen risico", pron: "et EI-je(n) RII-si-ko", es: "la franquicia del seguro médico" },
+        { nl: "de arbeidsmarkt", pron: "de AR-beits-markt", es: "el mercado laboral" },
+        { nl: "Dat hangt ervan af.", es: "Depende." },
+        { nl: "Daar zit wel wat in.", es: "Algo de razón tiene eso." },
+        { nl: "kort door de bocht", pron: "BOJT", es: "demasiado simplista" },
+        { nl: "de tegenstander / de voorstander", es: "el detractor / el partidario" }
+      ],
+      dialogue: {
+        title: "Debate en la borrel del viernes",
+        context: "En la borrel del departamento, tu colega Lotte cuenta que van a poner molinos cerca del pueblo de sus padres.",
+        lines: [
+          { who: "Lotte", nl: "Heb je gehoord dat er nieuwe windmolens bij het dorp van mijn ouders komen? Iedereen is ertegen.", es: "¿Has oído que van a poner molinos nuevos cerca del pueblo de mis padres? Todo el mundo está en contra." },
+          { who: "Tú", nl: "Echt? Ik begrijp dat mensen bezorgd zijn, maar we hebben duurzame energie nodig.", es: "¿En serio? Entiendo que la gente esté preocupada, pero necesitamos energía sostenible." },
+          { who: "Lotte", nl: "Dat klopt, maar de bewoners hebben al zoveel last gehad van de gaswinning.", es: "Es verdad, pero los vecinos ya han sufrido mucho por la extracción de gas." },
+          { who: "Tú", nl: "Daar zit wel wat in. Na de aardbevingen is het vertrouwen in de overheid laag.", es: "Algo de razón tiene eso. Después de los terremotos la confianza en el gobierno es baja." },
+          { who: "Lotte", nl: "Precies. Enerzijds wil ik schone energie, anderzijds vind ik dat de bewoners moeten kunnen meebeslissen.", es: "Exacto. Por un lado quiero energía limpia; por otro, creo que los vecinos deberían poder decidir también." },
+          { who: "Tú", nl: "Het hangt er ook van af hoe het wordt geregeld. Als bewoners kunnen meeprofiteren, is er vaak meer draagvlak.", es: "También depende de cómo se organice. Si los vecinos pueden beneficiarse, suele haber más apoyo." },
+          { who: "Lotte", nl: "Zeggen dat alle tegenstanders egoïstisch zijn, is in ieder geval kort door de bocht.", es: "Decir que todos los que están en contra son egoístas es, en todo caso, demasiado simplista." },
+          { who: "Tú", nl: "Helemaal mee eens. Het is maar hoe je het bekijkt.", es: "Totalmente de acuerdo. Depende de cómo lo mires." }
+        ]
+      },
+      practice: [
+        { q: "Traduce: 'Hay una gran escasez de viviendas asequibles en Groningen.'", a: "Er is een groot tekort aan betaalbare woningen in Groningen." },
+        { q: "Traduce: 'Estoy de acuerdo en parte.'", a: "Ik ben het er gedeeltelijk mee eens." },
+        { q: "Da tu opinión con 'Enerzijds... anderzijds...' sobre el teletrabajo (thuiswerken).", a: "Ejemplo: Enerzijds is thuiswerken flexibel, anderzijds mis je het contact met collega's." },
+        { q: "Reacciona a 'Alle studenten zijn lui' diciendo que es simplista.", a: "Dat is (wel erg) kort door de bocht." },
+        { q: "Repaso B1: di que no estás de acuerdo con tu colega (je).", a: "Ik ben het niet met je eens.", review: true }
+      ],
+      quiz: [
+        { q: "'Dat hangt ervan af' significa:", options: ["Eso cuelga de allí.", "Depende.", "Eso no importa."], answer: 1, explain: "afhangen van = depender de. Dat hangt ervan af = depende." },
+        { q: "¿Qué palabra significa 'emisiones'?", options: ["de uitstoot", "de uitgang", "de uitslag"], answer: 0, explain: "de uitstoot van CO2 = las emisiones de CO2. (uitgang = salida, uitslag = resultado)" },
+        { q: "'Dat is kort door de bocht' significa:", options: ["Eso es un atajo.", "Eso es demasiado simplista.", "Eso es muy rápido."], answer: 1, explain: "Se usa cuando alguien simplifica demasiado un tema complejo." },
+        { type: "write", q: "Traduce: 'sostenible'", accept: ["duurzaam"], explain: "duurzaam; el sustantivo es de duurzaamheid." },
+        { q: "¿Cuál es correcta?", options: ["Enerzijds het is goed, anderzijds het is duur.", "Enerzijds is het goed, anderzijds is het duur.", "Enerzijds goed het is, anderzijds duur."], answer: 1, explain: "Tras enerzijds / anderzijds, el verbo va en 2º lugar." },
+        { type: "write", q: "Traduce: 'Algo de razón tiene eso.' (Daar zit ...)", accept: ["Daar zit wel wat in", "Daar zit wat in"], explain: "Daar zit wel wat in: reconoces parte de la razón del otro." }
+      ]
+    },
+
+    // ───────────────────────── t10 ─────────────────────────
+    {
+      id: "t10",
+      title: "Staatsexamen NT2 II",
+      goal: "Al terminar sabrás cómo es el examen, qué estrategias usar en cada destreza y qué errores típicos de hispanohablantes evitar.",
+      steps: [
+        {
+          title: "Paso 1: ¿Qué es el Staatsexamen NT2 programa II?",
+          html: "Es el examen oficial de neerlandés como segunda lengua de nivel <b>B2</b>. Sirve, por ejemplo, para estudiar en una universidad en neerlandés o para trabajos donde se necesita un nivel alto.<br><br>Tiene <b>cuatro partes</b> (<span class='nl'>onderdelen</span>), que puedes hacer por separado:<ul><li><span class='nl'>Lezen</span> — leer</li><li><span class='nl'>Luisteren</span> — escuchar</li><li><span class='nl'>Schrijven</span> — escribir</li><li><span class='nl'>Spreken</span> — hablar</li></ul>Las partes que apruebas se quedan aprobadas, y el diploma no caduca. <b>Importante:</b> fechas, precios, inscripción y formato exacto cambian; consúltalos siempre en la web oficial de los Staatsexamens NT2 (DUO), donde también hay exámenes de práctica gratuitos.",
+          examples: [
+            { nl: "Ik wil me aanmelden voor het Staatsexamen NT2 programma II.", es: "Quiero inscribirme en el Staatsexamen NT2 programa II.", pron: "AAN-mel-de(n)" },
+            { nl: "Ik ben geslaagd voor het onderdeel Lezen!", es: "¡He aprobado la parte de lectura!", pron: "je-SLAAJT" }
+          ],
+          tip: "<span class='nl'>slagen voor</span> = aprobar; <span class='nl'>zakken voor</span> = suspender. <span class='nl'>de uitslag</span> = el resultado.",
+          check: { q: "¿Cuáles son las cuatro partes del examen?", a: "Lezen, Luisteren, Schrijven, Spreken" }
+        },
+        {
+          title: "Paso 2: Lezen y Luisteren — estrategias",
+          html: "En B2 los textos son de tipo informativo o académico: artículos, informes, clases, entrevistas. Estrategias:<ul><li><b>Lee primero las preguntas</b>, después el texto o el audio. Así sabes qué buscar.</li><li><b>Busca las palabras señal</b> (<span class='nl'>signaalwoorden</span>): <span class='nl'>maar, echter, daarentegen</span> anuncian un contraste; <span class='nl'>dus, kortom, daarom</span> anuncian una conclusión. ¡Ahí suelen estar las respuestas!</li><li><b>No traduzcas cada palabra.</b> Si no conoces una palabra, adivina por el contexto y sigue.</li><li>En escucha, piensa antes qué respuesta podría tener sentido.</li></ul>",
+          examples: [
+            { nl: "Windenergie is populair. De kosten zijn echter hoog.", es: "La eólica es popular. Sin embargo, los costes son altos. (¡la idea importante va después de 'echter'!)" },
+            { nl: "Kortom: de maatregel werkt niet.", es: "En resumen: la medida no funciona. (conclusión del autor)" }
+          ],
+          check: { q: "¿Qué suele venir después de 'echter' o 'maar'?", a: "Un contraste: muchas veces la idea principal del autor." }
+        },
+        {
+          title: "Paso 3: Schrijven — cómo escribir bien en el examen",
+          html: "Tareas típicas: un correo formal, un texto con tu opinión y argumentos, o resumir/completar información. Checklist antes de entregar:<ul><li>¿Registro correcto? (<span class='nl'>u</span> en correos formales, aanhef y despedida)</li><li>¿Estructura clara? (inleiding – kern – slot, un párrafo por idea)</li><li>¿Conectores variados? (<span class='nl'>bovendien, echter, aangezien, kortom</span>)</li><li>¿Verbo en 2º lugar tras <span class='nl'>Daarom, Bovendien, Ten eerste</span>?</li><li>¿Verbo al final tras <span class='nl'>omdat, dat, als, hoewel</span>?</li><li>¿Has respondido a <b>todo</b> lo que pedía la tarea?</li></ul>",
+          examples: [
+            { nl: "Daarom stel ik voor om de vergadering te verplaatsen.", es: "Por eso propongo aplazar la reunión.", pron: "ver-PLAAT-se(n)" },
+            { nl: "Ik schrijf u omdat ik een klacht heb over de levering.", es: "Le escribo porque tengo una queja sobre la entrega.", pron: "KLAJT ... LEE-ve-ring" }
+          ],
+          tip: "Deja <b>5 minutos</b> al final solo para revisar el orden de los verbos y los de/het. Es donde más puntos se pierden.",
+          check: { q: "Nombra dos cosas que revisar antes de entregar el texto.", a: "Por ejemplo: el registro (u/je) y la posición del verbo (V2 y verbo al final)." }
+        },
+        {
+          title: "Paso 4: Spreken — frases comodín",
+          html: "En la parte oral respondes a situaciones, das tu opinión con argumentos y a veces explicas información (un gráfico, una tabla, un proceso). Estas frases te dan tiempo y estructura:<ul><li><span class='nl'>Dat is een interessante vraag.</span> — Es una pregunta interesante. (¡te da 2 segundos para pensar!)</li><li><span class='nl'>Ik vind ... om twee redenen.</span> — Pienso ... por dos razones.</li><li><span class='nl'>Laat ik een voorbeeld geven.</span> — Voy a poner un ejemplo.</li><li><span class='nl'>Wat ik daarmee bedoel, is...</span> — Lo que quiero decir con eso es...</li><li><span class='nl'>In de grafiek is te zien dat...</span> — En el gráfico se ve que...</li><li><span class='nl'>Kortom, ...</span> — En resumen, ...</li></ul>",
+          examples: [
+            { nl: "Ik vind thuiswerken een goed idee, om twee redenen.", es: "Me parece buena idea el teletrabajo, por dos razones." },
+            { nl: "In de grafiek is te zien dat het aantal fietsers stijgt.", es: "En el gráfico se ve que el número de ciclistas aumenta.", pron: "jra-FIIK" },
+            { nl: "Laat ik een voorbeeld geven.", es: "Voy a poner un ejemplo." }
+          ],
+          tip: "Estructura mágica para opinar: <b>opinión → ten eerste → ten tweede → aan de andere kant → kortom</b>. Mírala en el modelo de abajo.",
+          check: { q: "Traduce: 'Voy a poner un ejemplo.'", a: "Laat ik een voorbeeld geven." }
+        },
+        {
+          title: "Paso 5: Errores típicos de hispanohablantes",
+          html: "Estos errores los cometemos casi todos los que hablamos español. ¡Revísalos antes del examen!",
+          examples: [
+            { nl: "Morgen ga ik naar Utrecht. (no: Morgen ik ga...)", es: "Mañana voy a Utrecht. (verbo en 2º lugar)" },
+            { nl: "Ik ben het met je eens. (no: Ik ben eens met je)", es: "Estoy de acuerdo contigo." },
+            { nl: "Ik heb veel ervaring. (no: veel experiment)", es: "Tengo mucha experiencia." }
+          ],
+          table: {
+            head: ["Error típico", "Correcto", "Por qué"],
+            rows: [
+              ["Morgen ik ga...", "Morgen ga ik...", "Verbo siempre en 2º lugar"],
+              ["..., omdat ik ben moe.", "..., omdat ik moe ben.", "omdat manda el verbo al final"],
+              ["Ik heb 30 jaar.", "Ik ben 30 (jaar oud).", "La edad va con zijn"],
+              ["Ik heb gekund komen.", "Ik heb kunnen komen.", "Modal + verbo: infinitivo"],
+              ["Ik ben gelukt.", "Het is me gelukt.", "lukken: lo que sale bien es 'het'"],
+              ["Mag ik je introduceren aan...?", "Mag ik je voorstellen aan...?", "presentar a alguien = voorstellen"],
+              ["Ik weet niet als hij komt.", "Ik weet niet of hij komt.", "'si' indirecto = of, no als"]
+            ]
+          },
+          check: { q: "Corrige: 'Ik weet niet als het examen moeilijk is.'", a: "Ik weet niet of het examen moeilijk is." }
+        }
+      ],
+      vocab: [
+        { nl: "het onderdeel", pron: "et ON-der-deel", es: "la parte (del examen)" },
+        { nl: "de opdracht", pron: "de OP-drajt", es: "la tarea / el ejercicio" },
+        { nl: "de tekstsoort", pron: "de TEKST-soort", es: "el tipo de texto" },
+        { nl: "het signaalwoord", pron: "et sin-YAAL-woort", es: "la palabra señal / el conector" },
+        { nl: "zich aanmelden voor", pron: "AAN-mel-de(n)", es: "inscribirse en" },
+        { nl: "slagen voor", pron: "SLAA-je(n)", es: "aprobar", note: "Ik ben geslaagd!" },
+        { nl: "zakken voor", es: "suspender", note: "Ik ben gezakt." },
+        { nl: "de uitslag", pron: "de ÖIT-slaj", es: "el resultado" },
+        { nl: "de voorbereiding", pron: "de VOOR-be-rei-ding", es: "la preparación" },
+        { nl: "het oefenexamen", pron: "et U-fe(n)-ek-saa-me(n)", es: "el examen de práctica" },
+        { nl: "de beoordeling", pron: "de be-OOR-de-ling", es: "la evaluación / la calificación" },
+        { nl: "het diploma", pron: "et di-PLOO-ma", es: "el diploma" },
+        { nl: "de grafiek", pron: "de jra-FIIK", es: "el gráfico" },
+        { nl: "huidig", pron: "HÖI-dij", es: "actual", note: "de huidige situatie = la situación actual" },
+        { nl: "de ervaring", pron: "de er-VAA-ring", es: "la experiencia" }
+      ],
+      dialogue: {
+        title: "Simulación de Spreken: dar tu opinión",
+        context: "Así podría sonar una buena respuesta a una tarea oral de opinión. Fíjate en la estructura.",
+        lines: [
+          { who: "Examen", nl: "U werkt op een universiteit. Een collega vraagt wat u van thuiswerken vindt. Geef uw mening en twee argumenten.", es: "Trabaja en una universidad. Un colega le pregunta qué opina del teletrabajo. Dé su opinión y dos argumentos." },
+          { who: "Tú", nl: "Ik vind thuiswerken over het algemeen een goede ontwikkeling.", es: "En general, el teletrabajo me parece una buena evolución." },
+          { who: "Tú", nl: "Ten eerste bespaart het veel reistijd, zodat je meer tijd overhoudt voor je werk of je gezin.", es: "En primer lugar, ahorra mucho tiempo de viaje, así te queda más tiempo para tu trabajo o tu familia." },
+          { who: "Tú", nl: "Ten tweede kun je thuis vaak geconcentreerder werken, omdat er minder afleiding is.", es: "En segundo lugar, en casa a menudo puedes trabajar más concentrado, porque hay menos distracciones." },
+          { who: "Tú", nl: "Aan de andere kant mis je wel het contact met collega's.", es: "Por otro lado, sí echas de menos el contacto con los colegas." },
+          { who: "Tú", nl: "Daarom zou ik kiezen voor een combinatie: twee dagen thuis en drie dagen op de universiteit.", es: "Por eso yo elegiría una combinación: dos días en casa y tres en la universidad." },
+          { who: "Tú", nl: "Kortom: thuiswerken heeft duidelijke voordelen, mits je het goed organiseert.", es: "En resumen: el teletrabajo tiene ventajas claras, siempre que lo organices bien." }
+        ]
+      },
+      practice: [
+        { q: "Corrige: 'Daarom ik denk dat het een goed plan is.'", a: "Daarom denk ik dat het een goed plan is." },
+        { q: "Corrige: 'Ik ben niet naar het feest gekomen, omdat ik was ziek.'", a: "Ik ben niet naar het feest gekomen, omdat ik ziek was." },
+        { q: "Corrige: 'Ik ben gelukt om een kamer te vinden.'", a: "Het is me gelukt (om) een kamer te vinden." },
+        { q: "Responde en 3 frases (opinión + 2 argumentos): ¿Deberían las universidades dar más clases en neerlandés?", a: "Ejemplo: Ik vind dat universiteiten meer lessen in het Nederlands moeten geven. Ten eerste leren internationale studenten dan sneller de taal. Ten tweede vinden ze daardoor makkelijker werk in Nederland." },
+        { q: "Repaso B1: usa 'hoewel': 'Aunque el examen es difícil, voy a intentarlo.'", a: "Hoewel het examen moeilijk is, ga ik het proberen.", review: true }
+      ],
+      quiz: [
+        { q: "¿Qué significa 'Ik ben geslaagd'?", options: ["He suspendido.", "He aprobado.", "Me he inscrito."], answer: 1, explain: "slagen = aprobar. Suspender = zakken (Ik ben gezakt)." },
+        { q: "¿Cuál es correcta?", options: ["Ik weet niet als hij komt.", "Ik weet niet of hij komt.", "Ik weet niet dat hij komt of."], answer: 1, explain: "Para el 'si' de pregunta indirecta se usa of." },
+        { q: "Estrategia de lectura recomendada:", options: ["Traducir cada palabra del texto.", "Leer primero las preguntas y buscar palabras señal.", "Leer solo el título."], answer: 1, explain: "Leer las preguntas primero te dice qué buscar; las palabras señal marcan las ideas clave." },
+        { type: "write", q: "Traduce: 'Lo he conseguido.' (empieza con 'Het is me')", accept: ["Het is me gelukt", "Het is mij gelukt"], explain: "Con lukken, el sujeto es 'het': Het is me gelukt = me ha salido bien / lo he conseguido." },
+        { q: "¿Cuál es correcta?", options: ["Ik ben 28 jaar.", "Ik heb 28 jaar.", "Ik heb 28 jaren."], answer: 0, explain: "La edad va con zijn: Ik ben 28 (jaar)." },
+        { type: "write", q: "Corrige el orden: 'Ten eerste het bespaart tijd.'", accept: ["Ten eerste bespaart het tijd"], explain: "Tras 'Ten eerste' el verbo va en 2º lugar: bespaart het." }
+      ]
+    }
+  ],
+
+  verbs: [
+    {
+      title: "Irregulares menos frecuentes (pero muy útiles en B2)",
+      intro: "Ya conoces los irregulares básicos (gaan, komen, zien...). Estos aparecen mucho en textos escritos y en el examen. Consejo: apréndelos en grupos que suenan parecido (<span class='nl'>bieden – bood – geboden</span>, <span class='nl'>verbieden – verbood – verboden</span>).",
+      rows: [
+        { inf: "bederven", es: "estropear(se)", imperf: "bedierf / bedierven", perf: "heeft / is bedorven", note: "is bedorven = (comida) se ha estropeado" },
+        { inf: "bewegen", es: "mover(se)", imperf: "bewoog / bewogen", perf: "heeft bewogen", note: "de beweging = el movimiento" },
+        { inf: "bieden", es: "ofrecer", imperf: "bood / boden", perf: "heeft geboden", note: "aanbieden = ofrecer (separable)" },
+        { inf: "dwingen", es: "obligar", imperf: "dwong / dwongen", perf: "heeft gedwongen" },
+        { inf: "genieten (van)", es: "disfrutar (de)", imperf: "genoot / genoten", perf: "heeft genoten", note: "sin ge- extra: ya empieza por ge-" },
+        { inf: "meten", es: "medir", imperf: "mat / maten", perf: "heeft gemeten", note: "de meting = la medición" },
+        { inf: "ontstaan", es: "surgir / originarse", imperf: "ontstond / ontstonden", perf: "is ontstaan", note: "Er is schade ontstaan." },
+        { inf: "sluiten", es: "cerrar", imperf: "sloot / sloten", perf: "heeft gesloten", note: "afsluiten = cerrar / concluir" },
+        { inf: "trekken", es: "tirar de / atraer", imperf: "trok / trokken", perf: "heeft getrokken", note: "conclusies trekken = sacar conclusiones" },
+        { inf: "verbieden", es: "prohibir", imperf: "verbood / verboden", perf: "heeft verboden", note: "Roken is verboden." },
+        { inf: "vergelijken", es: "comparar", imperf: "vergeleek / vergeleken", perf: "heeft vergeleken", note: "vergelijken met = comparar con" },
+        { inf: "verdwijnen", es: "desaparecer", imperf: "verdween / verdwenen", perf: "is verdwenen" },
+        { inf: "verliezen", es: "perder", imperf: "verloor / verloren", perf: "heeft verloren" },
+        { inf: "wegen", es: "pesar", imperf: "woog / wogen", perf: "heeft gewogen" },
+        { inf: "wijzen (op)", es: "señalar / indicar", imperf: "wees / wezen", perf: "heeft gewezen", note: "Dit wijst op schade." },
+        { inf: "zwijgen", es: "callar(se)", imperf: "zweeg / zwegen", perf: "heeft gezwegen" }
+      ]
+    },
+    {
+      title: "Verbos con preposición fija (nivel B2)",
+      intro: "Como en B1 (<span class='nl'>wachten op, denken aan</span>), estos verbos van siempre con su preposición. Apréndelos como un bloque. Recuerda: 'de ello' se forma con <span class='nl'>er</span> + preposición: <span class='nl'>Het hangt ervan af.</span>",
+      rows: [
+        { inf: "afhangen van", es: "depender de", imperf: "hing af / hingen af", perf: "heeft afgehangen", note: "Dat hangt ervan af." },
+        { inf: "beschikken over", es: "disponer de", imperf: "beschikte / beschikten", perf: "heeft beschikt", note: "We beschikken over goede data." },
+        { inf: "bestaan uit", es: "consistir en / estar compuesto de", imperf: "bestond / bestonden", perf: "heeft bestaan", note: "Het examen bestaat uit vier onderdelen." },
+        { inf: "bijdragen aan", es: "contribuir a", imperf: "droeg bij / droegen bij", perf: "heeft bijgedragen", note: "de bijdrage = la contribución" },
+        { inf: "deelnemen aan", es: "participar en", imperf: "nam deel / namen deel", perf: "heeft deelgenomen", note: "aan een congres deelnemen" },
+        { inf: "leiden tot", es: "llevar a / provocar", imperf: "leidde / leidden", perf: "heeft geleid", note: "Dit leidt tot problemen." },
+        { inf: "zich richten op", es: "centrarse en", imperf: "richtte / richtten", perf: "heeft gericht", note: "Het onderzoek richt zich op..." },
+        { inf: "zich bezighouden met", es: "ocuparse de / dedicarse a", imperf: "hield bezig / hielden bezig", perf: "heeft beziggehouden", note: "Ik houd me bezig met trillingen." },
+        { inf: "rekening houden met", es: "tener en cuenta", imperf: "hield rekening / hielden rekening", perf: "heeft rekening gehouden" },
+        { inf: "zich aanpassen aan", es: "adaptarse a", imperf: "paste aan / pasten aan", perf: "heeft aangepast" },
+        { inf: "twijfelen aan", es: "dudar de", imperf: "twijfelde / twijfelden", perf: "heeft getwijfeld", note: "Ik twijfel daaraan." },
+        { inf: "verwijzen naar", es: "remitir a / hacer referencia a", imperf: "verwees / verwezen", perf: "heeft verwezen", note: "De huisarts verwijst je naar een specialist." }
+      ]
+    },
+    {
+      title: "Verbos formales y académicos",
+      intro: "Los verás en artículos, informes, cartas oficiales y en el examen. Al hablar con amigos usarás otros más sencillos (entre paréntesis en la nota).",
+      rows: [
+        { inf: "bevorderen", es: "fomentar / promover", imperf: "bevorderde / bevorderden", perf: "heeft bevorderd", note: "Fietsen bevordert de gezondheid." },
+        { inf: "benadrukken", es: "subrayar / recalcar", imperf: "benadrukte / benadrukten", perf: "heeft benadrukt", note: "Hij benadrukt dat..." },
+        { inf: "beschouwen als", es: "considerar (como)", imperf: "beschouwde / beschouwden", perf: "heeft beschouwd", note: "Ik beschouw dit als een succes." },
+        { inf: "voldoen aan", es: "cumplir (con) / satisfacer", imperf: "voldeed / voldeden", perf: "heeft voldaan", note: "aan de eisen voldoen = cumplir los requisitos" },
+        { inf: "vaststellen", es: "constatar / determinar", imperf: "stelde vast / stelden vast", perf: "heeft vastgesteld" },
+        { inf: "aantonen", es: "demostrar", imperf: "toonde aan / toonden aan", perf: "heeft aangetoond", note: "(normal: laten zien)" },
+        { inf: "bevestigen", es: "confirmar / fijar", imperf: "bevestigde / bevestigden", perf: "heeft bevestigd", note: "de bevestiging = la confirmación / la sujeción" },
+        { inf: "onderzoeken", es: "investigar / examinar", imperf: "onderzocht / onderzochten", perf: "heeft onderzocht", note: "inseparable: sin ge-" },
+        { inf: "verrichten", es: "realizar / efectuar", imperf: "verrichtte / verrichtten", perf: "heeft verricht", note: "metingen verrichten (normal: doen)" },
+        { inf: "toepassen", es: "aplicar", imperf: "paste toe / pasten toe", perf: "heeft toegepast", note: "de toepassing = la aplicación" },
+        { inf: "overwegen", es: "considerar / sopesar", imperf: "overwoog / overwogen", perf: "heeft overwogen", note: "Ik overweeg om te verhuizen." },
+        { inf: "beogen", es: "pretender / tener como objetivo", imperf: "beoogde / beoogden", perf: "heeft beoogd", note: "het beoogde resultaat = el resultado previsto" },
+        { inf: "waarborgen", es: "garantizar", imperf: "waarborgde / waarborgden", perf: "heeft gewaarborgd", note: "de veiligheid waarborgen" },
+        { inf: "betogen", es: "argumentar / sostener", imperf: "betoogde / betoogden", perf: "heeft betoogd", note: "het betoog = el texto argumentativo" },
+        { inf: "verwerven", es: "adquirir / obtener", imperf: "verwierf / verwierven", perf: "heeft verworven", note: "kennis verwerven = adquirir conocimientos" }
+      ]
+    },
+    {
+      title: "Verbos que van con 'te' + infinitivo",
+      intro: "Recuerda del tema 5: estos verbos piden <span class='nl'>te</span> antes del segundo verbo: <span class='nl'>Ik probeer het te begrijpen.</span>",
+      rows: [
+        { inf: "proberen", es: "intentar", imperf: "probeerde / probeerden", perf: "heeft geprobeerd", note: "Ik probeer op tijd te komen." },
+        { inf: "besluiten", es: "decidir", imperf: "besloot / besloten", perf: "heeft besloten", note: "het besluit = la decisión" },
+        { inf: "weigeren", es: "negarse a", imperf: "weigerde / weigerden", perf: "heeft geweigerd" },
+        { inf: "durven", es: "atreverse a", imperf: "durfde / durfden", perf: "heeft gedurfd", note: "también sin te: Ik durf het niet." },
+        { inf: "dreigen", es: "amenazar con / estar a punto de", imperf: "dreigde / dreigden", perf: "heeft gedreigd", note: "Het project dreigt te mislukken." },
+        { inf: "vergeten", es: "olvidar", imperf: "vergat / vergaten", perf: "is / heeft vergeten", note: "Ik ben vergeten te bellen." }
+      ]
+    }
+  ],
+
+  finalQuiz: [
+    { q: "Escribes a la Belastingdienst. ¿Qué frase usas?", options: ["Kun je me even helpen?", "Zou u mij kunnen helpen?", "Help me even, oké?"], answer: 1, explain: "Institución oficial: u + zou ... kunnen. (Tema 1)" },
+    { q: "'Ik kom morgen, ___ ik ziek ben.' (a menos que)", options: ["mits", "tenzij", "aangezien"], answer: 1, explain: "tenzij = a menos que. mits = siempre que. (Tema 2)" },
+    { q: "¿Cuál es correcta?", options: ["Bovendien het is goedkoop.", "Bovendien is het goedkoop.", "Bovendien goedkoop is het."], answer: 1, explain: "Tras bovendien, verbo en 2º lugar. (Tema 2)" },
+    { q: "Perfecto de 'De data worden geanalyseerd':", options: ["De data zijn geanalyseerd.", "De data zijn geworden geanalyseerd.", "De data hebben geanalyseerd."], answer: 0, explain: "En el perfecto de la pasiva, worden desaparece. (Tema 3)" },
+    { type: "write", q: "Traduce: 'Se dice que...' (empieza con 'Er')", accept: ["Er wordt gezegd dat"], explain: "Er wordt gezegd dat... + verbo al final. (Tema 3)" },
+    { q: "'Si lo hubiera sabido, habría venido.'", options: ["Als ik het wist, kwam ik.", "Als ik het had geweten, was ik gekomen.", "Als ik het heb geweten, ben ik gekomen."], answer: 1, explain: "Pasado irreal: had + participio, was/zou zijn + participio. (Tema 4)" },
+    { type: "write", q: "Traduce: 'Yo que tú...' (4 palabras)", accept: ["Als ik jou was"], explain: "Als ik jou was, zou ik... (Tema 4)" },
+    { q: "'No he podido venir.'", options: ["Ik heb niet kunnen komen.", "Ik heb niet gekund komen.", "Ik ben niet gekund te komen."], answer: 0, explain: "Modal junto a otro verbo: queda en infinitivo. (Tema 5)" },
+    { q: "'Er is een kink in de kabel' significa:", options: ["Todo va sobre ruedas.", "Ha surgido un problema.", "Hay que arremangarse."], answer: 1, explain: "Una expresión para un imprevisto. (Tema 6)" },
+    { q: "'Uit de metingen blijkt dat...' significa:", options: ["Las mediciones muestran que...", "Fuera de las mediciones...", "Las mediciones fallan..."], answer: 0, explain: "Frase clave de informes. (Tema 7)" },
+    { q: "'La investigación sobre las vibraciones':", options: ["het onderzoek over trillingen", "het onderzoek naar trillingen", "de onderzoek naar trillingen"], answer: 1, explain: "het onderzoek + naar. (Tema 8)" },
+    { type: "write", q: "Traduce: 'Depende.' (Dat hangt ...)", accept: ["Dat hangt ervan af", "Het hangt ervan af"], explain: "afhangen van → ervan af. (Tema 9)" },
+    { q: "Repaso B1: '___ het regent, ga ik op de fiets.' (aunque)", options: ["Omdat", "Hoewel", "Zodat"], answer: 1, explain: "hoewel = aunque, verbo al final.", review: true },
+    { q: "Repaso B1: 'Het rapport ___ door mijn promotor gelezen.'", options: ["wordt", "is geworden", "heeft"], answer: 0, explain: "Pasiva en presente: wordt + participio (+ door).", review: true },
+    { type: "write", q: "Repaso B1: traduce 'No estoy de acuerdo contigo.'", accept: ["Ik ben het niet met je eens", "Ik ben het niet met jou eens"], explain: "Ik ben het (niet) met je eens — ¡no olvides 'het'!", review: true }
+  ],
+
+  microGoal: "Mañana, elige un tema que te guste (por ejemplo la energía eólica) y di en voz alta 3 frases con opinión: una con 'Volgens mij', una con 'Enerzijds... anderzijds' y una con 'Kortom'. Cinco minutos bastan.",
+  cheer: [
+    "Goed gedaan! — ¡Muy bien hecho!",
+    "Je bent er bijna! — ¡Ya casi lo tienes!",
+    "Oefening baart kunst. — La práctica hace al maestro, y tú estás practicando.",
+    "Wat een vooruitgang! — ¡Qué progreso!",
+    "Trots op jezelf zijn mag! — ¡Puedes estar orgulloso de ti!",
+    "Het loopt op rolletjes! — ¡Va sobre ruedas!"
+  ]
+};
+</script>
+<script>(function(){
+"use strict";
+const L = window.LEVEL;
+// Progreso guardado solo en memoria (dura mientras la página esté abierta)
+const S = { done:{}, final:null, rate:0.75, last:null };
+// Progreso guardado en este navegador (localStorage), compartido con el índice
+const KEY = 'holandes_progreso_v1';
+function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function saveLevel(){
+  try {
+    const all = loadAll(); const tops = L.topics || [];
+    all[L.id] = { done: S.done, final: S.final, last: S.last,
+      complete: tops.every(t => S.done[t.id]) && !!(S.final && S.final.ok),
+      topicsDone: tops.filter(t => S.done[t.id]).length, topicsTotal: tops.length, updated: Date.now() };
+    localStorage.setItem(KEY, JSON.stringify(all));
+  } catch(e){}
+}
+(function(){ const me = loadAll()[L.id]; if(me){ S.done = me.done || {}; S.final = me.final || null; S.last = me.last || null; } try{ const r = parseFloat(localStorage.getItem('holandes_audio')); if(r) S.rate = r; }catch(e){} })();
+const LEVELS = ['A0','A1','A2','B1','B2'];
+const $ = (s, el) => (el||document).querySelector(s);
+const $$ = (s, el) => Array.from((el||document).querySelectorAll(s));
+const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const strip = s => String(s||'').replace(/<[^>]*>/g,'').replace(/&nbsp;/g,' ');
+const SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const say = t => `<button class="say" title="Escuchar" aria-label="Escuchar" data-say="${esc(strip(t))}">${SPK}</button>`;
+const art = s => String(s).replace(/^(de|het)\s/i, (m,a) => `<span class="art-${a.toLowerCase()}">${a}</span> `);
+const TOPICS = L.topics || [];
+
+/* ---------- audio ---------- */
+let nlVoice = null;
+function pickVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const vs = speechSynthesis.getVoices();
+  nlVoice = vs.find(v => /^nl[-_]NL/i.test(v.lang)) || vs.find(v => /^nl/i.test(v.lang)) || null;
+  const w = $('#voicewarn');
+  if(w) w.style.display = (vs.length && !nlVoice) ? 'block' : 'none';
+}
+function speak(text, btn){
+  if(!('speechSynthesis' in window)) { toast('Tu navegador no tiene audio. Usa la pronunciación escrita en azul.'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/\(.*?\)/g,'').replace(/\s*\/\s*/g,', '));
+  u.lang = 'nl-NL'; if(nlVoice) u.voice = nlVoice; u.rate = S.rate;
+  if(btn){ btn.classList.add('playing'); u.onend = u.onerror = () => btn.classList.remove('playing'); }
+  speechSynthesis.speak(u);
+}
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+
+/* ---------- helpers ---------- */
+function toast(msg){ const t=$('#toast'); t.innerHTML=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2800); }
+const cheer = () => { const c = L.cheer && L.cheer.length ? L.cheer : ['Goed gedaan! ¡Muy bien hecho!']; return c[Math.floor(Math.random()*c.length)]; };
+const exHTML = e => `<div class="ex">${say(e.nl)}<div class="t"><div class="nlt">${e.nl}</div>${e.pron?`<div class="pron">${e.pron}</div>`:''}<div class="es">${e.es}</div></div></div>`;
+const tableHTML = t => `<div class="tscroll"><table class="t"><thead><tr>${t.head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const vitemHTML = v => `<div class="vitem">${say(v.nl)}<div class="t"><div class="w">${art(v.nl)}</div>${v.pron?`<div class="pron">${v.pron}</div>`:''}<div class="m">${v.es}</div>${v.note?`<div class="n">${v.note}</div>`:''}</div></div>`;
+const norm = s => strip(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[.,!?¿¡;:"“”'’()]/g,'').replace(/\s+/g,' ').trim();
+
+/* ---------- quiz ---------- */
+function renderQuiz(box, qs, onDone){
+  let answered = 0, right = 0;
+  box.innerHTML = qs.map((q,i)=>{
+    const tag = q.review ? '<span class="rv">REPASO</span>' : '';
+    const body = q.type === 'write'
+      ? `<input class="winput" placeholder="Escribe tu respuesta..." autocomplete="off" autocapitalize="off" spellcheck="false"><div class="row"><button class="btn small" data-act="chk">Comprobar</button><button class="btn small ghost" data-act="idk">No lo sé</button></div>`
+      : `<div class="opts">${q.options.map((o,j)=>`<button class="opt" data-j="${j}">${o}</button>`).join('')}</div>`;
+    return `<div class="qz" data-i="${i}"><div class="q">${tag}${i+1}. ${q.q}</div>${body}<div class="fb"></div></div>`;
+  }).join('') + `<div class="qres"></div>`;
+  const finish = (card, ok, q, given) => {
+    answered++; if(ok) right++;
+    const fb = $('.fb', card);
+    const sol = q.type === 'write' ? `<div>Respuesta: <span class="nl">${q.accept[0]}</span> ${say(q.accept[0])}</div>` : '';
+    fb.className = 'fb on ' + (ok ? 'ok' : 'ko');
+    fb.innerHTML = `<b>${ok ? '¡Correcto!' : (given==='idk' ? 'No pasa nada, así se aprende:' : 'Casi. Mira por qué:')}</b>${sol}${q.explain||''}`;
+    if(answered === qs.length){
+      const pct = Math.round(100*right/qs.length);
+      const res = $('.qres', box);
+      res.innerHTML = `<div class="result ${pct>=60?'':'meh'}"><div class="score">${right} de ${qs.length} correctas (${pct}%)</div><div>${pct>=60 ? cheer() : 'Está bien equivocarse: repasa los pasos con calma y vuelve a intentarlo. Cada intento cuenta.'}</div><button class="btn small ghost" data-act="redo">Repetir este quiz</button></div>`;
+      $('[data-act=redo]', res).onclick = () => renderQuiz(box, shuffleQs(qs), onDone);
+      onDone && onDone(right, qs.length);
+    }
+  };
+  $$('.qz', box).forEach(card => {
+    const q = qs[+card.dataset.i];
+    if(q.type === 'write'){
+      const inp = $('.winput', card);
+      const check = (idk) => {
+        if(card.dataset.done) return; card.dataset.done = 1;
+        const ok = !idk && q.accept.some(a => norm(a) === norm(inp.value));
+        inp.disabled = true; $$('button', card).forEach(b=>b.disabled=true);
+        inp.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+        finish(card, ok, q, idk?'idk':'');
+      };
+      $('[data-act=chk]', card).onclick = () => { if(!inp.value.trim()){ inp.focus(); return; } check(false); };
+      $('[data-act=idk]', card).onclick = () => check(true);
+      inp.addEventListener('keydown', e => { if(e.key==='Enter' && inp.value.trim()) check(false); });
+    } else {
+      $$('.opt', card).forEach(b => b.onclick = () => {
+        const j = +b.dataset.j, ok = j === q.answer;
+        $$('.opt', card).forEach(x => { x.disabled = true; if(+x.dataset.j === q.answer) x.classList.add('right'); });
+        if(!ok) b.classList.add('wrong');
+        finish(card, ok, q);
+      });
+    }
+  });
+}
+function shuffleQs(qs){
+  return qs.map(q => {
+    if(q.type === 'write' || !q.options) return q;
+    const idx = q.options.map((_,i)=>i).sort(()=>Math.random()-.5);
+    return Object.assign({}, q, { options: idx.map(i=>q.options[i]), answer: idx.indexOf(q.answer) });
+  });
+}
+
+/* ---------- layout ---------- */
+const tabs = [{id:'inicio', label:'Inicio'}]
+  .concat(TOPICS.map((t,i)=>({id:t.id, label:`${i+1}. ${t.title}`})))
+  .concat([{id:'verbos',label:'Verbos',sp:1},{id:'vocab',label:'Vocabulario',sp:1},{id:'final',label:'Quiz final',sp:1}]);
+
+document.body.innerHTML = `
+<header class="top">
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Menú</a>
+    <select class="lvsel" id="lvsel" aria-label="Cambiar de nivel">${LEVELS.map(x=>`<option value="${x}" ${x===L.id?'selected':''}>Nivel ${x}</option>`).join('')}</select>
+    <span class="badge">${L.id}</span>
+    <div class="ttl"><h1>${L.title}</h1><p>${L.subtitle||''}</p></div>
+    <div class="prog"><div class="bar"><span id="pbar"></span></div><small id="ptxt"></small></div>
+    <button class="speed" id="speed" title="Velocidad del audio">Audio: ${S.rate<0.9?'lento':'normal'}</button>
+  </div>
+  <nav class="tabs" id="tabs">${tabs.map(t=>`<button class="tab${t.sp?' special':''}" data-tab="${t.id}">${t.label}</button>`).join('')}</nav>
+</header>
+<main class="wrap" id="main"></main>
+<div class="toast" id="toast"></div>`;
+
+const main = $('#main');
+
+/* ---------- Inicio ---------- */
+function inicioHTML(){
+  return `<section class="panel" id="p-inicio">
+    <span class="kicker">Nivel ${L.id}</span><h2>${L.title}</h2>
+    <p>${L.intro}</p>
+    <p class="warn" id="voicewarn" style="display:none">Tu navegador no tiene una voz en holandés instalada: el audio puede sonar raro. Guíate por la pronunciación escrita en azul (o prueba en Chrome/Edge).</p>
+    <div id="resume"></div>
+    <div id="lvl-done"></div>
+    ${L.canDo ? `<div class="card"><h3>Al terminar este nivel podrás…</h3><ul>${L.canDo.map(c=>`<li>${c}</li>`).join('')}</ul></div>`:''}
+    <div class="card"><h3>Tu camino en este nivel</h3><ul class="toplist" id="toplist"></ul></div>
+    ${L.studyPlan ? `<div class="card"><h3>Ritmo sugerido (sin prisa)</h3><ul>${L.studyPlan.map(c=>`<li>${c}</li>`).join('')}</ul>
+      <p class="muted">Cada tema se abre paso a paso: lee un paso, escucha los ejemplos en voz alta, repítelos, y solo entonces pasa al siguiente.</p></div>`:''}
+    ${L.review && L.review.length ? `<div class="card"><h3>Repaso rápido del nivel anterior</h3><p class="muted">Estas frases volverán a aparecer en los ejercicios (con la etiqueta <span class="rv">REPASO</span>).</p><div class="exs">${L.review.map(exHTML).join('')}</div></div>`:''}
+    <details><summary>Cómo leer la pronunciación en azul</summary>
+      <ul>
+        <li><b>MAYÚSCULAS</b> = sílaba fuerte: <span class="pron">ju-de-MOR-je(n)</span></li>
+        <li><b>j</b> = la <i>g</i> y la <i>ch</i> holandesas, como la jota española pero suave.</li>
+        <li><b>y</b> = la <i>j</i> holandesa: <span class="nl">ja</span> = <span class="pron">ya</span></li>
+        <li><b>sj</b> = <i>sch</i>: s + jota. <b>h</b> = aspirada, como en inglés <i>hello</i>.</li>
+        <li><b>ei</b> = <i>ij</i> / <i>ei</i> (como en “rey”). <b>öi</b> = <i>ui</i> (labios redondos). <b>ö</b> = <i>eu</i>.</li>
+        <li><b>u</b> = <i>oe</i>. <b>ü</b> = <i>u / uu</i> (como la u francesa: di “i” con los labios redondos).</li>
+        <li>Vocales dobles (<b>aa, ee, oo, ii</b>) = sonido largo. <b>(n)</b> final = casi no se pronuncia.</li>
+      </ul></details>
+  </section>`;
+}
+function refreshInicio(){
+  const ul = $('#toplist'); if(!ul) return;
+  ul.innerHTML = TOPICS.map((t,i)=>`<li><span class="dot ${S.done[t.id]?'ok':''}">${S.done[t.id]?'✓':i+1}</span><a href="#" data-go="${t.id}">${t.title}</a><span class="muted" style="margin-left:auto;font-size:13px">${S.done[t.id]?'completado':''}</span></li>`).join('')
+    + `<li><span class="dot ${S.final&&S.final.ok?'ok':''}">${S.final&&S.final.ok?'✓':'★'}</span><a href="#" data-go="final">Quiz final del nivel</a></li>`;
+}
+
+/* ---------- Temas ---------- */
+function topicHTML(t, i){
+  const stages = [];
+  stages.push({key:'steps', label:'Explicación paso a paso'});
+  if(t.vocab && t.vocab.length) stages.push({key:'vocab', label:'Vocabulario'});
+  if(t.dialogue) stages.push({key:'dlg', label:'Diálogo'});
+  if(t.practice && t.practice.length) stages.push({key:'prac', label:'Práctica'});
+  if(t.quiz && t.quiz.length) stages.push({key:'quiz', label:'Mini-quiz'});
+  t._stages = stages;
+  const stepHTML = (s, k) => `<div class="card step ${k>0?'hidden':''}" data-step="${k}">
+      <h4>${s.title}</h4><div>${s.html}</div>
+      ${s.examples && s.examples.length ? `<div class="exs">${s.examples.map(exHTML).join('')}</div>`:''}
+      ${s.table ? tableHTML(s.table):''}
+      ${s.tip ? `<div class="tip">${s.tip}</div>`:''}
+      ${s.check ? `<div class="check"><div class="q">Comprueba: ${s.check.q}</div><button class="btn small ghost" data-rev>Ver respuesta</button><div class="reveal">${s.check.a}</div></div>`:''}
+      ${k < t.steps.length-1 ? `<button class="btn" data-next-step>Entendido, siguiente paso (${k+2}/${t.steps.length})</button>` : ''}
+    </div>`;
+  const body = {
+    steps: () => t.steps.map(stepHTML).join(''),
+    vocab: () => `<p class="muted">Pulsa el altavoz, escucha y repite en voz alta. <span class="art-de">de</span> y <span class="art-het">het</span> tienen colores distintos para que los memorices.</p><div class="vgrid">${t.vocab.map(vitemHTML).join('')}</div>`,
+    dlg: () => `<div class="card"><h3>${t.dialogue.title||''}</h3>${t.dialogue.context?`<p class="muted">${t.dialogue.context}</p>`:''}
+        <div class="row" style="margin-bottom:8px"><button class="btn small ghost" data-tr>Mostrar / ocultar traducción</button><button class="btn small ghost" data-playall>Escuchar todo</button></div>
+        <div class="dlg">${t.dialogue.lines.map(l=>`<div class="line"><div class="who">${l.who||''}</div><div class="bubble"><div class="row" style="gap:8px;flex-wrap:nowrap;align-items:flex-start">${say(l.nl)}<div><div>${l.nl}</div><div class="es">${l.es}</div></div></div></div></div>`).join('')}</div>
+        <p class="muted" style="font-size:14px">Truco: primero léelo sin traducción. Luego ábrela y comprueba cuánto entendiste.</p></div>`,
+    prac: () => `<div class="card">${t.practice.map(p=>`<div class="pq"><div>${p.review?'<span class="rv">REPASO</span>':''}${p.q}</div>${p.hint?`<div class="muted" style="font-size:14px">Pista: ${p.hint}</div>`:''}<button class="btn small ghost" data-rev>Ver respuesta</button><div class="reveal">${p.a} ${say(p.a)}</div></div>`).join('')}</div>`,
+    quiz: () => `<div class="quizbox"></div>`
+  };
+  return `<section class="panel" id="p-${t.id}">
+    <div class="row"><span class="kicker">Tema ${i+1} de ${TOPICS.length}</span><button class="showall" data-showall>Mostrar todo el tema</button></div>
+    <h2>${t.title}</h2>
+    <div class="goal"><b>Al terminar podrás:</b> ${t.goal}</div>
+    <div class="stepper">${stages.map((s,k)=>`<span class="chip ${k===0?'reached current':''}" data-chip="${k}">${k+1}. ${s.label}</span>`).join('')}</div>
+    ${stages.map((s,k)=>`<div class="stage ${k>0?'hidden':''}" data-stage="${k}">
+       <div class="stage-title"><span class="num">${k+1}/${stages.length}</span><h3>${s.label}</h3></div>
+       ${body[s.key]()}
+       ${k < stages.length-1 ? `<button class="btn ${s.key==='steps'?'hidden-until-steps':''}" data-next-stage="${k+1}" ${s.key==='steps'&&t.steps.length>1?'style="display:none"':''}>Continuar: ${stages[k+1].label} &rarr;</button>`:''}
+     </div>`).join('')}
+    <div class="topicdone"></div>
+    <div class="navbtns">
+      ${i>0?`<button class="btn ghost" data-go="${TOPICS[i-1].id}">&larr; Tema anterior</button>`:'<span></span>'}
+      <button class="btn ghost" data-markdone="${t.id}">Marcar tema como completado</button>
+      ${i<TOPICS.length-1?`<button class="btn ghost" data-go="${TOPICS[i+1].id}">Siguiente tema &rarr;</button>`:`<button class="btn ghost" data-go="verbos">Ir a Verbos &rarr;</button>`}
+    </div>
+  </section>`;
+}
+function wireTopic(t){
+  const sec = $('#p-'+t.id);
+  const reach = k => {
+    const st = $(`[data-stage="${k}"]`, sec); if(!st) return;
+    st.classList.remove('hidden');
+    $$('.chip', sec).forEach(c => { const n=+c.dataset.chip; if(n<=k) c.classList.add('reached'); c.classList.toggle('current', n===k); });
+    return st;
+  };
+  $$('[data-next-step]', sec).forEach(b => b.onclick = () => {
+    const cur = b.closest('.step'); const n = +cur.dataset.step + 1;
+    b.style.display = 'none';
+    const nx = $(`[data-step="${n}"]`, sec); nx.classList.remove('hidden');
+    if(n === t.steps.length-1){ const c = $('[data-stage="0"] [data-next-stage]', sec); if(c) c.style.display=''; }
+    nx.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  $$('[data-next-stage]', sec).forEach(b => b.onclick = () => { b.style.display='none'; const st = reach(+b.dataset.nextStage); st.scrollIntoView({behavior:'smooth', block:'start'}); });
+  $$('.chip', sec).forEach(c => c.onclick = () => { if(!c.classList.contains('reached')) return; $(`[data-stage="${c.dataset.chip}"]`, sec).scrollIntoView({behavior:'smooth', block:'start'}); });
+  $('[data-showall]', sec).onclick = () => {
+    $$('.step', sec).forEach(s=>s.classList.remove('hidden')); $$('[data-next-step]', sec).forEach(b=>b.style.display='none');
+    $$('[data-next-stage]', sec).forEach(b=>b.style.display='none');
+    t._stages.forEach((_,k)=>reach(k)); reach(0);
+  };
+  const dlg = $('.dlg', sec);
+  if(dlg){
+    $('[data-tr]', sec).onclick = () => dlg.classList.toggle('tr');
+    $('[data-playall]', sec).onclick = () => {
+      if(!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      t.dialogue.lines.forEach(l => { const u = new SpeechSynthesisUtterance(strip(l.nl)); u.lang='nl-NL'; if(nlVoice) u.voice=nlVoice; u.rate=S.rate; speechSynthesis.speak(u); });
+    };
+  }
+  const qb = $('.quizbox', sec);
+  if(qb) renderQuiz(qb, t.quiz, (r,n) => completeTopic(t, r, n));
+}
+function completeTopic(t, r, n){
+  const first = !S.done[t.id];
+  S.done[t.id] = true; refresh();
+  const box = $('#p-'+t.id+' .topicdone');
+  const i = TOPICS.indexOf(t);
+  box.innerHTML = `<div class="celebrate"><h3>Tema completado</h3><p>${cheer()}</p>
+    <p class="muted">Antes de seguir: repite en voz alta 3 palabras de este tema. Si algo te costó, vuelve a los pasos: repetir es parte del método.</p>
+    ${i<TOPICS.length-1?`<button class="btn" data-go="${TOPICS[i+1].id}">Siguiente tema: ${TOPICS[i+1].title} &rarr;</button>`:`<button class="btn" data-go="final">Ir al quiz final &rarr;</button>`}</div>`;
+  if(first) toast('Tema completado: ' + t.title);
+}
+
+/* ---------- Verbos ---------- */
+const VCOLS = [['inf','Verbo'],['es','Significado'],['ik','ik'],['jij','jij / je'],['hij','hij / zij / u*'],['wij','wij / jullie / zij'],['imperf','Pasado simple'],['perf','Perfecto'],['note','Nota']];
+function verbosHTML(){
+  return `<section class="panel" id="p-verbos"><span class="kicker">Nivel ${L.id}</span><h2>Verbos del nivel</h2>
+   <p class="muted">No intentes memorizarlos todos de golpe. Elige 5 al día, escúchalos y di una frase con cada uno.</p>
+   ${(L.verbs||[]).map(g => {
+     const cols = VCOLS.filter(([k]) => g.rows.some(r => r[k]));
+     return `<div class="card"><h3>${g.title}</h3>${g.intro?`<p>${g.intro}</p>`:''}<div class="tscroll"><table class="t"><thead><tr>${cols.map(c=>`<th>${c[1]}</th>`).join('')}</tr></thead><tbody>
+       ${g.rows.map(r=>`<tr>${cols.map(([k])=>`<td>${k==='inf'?`<div class="row" style="gap:6px;flex-wrap:nowrap">${say(r.inf)}<b class="nl">${r.inf}</b></div>`:(r[k]||'')}</td>`).join('')}</tr>`).join('')}
+     </tbody></table></div></div>`;
+   }).join('')}
+   <p class="muted" style="font-size:14px">* Con <b>u</b> (usted) el verbo va igual que con hij: u werkt, u bent (o u is), u hebt/heeft.</p>
+  </section>`;
+}
+
+/* ---------- Vocabulario (lista + flashcards) ---------- */
+const ALLV = [];
+TOPICS.forEach(t => (t.vocab||[]).forEach(v => ALLV.push(Object.assign({topic:t.id, ttitle:t.title}, v))));
+function vocabHTML(){
+  return `<section class="panel" id="p-vocab"><span class="kicker">Nivel ${L.id}</span><h2>Vocabulario del nivel</h2>
+   <p class="muted">${ALLV.length} palabras y frases. Usa las tarjetas: lo que ya sabes sale del mazo; lo que no, vuelve a aparecer pronto.</p>
+   <div class="filters">
+     <select id="vtopic"><option value="">Todos los temas</option>${TOPICS.map((t,i)=>`<option value="${t.id}">${i+1}. ${t.title}</option>`).join('')}</select>
+     <input id="vsearch" placeholder="Buscar (holandés o español)">
+     <div class="seg"><button data-vmode="fc" class="on">Tarjetas</button><button data-vmode="list">Lista</button></div>
+   </div>
+   <div id="vbody"></div></section>`;
+}
+const FC = { deck:[], known:0, dir:'nl' };
+function vfiltered(){
+  const tp = $('#vtopic').value, q = norm($('#vsearch').value);
+  return ALLV.filter(v => (!tp || v.topic===tp) && (!q || norm(v.nl).includes(q) || norm(v.es).includes(q)));
+}
+function drawVocab(){
+  const mode = $('[data-vmode].on').dataset.vmode, list = vfiltered(), vb = $('#vbody');
+  if(mode === 'list'){ vb.innerHTML = list.length ? `<div class="vgrid">${list.map(vitemHTML).join('')}</div>` : '<p class="muted">Nada encontrado.</p>'; return; }
+  FC.deck = list.slice().sort(()=>Math.random()-.5); FC.known = 0; FC.total = list.length;
+  drawCard();
+}
+function drawCard(){
+  const vb = $('#vbody');
+  if(!FC.total){ vb.innerHTML = '<p class="muted">Nada encontrado.</p>'; return; }
+  if(!FC.deck.length){ vb.innerHTML = `<div class="celebrate"><h3>¡Mazo terminado!</h3><p>Repasaste ${FC.total} tarjetas. ${cheer()}</p><button class="btn" id="fcagain">Empezar otra vez</button></div>`; $('#fcagain').onclick = drawVocab; return; }
+  const v = FC.deck[0], front = FC.dir==='nl';
+  vb.innerHTML = `<div class="row"><span class="muted">Sabidas: ${FC.known} / ${FC.total}</span><div class="seg" style="margin-left:auto"><button data-dir="nl" class="${front?'on':''}">Holandés → español</button><button data-dir="es" class="${front?'':'on'}">Español → holandés</button></div></div>
+   <div class="bar" style="margin:10px 0"><span style="width:${Math.round(100*FC.known/FC.total)}%"></span></div>
+   <div class="fc"><div class="fcard" id="fcard">
+     <div class="muted" style="font-size:13px">${v.ttitle}</div>
+     ${front ? `<div class="big">${art(v.nl)}</div>` : `<div class="big" style="font-size:24px">${v.es}</div>`}
+     <div class="back">${front ? `<div class="pron">${v.pron||''}</div><div style="font-size:20px">${v.es}</div>` : `<div class="big">${art(v.nl)}</div><div class="pron">${v.pron||''}</div>`}${v.note?`<div class="muted" style="font-size:14px">${v.note}</div>`:''}</div>
+   </div></div>
+   <div class="row" style="justify-content:center">${say(v.nl)}<button class="btn" id="fcflip">Mostrar respuesta</button></div>
+   <div class="row" style="justify-content:center;display:none" id="fcgrade"><button class="btn ghost" id="fcagain2">Repasar otra vez</button><button class="btn green" id="fcok">Lo sé</button></div>`;
+  if(front) speak(v.nl);
+  $$('[data-dir]', vb).forEach(b => b.onclick = () => { FC.dir = b.dataset.dir; drawCard(); });
+  $('#fcflip').onclick = () => { $('#fcard').classList.add('flip'); $('#fcflip').style.display='none'; $('#fcgrade').style.display='flex'; if(!front) speak(v.nl); };
+  $('#fcok').onclick = () => { FC.deck.shift(); FC.known++; drawCard(); };
+  $('#fcagain2').onclick = () => { const c = FC.deck.shift(); FC.deck.splice(Math.min(3, FC.deck.length), 0, c); drawCard(); };
+}
+
+/* ---------- Quiz final ---------- */
+function finalHTML(){
+  return `<section class="panel" id="p-final"><span class="kicker">Nivel ${L.id}</span><h2>Quiz final</h2>
+    <p class="muted">Mezcla de todo el nivel, sin presión: no es un examen. Si aciertas el 70% o más, el nivel cuenta como completado.</p>
+    <div id="finalbox"></div><div id="finaldone"></div></section>`;
+}
+function onFinal(r, n){
+  const pct = Math.round(100*r/n);
+  const prev = S.final;
+  S.final = { r, n, ok: pct >= 70 || !!(prev && prev.ok), best: Math.max(pct, (prev && prev.best) || 0) };
+  refresh();
+  const allTopics = TOPICS.every(t => S.done[t.id]);
+  const box = $('#finaldone');
+  if(pct >= 70 && allTopics) box.innerHTML = levelDoneHTML();
+  else if(pct >= 70) box.innerHTML = `<div class="result">¡Muy buen resultado! Te faltan algunos temas por marcar como completados: ${TOPICS.filter(t=>!S.done[t.id]).map(t=>`<a href="#" data-go="${t.id}">${t.title}</a>`).join(', ')}.</div>`;
+  else box.innerHTML = `<div class="result meh">Todavía no llegas al 70%, y eso es totalmente normal. Mira qué preguntas fallaste, vuelve a esos temas un ratito y repite el quiz mañana.</div>`;
+  const ld = $('#lvl-done'); if(pct>=70 && allTopics) ld.innerHTML = levelDoneHTML();
+}
+function levelDoneHTML(){
+  return `<div class="celebrate"><h3>¡Nivel ${L.id} completado!</h3><p>${cheer()}</p>
+   <p><b>Micro-meta para mañana:</b> ${L.microGoal}</p>
+   <p class="muted">Tu progreso quedó guardado en este navegador y el menú ya muestra el nivel como completado.</p>
+   <a class="btn ghost" style="display:inline-block;text-decoration:none;margin-right:8px" href="index.html">&larr; Volver al menú</a>
+   ${L.next ? `<a class="btn" style="display:inline-block;text-decoration:none" href="holandes_${L.next}.html">Ir al nivel ${L.next} &rarr;</a>`:''}</div>`;
+}
+
+/* ---------- montar ---------- */
+main.innerHTML = inicioHTML() + TOPICS.map(topicHTML).join('') + verbosHTML() + vocabHTML() + finalHTML();
+TOPICS.forEach(wireTopic);
+renderQuiz($('#finalbox'), L.finalQuiz || [], onFinal);
+$('#vtopic').onchange = drawVocab; $('#vsearch').oninput = drawVocab;
+$$('[data-vmode]').forEach(b => b.onclick = () => { $$('[data-vmode]').forEach(x=>x.classList.toggle('on', x===b)); drawVocab(); });
+
+let vocabDrawn = false;
+function show(id){
+  $$('.panel').forEach(p => p.classList.toggle('on', p.id === 'p-'+id));
+  $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === id));
+  const tb = $(`.tab[data-tab="${id}"]`); if(tb) tb.scrollIntoView({block:'nearest', inline:'center'});
+  if(id === 'vocab' && !vocabDrawn){ vocabDrawn = true; drawVocab(); }
+  window.scrollTo(0,0);
+  if(history.replaceState) history.replaceState(null,'','#'+id);
+  if(id !== 'inicio'){ S.last = id; saveLevel(); }
+}
+function refresh(){
+  const total = TOPICS.length + 1;
+  const done = TOPICS.filter(t=>S.done[t.id]).length + (S.final && S.final.ok ? 1 : 0);
+  $('#pbar').style.width = Math.round(100*done/total) + '%';
+  $('#ptxt').textContent = `${done} de ${total} completados`; $('#ptxt').title = 'Temas + quiz final. El progreso se guarda en este navegador.';
+  saveLevel();
+  $$('.tab').forEach(t => { const id=t.dataset.tab; t.classList.toggle('done', !!S.done[id] || (id==='final' && S.final && S.final.ok)); });
+  refreshInicio();
+}
+
+document.addEventListener('click', e => {
+  const s = e.target.closest('.say'); if(s){ e.preventDefault(); speak(s.dataset.say, s); return; }
+  const tb = e.target.closest('.tab'); if(tb){ show(tb.dataset.tab); return; }
+  const go = e.target.closest('[data-go]'); if(go){ e.preventDefault(); show(go.dataset.go); return; }
+  const rv = e.target.closest('[data-rev]'); if(rv){ const r = rv.nextElementSibling; r.classList.toggle('on'); rv.textContent = r.classList.contains('on') ? 'Ocultar respuesta' : 'Ver respuesta'; return; }
+  const md = e.target.closest('[data-markdone]'); if(md){ const t = TOPICS.find(x=>x.id===md.dataset.markdone); if(t) completeTopic(t); return; }
+});
+$('#speed').onclick = () => { S.rate = S.rate < 0.9 ? 1 : 0.75; $('#speed').textContent = 'Audio: ' + (S.rate < 0.9 ? 'lento' : 'normal'); try{ localStorage.setItem('holandes_audio', S.rate); }catch(e){} };
+$('#lvsel').onchange = e => { location.href = 'holandes_' + e.target.value + '.html'; };
+const lastSeen = S.last;
+refresh(); pickVoice();
+if(TOPICS.every(t => S.done[t.id]) && S.final && S.final.ok) $('#lvl-done').innerHTML = levelDoneHTML();
+if(lastSeen && tabs.some(t=>t.id===lastSeen)){
+  const lt = tabs.find(t=>t.id===lastSeen);
+  $('#resume').innerHTML = `<div class="goal"><b>Continuar donde lo dejaste:</b> ${lt.label} <button class="btn small" data-go="${lastSeen}" style="margin-left:8px">Continuar &rarr;</button></div>`;
+}
+const start = (location.hash||'').slice(1);
+show(tabs.some(t=>t.id===start) ? start : 'inicio');
+})();
+</script>
+</body></html>

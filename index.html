@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0e1117">
+<title>Curso de holandés — Menú</title>
+<style>
+:root{--bg:#0e1117;--surface:#161b24;--surface2:#1d2330;--line:#2a3242;--text:#e7eaf0;--muted:#9aa4b5;--accent:#ff8a3d;--green:#44d19a;--blue:#6cb2ff;--yellow:#ffd166;--red:#ff7272}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:32px 16px 60px}
+.kicker{color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+h1{font-size:34px;margin:6px 0 8px;line-height:1.2}
+.lead{color:var(--muted);max-width:640px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:26px 0 14px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.stat b{display:block;font-size:26px}
+.stat span{color:var(--muted);font-size:14px}
+.bar{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--yellow));transition:width .6s}
+.resume{background:rgba(255,138,61,.12);border:1px solid var(--accent);border-radius:14px;padding:14px 16px;margin:10px 0 18px;display:none;align-items:center;gap:12px;flex-wrap:wrap}
+.resume a{margin-left:auto}
+.path{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0 24px}
+.path a{padding:4px 12px;border-radius:99px;border:1px solid var(--line);color:var(--muted);font-weight:700;font-size:14px;text-decoration:none}
+.path a.progreso,.path a.disponible{border-color:var(--accent);color:var(--accent)}
+.path a.completado{background:var(--green);border-color:var(--green);color:#062017}
+.path em{color:var(--line);font-style:normal}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.lvl{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column}
+.lvl.progreso,.lvl.disponible{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.lvl.completado{border-color:var(--green)}
+.lvl.bloqueado{opacity:.75}
+.lvtop{display:flex;justify-content:space-between;align-items:center}
+.code{background:var(--accent);color:#1a0f05;font-weight:800;border-radius:10px;padding:3px 11px}
+.bloqueado .code{background:var(--surface2);color:var(--muted)}
+.completado .code{background:var(--green)}
+.st{font-size:13px;border-radius:99px;padding:3px 10px;border:1px solid var(--line);color:var(--muted)}
+.st.progreso,.st.disponible{color:var(--accent);border-color:var(--accent)}
+.st.completado{color:var(--green);border-color:var(--green)}
+.lvl h2{font-size:21px;margin:12px 0 4px}
+.d{color:var(--muted);margin:0 0 8px;font-size:15.5px}
+.meta{font-size:14px;color:var(--blue);margin:0 0 6px}
+.lbar{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:6px 0 2px}
+.lbar i{display:block;height:100%;background:var(--green)}
+.lpct{font-size:13px;color:var(--muted)}
+details{margin:6px 0 14px;font-size:15px}
+summary{cursor:pointer;color:var(--muted)}
+ol{margin:8px 0 0;padding-left:22px}
+ol li.ok{color:var(--green)}
+ol li.ok::after{content:" ✓"}
+.go{margin-top:auto;display:block;text-align:center;text-decoration:none;font-weight:700;border-radius:10px;padding:10px;background:var(--surface2);color:var(--text);border:1px solid var(--line)}
+.go.progreso,.go.disponible{background:var(--accent);color:#1a0f05;border-color:var(--accent)}
+.go.completado{background:var(--green);color:#062017;border-color:var(--green)}
+.lock{font-size:13px;color:var(--muted);margin:8px 0 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:22px}
+.card h3{margin:0 0 8px}
+.card li{margin:4px 0}
+.nl{color:var(--accent);font-weight:600}
+.btn{font:inherit;font-size:14px;cursor:pointer;background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:4px 6px 4px 0;text-decoration:none;display:inline-block}
+.btn.primary{background:var(--accent);color:#1a0f05;border-color:var(--accent);font-weight:700}
+.btn.danger{color:var(--red);border-color:var(--red)}
+textarea{width:100%;min-height:80px;background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px;font:13px/1.4 ui-monospace,monospace;margin-top:8px;display:none}
+.msg{font-size:14px;color:var(--green);min-height:1.4em}
+footer{color:var(--muted);font-size:13px;margin-top:30px;text-align:center}
+</style></head>
+<body><div class="wrap">
+  <span class="kicker">Curso de holandés · Nederlands</span>
+  <h1>De cero a B2, paso a paso</h1>
+  <p class="lead">Cada nivel tiene sus temas en pestañas que se abren paso a paso: explicación, vocabulario con audio, diálogo, práctica y un mini-quiz. Tu progreso se guarda solo en este navegador.</p>
+
+  <div class="summary">
+    <div class="stat"><span>Niveles completados</span><b id="s-levels">0 de 5</b><div class="bar"><i id="s-bar"></i></div></div>
+    <div class="stat"><span>Nivel actual</span><b id="s-cur">A0</b></div>
+    <div class="stat"><span>Temas completados</span><b id="s-topics">0 de 49</b></div>
+    <div class="stat"><span>Palabras y frases</span><b>744</b></div>
+  </div>
+  <div class="resume" id="resume"></div>
+  <div class="path" id="path"></div>
+  <div class="grid" id="grid"></div>
+
+  <div class="card">
+    <h3>Cómo usar el curso</h3>
+    <ul>
+      <li><b>15-30 minutos al día</b> valen más que 3 horas un domingo.</li>
+      <li>Un tema a la vez. Pulsa el altavoz y <b>repite en voz alta</b> cada ejemplo.</li>
+      <li>El audio usa la voz holandesa de tu navegador (Chrome, Edge o Safari funcionan mejor).</li>
+      <li>Un nivel se completa al terminar todos sus temas y sacar 70% o más en su quiz final. Entonces se desbloquea el siguiente (aunque siempre puedes echar un vistazo).</li>
+      <li>Desde cualquier nivel vuelves aquí con <b>“← Menú”</b>, arriba a la izquierda.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Tu progreso</h3>
+    <p style="color:var(--muted);font-size:15px;margin-top:0">Se guarda en este navegador y en este dispositivo. Para pasarlo a otro (por ejemplo, del computador al celular), copia tu código aquí y pégalo en el otro dispositivo.</p>
+    <button class="btn" id="b-export">Copiar mi código de progreso</button>
+    <button class="btn" id="b-import">Pegar un código</button>
+    <button class="btn danger" id="b-reset">Borrar todo el progreso</button>
+    <textarea id="ta" spellcheck="false"></textarea>
+    <button class="btn primary" id="b-apply" style="display:none">Cargar este progreso</button>
+    <div class="msg" id="msg"></div>
+  </div>
+  <footer>Hecho para aprender sin prisa · Veel succes!</footer>
+</div>
+<script>
+(function(){
+const META = {"A0": {"title": "Nivel A0 — Primeros pasos", "subtitle": "Desde cero: sonidos, saludos y presentarte en Groningen", "topics": ["Los sonidos", "Saludos y cortesía", "Presentarte", "Ik ben / ik heb", "Números 0-20", "Frases salvavidas", "de / het / een"], "vocab": 108, "verbs": 12, "name": "Primeros pasos", "desc": "Desde cero: sonidos, saludos, presentarte, ik ben / ik heb, números 0-20."}, "A1": {"title": "Nivel A1 — Sobrevivir en holandés", "subtitle": "Hablar de ti, preguntar, comprar, moverte por Groningen y contar tu día", "topics": ["El verbo en presente", "Hacer preguntas", "Decir que no", "Familia y posesivos", "Números, hora y fechas", "Comida y compras", "Moverse por Groningen", "El verbo en 2º lugar", "Querer, poder, deber", "Casa y rutina", "Plurales y adjetivos"], "vocab": 170, "verbs": 37, "name": "Sobrevivir en holandés", "desc": "Sobrevivir: presente, preguntas, niet/geen, hora, supermercado, bici y bus, modales."}, "A2": {"title": "Nivel A2 — Desenvolverse en la vida diaria", "subtitle": "Contar lo que hiciste, ir al médico, escribir correos y hacer trámites en Groningen", "topics": ["Pasado con hebben", "Pasado con zijn", "Pasado simple", "Separables y reflexivos", "Salud y huisarts", "Trabajo y universidad", "Comparar", "Unir frases", "Futuro y planes", "Vivienda y trámites", "Imperativo y cortesía"], "vocab": 166, "verbs": 47, "name": "Desenvolverse en la vida diaria", "desc": "Vida diaria: pasado, huisarts, gemeente, trabajo y universidad, comparar, planes."}, "B1": {"title": "Nivel B1 — Independiente en holandés", "subtitle": "Frases largas, opiniones propias y el examen B1 a tu alcance", "topics": ["Frases con omdat, als…", "die, dat, waarmee", "La pasiva", "Había… / Haría…", "La palabra 'er'", "Verbo + preposición", "Opinar y discutir", "Holandés en el trabajo", "Sociedad neerlandesa", "Preparar el examen B1"], "vocab": 147, "verbs": 49, "name": "Independiente en holandés", "desc": "Independiente: subordinadas, pasiva, “er”, opinar, correos formales. Nivel inburgering."}, "B2": {"title": "Nivel B2 — Holandés avanzado", "subtitle": "Matizar, argumentar, escribir como en la universidad y preparar el Staatsexamen NT2 II", "topics": ["Formal o informal", "Conectores avanzados", "Pasiva avanzada", "Si hubiera... / Ojalá", "Trenes de verbos", "Expresiones y refranes", "Escritura académica", "Lenguaje abstracto", "Actualidad y debate", "Staatsexamen NT2 II"], "vocab": 153, "verbs": 49, "name": "Holandés avanzado", "desc": "Avanzado: registro formal, conectores, textos académicos, debate. Staatsexamen NT2 II."}};
+const LEVELS = ['A0','A1','A2','B1','B2'];
+const KEY = 'holandes_progreso_v1';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+const LAB = { completado:'Completado', progreso:'En progreso', disponible:'Disponible', bloqueado:'Bloqueado' };
+
+function render(){
+  const P = load();
+  const status = {};
+  LEVELS.forEach((lv,i) => {
+    const p = P[lv];
+    if(p && p.complete) status[lv] = 'completado';
+    else if(p && (p.topicsDone > 0 || (p.final && p.final.ok))) status[lv] = 'progreso';
+    else if(i === 0 || (P[LEVELS[i-1]] && P[LEVELS[i-1]].complete)) status[lv] = 'disponible';
+    else status[lv] = 'bloqueado';
+  });
+  const done = LEVELS.filter(l => status[l]==='completado').length;
+  const cur = LEVELS.find(l => status[l]==='progreso') || LEVELS.find(l => status[l]==='disponible') || 'B2';
+  const tdone = LEVELS.reduce((a,l) => a + ((P[l] && P[l].topicsDone) || 0), 0);
+  $('#s-levels').textContent = done + ' de ' + LEVELS.length;
+  $('#s-bar').style.width = Math.round(100*done/LEVELS.length) + '%';
+  $('#s-cur').textContent = done === LEVELS.length ? '¡B2 listo!' : cur;
+  $('#s-topics').textContent = tdone + ' de 49';
+
+  // continuar donde lo dejaste
+  let latest = null;
+  LEVELS.forEach(l => { const p = P[l]; if(p && p.updated && (!latest || p.updated > P[latest].updated)) latest = l; });
+  const r = $('#resume');
+  if(latest){
+    const p = P[latest], idx = p.last && /^t\d+$/.test(p.last) ? +p.last.slice(1) - 1 : -1;
+    const where = idx >= 0 ? 'Tema ' + (idx+1) + ': ' + esc(META[latest].topics[idx] || '') : (p.last === 'final' ? 'Quiz final' : p.last === 'vocab' ? 'Vocabulario' : p.last === 'verbos' ? 'Verbos' : 'Inicio');
+    r.style.display = 'flex';
+    r.innerHTML = '<div><b>Continuar donde lo dejaste</b><br><span style="color:var(--muted)">Nivel ' + latest + ' · ' + where + '</span></div><a class="btn primary" href="holandes_' + latest + '.html' + (p.last ? '#' + p.last : '') + '">Continuar &rarr;</a>';
+  } else { r.style.display = 'none'; }
+
+  $('#path').innerHTML = LEVELS.map(l => '<a class="' + status[l] + '" href="holandes_' + l + '.html">' + l + '</a>').join(' <em>→</em> ');
+  $('#grid').innerHTML = LEVELS.map((l,i) => {
+    const m = META[l], st = status[l], p = P[l] || {}, d = p.done || {};
+    const tdn = p.topicsDone || 0, pct = Math.round(100 * (tdn + (p.final && p.final.ok ? 1 : 0)) / (m.topics.length + 1));
+    const btn = st==='completado' ? 'Repasar' : st==='progreso' ? 'Continuar' : st==='disponible' ? 'Empezar' : 'Echar un vistazo';
+    return '<article class="lvl ' + st + '">' +
+      '<div class="lvtop"><span class="code">' + l + '</span><span class="st ' + st + '">' + LAB[st] + '</span></div>' +
+      '<h2>' + esc(m.name) + '</h2><p class="d">' + esc(m.desc) + '</p>' +
+      '<p class="meta">' + m.topics.length + ' temas · ' + m.vocab + ' palabras · ' + m.verbs + ' verbos</p>' +
+      '<div class="lbar"><i style="width:' + pct + '%"></i></div><div class="lpct">' + tdn + ' de ' + m.topics.length + ' temas' + (p.final && p.final.best != null ? ' · quiz final: ' + p.final.best + '%' : '') + '</div>' +
+      '<details><summary>Ver temas</summary><ol>' + m.topics.map((t,k) => '<li class="' + (d['t'+(k+1)] ? 'ok' : '') + '"><a style="color:inherit" href="holandes_' + l + '.html#t' + (k+1) + '">' + esc(t) + '</a></li>').join('') + '</ol></details>' +
+      '<a class="go ' + st + '" href="holandes_' + l + '.html">' + btn + ' &rarr;</a>' +
+      (st==='bloqueado' ? '<p class="lock">Se desbloquea al completar ' + LEVELS[i-1] + '. Puedes mirarlo, pero te recomiendo ir en orden.</p>' : '') +
+      '</article>';
+  }).join('');
+}
+
+const ta = $('#ta'), msg = $('#msg'), apply = $('#b-apply');
+const say = t => { msg.textContent = t; setTimeout(() => { if(msg.textContent === t) msg.textContent = ''; }, 4000); };
+$('#b-export').onclick = () => {
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(load()))));
+  ta.style.display = 'block'; apply.style.display = 'none'; ta.value = code; ta.select();
+  (navigator.clipboard ? navigator.clipboard.writeText(code) : Promise.reject()).then(() => say('Código copiado. Pégalo en el otro dispositivo con “Pegar un código”.'), () => say('Selecciona el texto y cópialo.'));
+};
+$('#b-import').onclick = () => { ta.style.display = 'block'; ta.value = ''; ta.placeholder = 'Pega aquí tu código de progreso'; apply.style.display = 'inline-block'; ta.focus(); };
+apply.onclick = () => {
+  try { const obj = JSON.parse(decodeURIComponent(escape(atob(ta.value.trim())))); if(typeof obj !== 'object' || !obj) throw 0;
+    localStorage.setItem(KEY, JSON.stringify(obj)); ta.style.display = 'none'; apply.style.display = 'none'; render(); say('¡Progreso cargado!');
+  } catch(e){ say('Ese código no es válido. Cópialo de nuevo completo.'); }
+};
+$('#b-reset').onclick = () => {
+  if($('#b-reset').dataset.sure){ try{ localStorage.removeItem(KEY); }catch(e){} delete $('#b-reset').dataset.sure; $('#b-reset').textContent = 'Borrar todo el progreso'; render(); say('Progreso borrado.'); return; }
+  $('#b-reset').dataset.sure = 1; $('#b-reset').textContent = '¿Seguro? Pulsa otra vez para borrar';
+  setTimeout(() => { delete $('#b-reset').dataset.sure; $('#b-reset').textContent = 'Borrar todo el progreso'; }, 5000);
+};
+window.addEventListener('pageshow', render);
+window.addEventListener('storage', render);
+render();
+})();
+</script>
+</body></html>

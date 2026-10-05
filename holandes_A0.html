@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0e1117">
+<title>Holandés A0 — Primeros pasos</title>
+<style>:root{
+  --bg:#0e1117; --surface:#161b24; --surface2:#1d2330; --line:#2a3242;
+  --text:#e7eaf0; --muted:#9aa4b5; --faint:#6b7587;
+  --accent:#ff8a3d; --accent-soft:rgba(255,138,61,.14);
+  --blue:#6cb2ff; --blue-soft:rgba(108,178,255,.12);
+  --green:#44d19a; --green-soft:rgba(68,209,154,.13);
+  --red:#ff7272; --red-soft:rgba(255,114,114,.13);
+  --yellow:#ffd166;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+
+/* Header */
+.top{position:sticky;top:0;z-index:20;background:rgba(14,17,23,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-top:10px;padding-bottom:8px;flex-wrap:wrap}
+.back{color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap}
+.back:hover{color:var(--text)}
+.lvsel{background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:3px 6px;font:inherit;font-size:13px}
+.badge{background:var(--accent);color:#1a0f05;font-weight:800;border-radius:10px;padding:4px 10px;font-size:15px}
+.ttl{flex:1;min-width:180px}
+.ttl h1{font-size:17px;margin:0;line-height:1.3}
+.ttl p{margin:0;color:var(--muted);font-size:13px}
+.prog{min-width:160px;flex:0 1 220px}
+.bar{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--yellow));transition:width .5s}
+.prog small{color:var(--muted);font-size:12px}
+.speed{background:var(--surface2);border:1px solid var(--line);color:var(--text);border-radius:99px;padding:4px 12px;font-size:13px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 16px 10px;max-width:900px;margin:0 auto;scrollbar-width:thin}
+.tab{flex:0 0 auto;background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:6px 14px;font-size:14px;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.on{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}
+.tab.done::after{content:" ✓";color:var(--green);font-weight:700}
+.tab.special{border-style:dashed}
+
+main{padding:22px 0 80px}
+.panel{display:none}
+.panel.on{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+h2{font-size:26px;margin:4px 0 6px;line-height:1.25}
+h3{font-size:19px;margin:0 0 10px}
+.kicker{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:16px 0}
+.goal{background:var(--blue-soft);border-left:4px solid var(--blue);padding:12px 16px;border-radius:10px;margin:12px 0}
+
+/* stepper */
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+.chip{font-size:13px;padding:4px 10px;border-radius:99px;background:var(--surface2);color:var(--faint);border:1px solid transparent}
+.chip.reached{color:var(--text);border-color:var(--line);cursor:pointer}
+.chip.current{border-color:var(--accent);color:var(--accent)}
+.showall{background:none;border:none;color:var(--muted);font-size:13px;text-decoration:underline;padding:0;margin-left:auto}
+
+.stage{margin-top:18px}
+.stage.hidden,.step.hidden{display:none}
+.stage-title{display:flex;align-items:center;gap:10px;margin:26px 0 6px}
+.stage-title .num{background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:2px 9px;font-size:13px;color:var(--muted)}
+.stage-title h3{margin:0}
+
+.step{animation:fade .3s}
+.step h4{margin:0 0 8px;font-size:18px;color:var(--yellow)}
+.step p{margin:8px 0}
+.tip{background:var(--accent-soft);border-radius:10px;padding:10px 14px;margin:12px 0;font-size:15.5px}
+.tip b:first-child{color:var(--accent)}
+.nl{color:var(--accent);font-weight:600}
+.hl{background:rgba(255,209,102,.18);border-radius:4px;padding:0 3px}
+
+.ex{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-top:1px dashed var(--line)}
+.ex:first-child{border-top:none}
+.ex .t{flex:1}
+.ex .nlt{font-weight:600;font-size:18px}
+.ex .es{color:var(--muted);font-size:15px}
+.pron{color:var(--blue);font-size:14px;font-style:italic}
+.exs{background:var(--surface2);border-radius:10px;padding:6px 14px;margin:10px 0}
+
+table.t{border-collapse:collapse;width:100%;margin:10px 0;font-size:15.5px}
+table.t th,table.t td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+table.t th{background:var(--surface2);color:var(--muted);font-weight:600}
+.tscroll{overflow-x:auto}
+
+.say{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface2);color:var(--accent);display:inline-grid;place-items:center;padding:0}
+.say:hover{border-color:var(--accent)}
+.say svg{width:17px;height:17px}
+.say.playing{background:var(--accent);color:#1a0f05}
+
+.btn{background:var(--accent);color:#1a0f05;border:none;border-radius:10px;padding:10px 18px;font-weight:700;margin-top:10px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);font-weight:500}
+.btn.small{padding:6px 12px;font-size:14px;margin-top:6px}
+.btn.green{background:var(--green)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.check{margin-top:12px;background:var(--surface2);border-radius:10px;padding:10px 14px}
+.check .q{font-weight:600}
+.reveal{display:none;margin-top:6px;color:var(--green)}
+.reveal.on{display:block;animation:fade .25s}
+
+/* vocab */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.vitem{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start}
+.vitem .t{flex:1;min-width:0}
+.vitem .w{font-weight:700;font-size:17px}
+.vitem .m{color:var(--muted);font-size:15px}
+.vitem .n{color:var(--faint);font-size:13px;margin-top:2px}
+.art-de{color:var(--blue)} .art-het{color:#c792ea}
+
+/* dialogue */
+.dlg .line{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
+.who{flex:0 0 auto;min-width:80px;font-size:13px;color:var(--muted);padding-top:4px}
+.bubble{flex:1;background:var(--surface2);border-radius:12px;padding:8px 12px}
+.line:nth-child(even) .bubble{background:var(--blue-soft)}
+.bubble .es{display:none;color:var(--muted);font-size:15px}
+.dlg.tr .bubble .es{display:block}
+
+/* practice & quiz */
+.pq{padding:12px 0;border-top:1px dashed var(--line)}
+.pq:first-child{border-top:none}
+.rv{font-size:11px;font-weight:700;background:var(--yellow);color:#231a00;border-radius:6px;padding:1px 6px;margin-right:6px;vertical-align:middle}
+.qz{background:var(--surface2);border-radius:12px;padding:14px 16px;margin:12px 0}
+.qz .q{font-weight:600;margin-bottom:8px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--green-soft);border-color:var(--green)}
+.opt.wrong{background:var(--red-soft);border-color:var(--red)}
+.fb{margin-top:10px;padding:10px 12px;border-radius:10px;font-size:15.5px;display:none}
+.fb.on{display:block;animation:fade .25s}
+.fb.ok{background:var(--green-soft)} .fb.ko{background:var(--red-soft)}
+.fb b{display:block}
+.winput{width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}
+.winput:focus{outline:none;border-color:var(--accent)}
+.score{font-size:18px;font-weight:700}
+.result{border-radius:var(--radius);padding:16px 18px;margin:16px 0;background:var(--green-soft);border:1px solid var(--green)}
+.result.meh{background:var(--accent-soft);border-color:var(--accent)}
+
+.navbtns{display:flex;justify-content:space-between;gap:10px;margin-top:30px;flex-wrap:wrap}
+
+/* flashcards */
+.fc{perspective:1000px;margin:16px auto;max-width:460px}
+.fcard{background:var(--surface2);border:1px solid var(--line);border-radius:18px;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:6px}
+.fcard .big{font-size:30px;font-weight:800}
+.fcard .back{display:none}
+.fcard.flip .back{display:block;animation:fade .25s}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.filters select,.filters input{background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;font-size:15px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{background:var(--surface);color:var(--muted);border:none;padding:8px 14px;font-size:14px}
+.seg button.on{background:var(--accent-soft);color:var(--text)}
+
+.toplist{list-style:none;padding:0;margin:0}
+.toplist li{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.toplist li:first-child{border-top:none}
+.dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:12px}
+.dot.ok{background:var(--green);border-color:var(--green);color:#062017}
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 18px;margin:16px 0}
+summary{cursor:pointer;font-weight:600}
+.warn{color:var(--yellow);font-size:13px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--green);color:#062017;font-weight:700;padding:12px 20px;border-radius:12px;transition:transform .35s;z-index:50;max-width:90vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.celebrate{text-align:center;padding:24px;border-radius:18px;background:linear-gradient(135deg,rgba(255,138,61,.18),rgba(68,209,154,.16));border:1px solid var(--accent);margin:16px 0}
+.celebrate h3{font-size:24px}
+@media (max-width:600px){
+  body{font-size:16px}
+  h2{font-size:22px}
+  .who{min-width:60px}
+  .prog{flex:1 1 120px;min-width:120px}
+  .ttl p{display:none}
+  .badge{display:none}
+  .ttl{min-width:0;flex-basis:calc(100% - 150px)}
+  .top .wrap{gap:8px 12px}
+}
+</style></head>
+<body><noscript>Este curso necesita JavaScript activado.</noscript>
+<script>window.LEVEL = {
+  id: "A0",
+  title: "Nivel A0 — Primeros pasos",
+  subtitle: "Desde cero: sonidos, saludos y presentarte en Groningen",
+  prev: null,
+  next: "A1",
+  intro: "Bienvenido. Aquí empiezas <b>desde cero absoluto</b>. No hace falta saber nada. En este nivel vas a aprender cómo suena el holandés, a saludar, a decir quién eres y de dónde vienes, a contar hasta 20 y unas frases “salvavidas” para el día a día en Groningen. Vamos muy despacio: un paso cada vez, siempre con ejemplos y audio.",
+  studyPlan: [
+    "Días 1-2: Tema 1 (los sonidos). Escucha mucho; no pasa nada si aún no te salen.",
+    "Días 3-4: Tema 2 (saludos) y Tema 3 (presentarte).",
+    "Días 5-6: Tema 4 (ik ben / ik heb). Es el corazón del nivel: tómalo con calma.",
+    "Día 7: Tema 5 (números 0-20).",
+    "Días 8-9: Tema 6 (frases salvavidas) y Tema 7 (de / het).",
+    "Día 10: repasa las tarjetas de Vocabulario y haz el Quiz final. 15-20 minutos al día bastan."
+  ],
+  canDo: [
+    "Pronunciar los sonidos típicos del holandés (g, ui, ij, oe, eu…) de forma entendible.",
+    "Saludar y despedirte de forma formal e informal.",
+    "Decir tu nombre, de dónde eres, dónde vives y a qué te dedicas.",
+    "Usar <span class='nl'>ik ben</span> (soy/estoy) e <span class='nl'>ik heb</span> (tengo) con todas las personas.",
+    "Contar de 0 a 20 y decir tu edad.",
+    "Pedir que te repitan, que hablen despacio o preguntar el precio.",
+    "Saber que cada sustantivo lleva <span class='nl'>de</span> o <span class='nl'>het</span>."
+  ],
+  review: [],
+
+  topics: [
+    /* ================= TEMA 1 ================= */
+    {
+      id: "t1",
+      title: "Los sonidos",
+      goal: "Reconocer y pronunciar los sonidos típicos del holandés, sobre todo los que no existen en español.",
+      steps: [
+        {
+          title: "Paso 1: Buenas noticias",
+          html: "<p>El holandés se escribe con las mismas letras que el español. Y hay una gran ventaja: <b>casi siempre se lee igual como se escribe</b>, con unas pocas reglas.</p><p>Muchas palabras ya las entiendes: </p>",
+          examples: [
+            { nl: "de universiteit", es: "la universidad", pron: "de ü-ni-ver-si-TEIT" },
+            { nl: "de computer", es: "la computadora", pron: "de kom-PIU-ter" },
+            { nl: "de telefoon", es: "el teléfono", pron: "de te-le-FOON" },
+            { nl: "het station", es: "la estación (de tren)", pron: "het sta-SJON" }
+          ],
+          tip: "<b>Truco:</b> pulsa siempre el altavoz y repite en voz alta 2 veces. Hablar en voz alta, aunque sea solo, es lo que más ayuda.",
+          check: { q: "¿Qué significa <span class='nl'>de telefoon</span>?", a: "El teléfono." }
+        },
+        {
+          title: "Paso 2: La G y la CH suenan como nuestra J",
+          html: "<p>Este es el sonido más famoso del holandés. Para ti es fácil: <b>g</b> y <b>ch</b> suenan como la <b>jota</b> española (“jamón”), pero más suave, como si carraspearas un poquito.</p>",
+          examples: [
+            { nl: "goed", es: "bien", pron: "jut" },
+            { nl: "Groningen", es: "Groningen (tu ciudad)", pron: "JRO-ning-e(n)" },
+            { nl: "acht", es: "ocho", pron: "ajt" },
+            { nl: "gezellig", es: "acogedor, agradable", pron: "je-ZE-lej" }
+          ],
+          tip: "<b>Comparado con el español:</b> nunca pronuncies la g holandesa como en “gato”. Piensa siempre en “jota”. Excepción: en <span class='nl'>-ng</span> suena como en “tengo”: <span class='nl'>Groningen</span>.",
+          check: { q: "¿Cómo suena la <b>g</b> de <span class='nl'>goed</span>?", a: "Como una jota española suave: “jut”." }
+        },
+        {
+          title: "Paso 3: Vocales largas y cortas",
+          html: "<p>En holandés una vocal puede ser corta o larga, y eso cambia el significado. <b>Si la vocal está escrita dos veces, es larga</b>: aa, ee, oo, uu.</p>",
+          examples: [
+            { nl: "man", es: "hombre (a corta)", pron: "man" },
+            { nl: "maan", es: "luna (a larga)", pron: "maan" },
+            { nl: "bom", es: "bomba (o corta)", pron: "bom" },
+            { nl: "boom", es: "árbol (o larga)", pron: "boom" }
+          ],
+          tip: "<b>Truco:</b> la vocal larga es como alargar la vocal española: “maaan”. No hace falta que sea perfecto; basta con que se note la diferencia.",
+          check: { q: "¿Cuál es la palabra para “árbol”: <span class='nl'>bom</span> o <span class='nl'>boom</span>?", a: "<span class='nl'>boom</span> (o larga, escrita doble)." }
+        },
+        {
+          title: "Paso 4: Combinaciones que parecen raras (1)",
+          html: "<p>Solo tienes que aprender unas pocas “parejas de letras”. Empecemos con tres fáciles:</p><ul><li><b>oe</b> = nuestra <b>u</b></li><li><b>ie</b> = nuestra <b>i</b></li><li><b>ij</b> y <b>ei</b> = <b>ei</b> (como en “rey”). Suenan igual.</li></ul>",
+          examples: [
+            { nl: "goedemorgen", es: "buenos días", pron: "ju-de-MOR-je(n)" },
+            { nl: "de fiets", es: "la bicicleta", pron: "de fiits" },
+            { nl: "mijn", es: "mi", pron: "mein" },
+            { nl: "klein", es: "pequeño", pron: "klein" }
+          ],
+          table: { head: ["Se escribe", "Suena como", "Ejemplo"], rows: [["oe", "u", "goed (jut)"], ["ie", "i", "fiets (fiits)"], ["ij / ei", "ei", "mijn (mein) / klein"]] },
+          check: { q: "¿Cómo se pronuncia <span class='nl'>fiets</span>?", a: "“fiits”, con i (la combinación ie suena i)." }
+        },
+        {
+          title: "Paso 5: Combinaciones que parecen raras (2)",
+          html: "<p>Ahora las tres que no existen en español. No te preocupes si al principio suenan parecidas:</p><ul><li><b>ui</b> = <b>öi</b>: di “ei” pero con los labios redondos, como para dar un beso.</li><li><b>eu</b> = <b>ö</b>: di “e” con los labios redondos.</li><li><b>u / uu</b> = <b>ü</b>: di “i” con los labios redondos (como la <i>u</i> francesa).</li><li><b>ou / au</b> = <b>au</b>, fácil, como en “auto”.</li></ul>",
+          examples: [
+            { nl: "het huis", es: "la casa", pron: "het höis" },
+            { nl: "leuk", es: "divertido, chévere", pron: "lök" },
+            { nl: "het uur", es: "la hora", pron: "het üür" },
+            { nl: "koud", es: "frío", pron: "kaut" }
+          ],
+          tip: "<b>Truco del espejo:</b> mírate al espejo. Si tus labios están redondos (como para silbar) cuando dices <span class='nl'>huis</span>, <span class='nl'>leuk</span> o <span class='nl'>uur</span>, lo estás haciendo bien.",
+          check: { q: "¿Cuál es la palabra que significa “casa”?", a: "<span class='nl'>het huis</span> (höis)." }
+        },
+        {
+          title: "Paso 6: Unas consonantes distintas",
+          html: "<ul><li><b>j</b> holandesa = nuestra <b>y</b>: <span class='nl'>ja</span> = “ya”.</li><li><b>sch</b> = <b>s + jota</b>: <span class='nl'>school</span> = “sjool”.</li><li><b>w</b> = una “v/u” suave: <span class='nl'>wat</span>.</li><li><b>h</b> se pronuncia (aspirada, como en inglés “hello”).</li><li><b>d</b> al final de palabra suena <b>t</b>.</li></ul>",
+          examples: [
+            { nl: "ja", es: "sí", pron: "ya" },
+            { nl: "de school", es: "la escuela", pron: "de sjool" },
+            { nl: "wat", es: "qué", pron: "wat" },
+            { nl: "hallo", es: "hola", pron: "HA-lo (h aspirada)" },
+            { nl: "het brood", es: "el pan", pron: "het broot" }
+          ],
+          check: { q: "¿Cómo suena la palabra <span class='nl'>ja</span>?", a: "“ya”. La j holandesa suena como nuestra y." }
+        }
+      ],
+      vocab: [
+        { nl: "ja", pron: "ya", es: "sí" },
+        { nl: "nee", pron: "nee", es: "no" },
+        { nl: "goed", pron: "jut", es: "bien" },
+        { nl: "leuk", pron: "lök", es: "divertido, bonito, chévere", note: "Palabra muy usada: “Leuk!” = ¡Qué bien!" },
+        { nl: "gezellig", pron: "je-ZE-lej", es: "acogedor, agradable (ambiente)", note: "Palabra típica holandesa, sin traducción exacta." },
+        { nl: "het huis", pron: "het höis", es: "la casa" },
+        { nl: "de fiets", pron: "de fiits", es: "la bicicleta" },
+        { nl: "de universiteit", pron: "de ü-ni-ver-si-TEIT", es: "la universidad" },
+        { nl: "het station", pron: "het sta-SJON", es: "la estación" },
+        { nl: "de school", pron: "de sjool", es: "la escuela" },
+        { nl: "het brood", pron: "het broot", es: "el pan" },
+        { nl: "koud", pron: "kaut", es: "frío" },
+        { nl: "klein", pron: "klein", es: "pequeño" },
+        { nl: "groot", pron: "jroot", es: "grande" }
+      ],
+      dialogue: {
+        title: "Primeras palabras",
+        context: "Un compañero de la universidad te enseña palabras típicas mientras van hacia la estación.",
+        lines: [
+          { who: "Sanne", nl: "Hallo! Fiets je naar het station?", es: "¡Hola! ¿Vas en bici a la estación?" },
+          { who: "Tú", nl: "Ja!", es: "¡Sí!" },
+          { who: "Sanne", nl: "Leuk! Het is koud vandaag.", es: "¡Qué bien! Hace frío hoy." },
+          { who: "Tú", nl: "Ja, heel koud.", es: "Sí, mucho frío." },
+          { who: "Sanne", nl: "Maar Groningen is gezellig!", es: "¡Pero Groningen es acogedor!" },
+          { who: "Tú", nl: "Ja, heel gezellig.", es: "Sí, muy acogedor." }
+        ]
+      },
+      practice: [
+        { q: "Lee en voz alta y luego comprueba: <span class='nl'>goed</span>", a: "“jut” (g = jota, oe = u, d final = t)" },
+        { q: "Lee en voz alta: <span class='nl'>het huis</span>", a: "“het höis” (ui = öi, labios redondos)" },
+        { q: "¿Qué letras suenan como nuestra “u”?", a: "<span class='nl'>oe</span> (goed, goedemorgen)." },
+        { q: "¿Qué dos combinaciones suenan “ei”?", a: "<span class='nl'>ij</span> y <span class='nl'>ei</span> (mijn, klein)." },
+        { q: "Lee en voz alta: <span class='nl'>de school</span>", a: "“de sjool” (sch = s + jota; oo = o larga)" }
+      ],
+      quiz: [
+        { q: "La <b>g</b> holandesa (goed, Groningen) suena como…", options: ["la g de “gato”", "la jota española suave", "la y de “yo”"], answer: 1, explain: "La g y la ch suenan como una jota suave: goed = “jut”." },
+        { q: "¿Cómo suena <b>oe</b> en <span class='nl'>goed</span>?", options: ["o-e", "ö", "u"], answer: 2, explain: "oe = u. Por eso goed suena “jut”." },
+        { q: "¿Qué palabra tiene una vocal <b>larga</b>?", options: ["man", "maan", "bom"], answer: 1, explain: "Vocal escrita dos veces = larga: maan (luna)." },
+        { q: "La <b>j</b> de <span class='nl'>ja</span> suena como…", options: ["la y española: “ya”", "la jota: “ja”", "la h inglesa"], answer: 0, explain: "La j holandesa = nuestra y." },
+        { type: "write", q: "Escribe en holandés la palabra que significa “sí”.", accept: ["ja"], explain: "<span class='nl'>ja</span>, que se pronuncia “ya”." },
+        { q: "¿Cómo se pronuncia <span class='nl'>fiets</span> (bicicleta)?", options: ["fi-ETS", "fiits", "feits"], answer: 1, explain: "ie = i. Fiets = “fiits”." }
+      ]
+    },
+
+    /* ================= TEMA 2 ================= */
+    {
+      id: "t2",
+      title: "Saludos y cortesía",
+      goal: "Saludar, despedirte, dar las gracias y pedir perdón, en modo formal e informal.",
+      steps: [
+        {
+          title: "Paso 1: Hola",
+          html: "<p>Para saludar a cualquier persona, a cualquier hora, usa <span class='nl'>Hallo</span>. Con amigos o gente joven, <span class='nl'>Hoi</span> es más relajado.</p>",
+          examples: [
+            { nl: "Hallo!", es: "¡Hola!", pron: "HA-lo" },
+            { nl: "Hoi!", es: "¡Hola! (informal)", pron: "hoi" },
+            { nl: "Hoi, hoe gaat het?", es: "Hola, ¿qué tal?", pron: "hoi, hu jaat het" }
+          ],
+          tip: "<b>Truco:</b> <span class='nl'>Hallo</span> nunca falla. Si dudas, usa <span class='nl'>Hallo</span>.",
+          check: { q: "Llegas a tu oficina en la universidad. ¿Qué dices?", a: "<span class='nl'>Hallo!</span> (o <span class='nl'>Hoi!</span> si son compañeros cercanos)." }
+        },
+        {
+          title: "Paso 2: Saludar según la hora",
+          html: "<p>Como en español (“buenos días”), pero la palabra <span class='nl'>goede</span> (buen/buena) se pega a la hora del día:</p>",
+          examples: [
+            { nl: "Goedemorgen!", es: "¡Buenos días! (hasta las 12)", pron: "ju-de-MOR-je(n)" },
+            { nl: "Goedemiddag!", es: "¡Buenas tardes! (12 a 18 h)", pron: "ju-de-MI-daj" },
+            { nl: "Goedenavond!", es: "¡Buenas noches! (al llegar, por la tarde-noche)", pron: "ju-de(n)-AA-vont" }
+          ],
+          tip: "<b>Comparado con el español:</b> “buenas noches” para irte a dormir es otra cosa: <span class='nl'>Welterusten</span> (wel-te-RÜS-te(n)) = “que descanses”.",
+          check: { q: "Son las 9 de la mañana. ¿Cómo saludas a la secretaria?", a: "<span class='nl'>Goedemorgen!</span>" }
+        },
+        {
+          title: "Paso 3: Despedirse",
+          html: "<p>Hay varias formas. Estas tres cubren casi todo:</p>",
+          examples: [
+            { nl: "Dag!", es: "¡Adiós! (sirve para todo)", pron: "daj" },
+            { nl: "Doei!", es: "¡Chao! (informal)", pron: "dui" },
+            { nl: "Tot ziens!", es: "¡Hasta luego! (formal/neutro)", pron: "tot ziins" },
+            { nl: "Tot morgen!", es: "¡Hasta mañana!", pron: "tot MOR-je(n)" }
+          ],
+          tip: "<b>Truco:</b> <span class='nl'>Tot</span> = “hasta”. <span class='nl'>Tot ziens</span>, <span class='nl'>tot morgen</span>, <span class='nl'>tot straks</span> (hasta ahorita).",
+          check: { q: "¿Cómo dices “hasta mañana”?", a: "<span class='nl'>Tot morgen!</span>" }
+        },
+        {
+          title: "Paso 4: Gracias y por favor",
+          html: "<p>En holandés hay una versión <b>informal</b> (con amigos, compañeros, gente joven) y una <b>formal</b> (con desconocidos mayores, en una oficina). La diferencia es <span class='nl'>je</span> (tú) y <span class='nl'>u</span> (usted).</p>",
+          table: { head: ["", "Informal (tú)", "Formal (usted)"], rows: [["Gracias", "Dank je (wel)", "Dank u (wel)"], ["Por favor / Aquí tiene", "Alsjeblieft", "Alstublieft"]] },
+          examples: [
+            { nl: "Dank je wel!", es: "¡Muchas gracias! (informal)", pron: "dank ye wel" },
+            { nl: "Dank u wel!", es: "¡Muchas gracias! (formal)", pron: "dank ü wel" },
+            { nl: "Alsjeblieft.", es: "Por favor / aquí tienes.", pron: "als-ye-BLIIFT" },
+            { nl: "Alstublieft.", es: "Por favor / aquí tiene (usted).", pron: "als-tü-BLIIFT" }
+          ],
+          tip: "<b>Muy útil:</b> <span class='nl'>alsjeblieft</span> también se dice al <b>dar</b> algo (“aquí tienes”). En la caja del súper lo oirás muchas veces.",
+          check: { q: "El cajero del Albert Heijn te da el recibo. ¿Qué respondes?", a: "<span class='nl'>Dank u wel!</span> (o <span class='nl'>Dank je wel!</span>; en los súper muchos usan “je”)." }
+        },
+        {
+          title: "Paso 5: Sí, no y perdón",
+          html: "<p>Las palabras más cortas y más útiles:</p>",
+          examples: [
+            { nl: "Ja.", es: "Sí.", pron: "ya" },
+            { nl: "Nee.", es: "No.", pron: "nee" },
+            { nl: "Sorry!", es: "¡Perdón! / ¡Lo siento!", pron: "SO-ri" },
+            { nl: "Pardon?", es: "¿Perdón? ¿Cómo? (no te oí)", pron: "par-DON" },
+            { nl: "Graag gedaan.", es: "De nada.", pron: "jraaj je-DAAN" }
+          ],
+          check: { q: "Alguien te dice <span class='nl'>Dank je wel!</span>. ¿Qué respondes?", a: "<span class='nl'>Graag gedaan!</span> (de nada)" }
+        }
+      ],
+      vocab: [
+        { nl: "hallo", pron: "HA-lo", es: "hola" },
+        { nl: "hoi", pron: "hoi", es: "hola (informal)" },
+        { nl: "goedemorgen", pron: "ju-de-MOR-je(n)", es: "buenos días" },
+        { nl: "goedemiddag", pron: "ju-de-MI-daj", es: "buenas tardes" },
+        { nl: "goedenavond", pron: "ju-de(n)-AA-vont", es: "buenas noches (saludo)" },
+        { nl: "dag", pron: "daj", es: "adiós" },
+        { nl: "doei", pron: "dui", es: "chao (informal)" },
+        { nl: "tot ziens", pron: "tot ziins", es: "hasta luego" },
+        { nl: "tot morgen", pron: "tot MOR-je(n)", es: "hasta mañana" },
+        { nl: "dank je wel", pron: "dank ye wel", es: "muchas gracias (informal)" },
+        { nl: "dank u wel", pron: "dank ü wel", es: "muchas gracias (formal)" },
+        { nl: "alsjeblieft", pron: "als-ye-BLIIFT", es: "por favor / aquí tienes (informal)" },
+        { nl: "alstublieft", pron: "als-tü-BLIIFT", es: "por favor / aquí tiene (formal)" },
+        { nl: "graag gedaan", pron: "jraaj je-DAAN", es: "de nada" },
+        { nl: "sorry", pron: "SO-ri", es: "perdón, lo siento" },
+        { nl: "Hoe gaat het?", pron: "hu jaat het", es: "¿Qué tal? ¿Cómo estás?" },
+        { nl: "Goed, en met jou?", pron: "jut, en met yau", es: "Bien, ¿y tú?" }
+      ],
+      dialogue: {
+        title: "En la cafetería de Zernike",
+        context: "Por la mañana compras un café en el campus.",
+        lines: [
+          { who: "Barista", nl: "Goedemorgen!", es: "¡Buenos días!" },
+          { who: "Tú", nl: "Goedemorgen! Een koffie, alstublieft.", es: "¡Buenos días! Un café, por favor." },
+          { who: "Barista", nl: "Alsjeblieft.", es: "Aquí tienes." },
+          { who: "Tú", nl: "Dank je wel!", es: "¡Muchas gracias!" },
+          { who: "Barista", nl: "Graag gedaan. Fijne dag!", es: "De nada. ¡Que tengas un buen día!" },
+          { who: "Tú", nl: "Dank je, doei!", es: "Gracias, ¡chao!" }
+        ]
+      },
+      practice: [
+        { q: "Son las 3 de la tarde y entras a la gemeente (municipalidad). ¿Cómo saludas?", a: "<span class='nl'>Goedemiddag!</span>" },
+        { q: "Di “muchas gracias” a una señora mayor que no conoces.", a: "<span class='nl'>Dank u wel!</span>" },
+        { q: "Di “muchas gracias” a un compañero de tu grupo.", a: "<span class='nl'>Dank je wel!</span>" },
+        { q: "Te despides de tu vecino que verás mañana.", a: "<span class='nl'>Tot morgen!</span>" },
+        { q: "Alguien te pregunta <span class='nl'>Hoe gaat het?</span>. Responde “Bien, ¿y tú?”.", a: "<span class='nl'>Goed, en met jou?</span>" }
+      ],
+      quiz: [
+        { q: "¿Qué significa <span class='nl'>Tot ziens</span>?", options: ["Buenos días", "Hasta luego", "Gracias"], answer: 1, explain: "<span class='nl'>Tot</span> = hasta. <span class='nl'>Tot ziens</span> = hasta luego." },
+        { q: "Hablas con un profesor mayor que no conoces. ¿Cuál es más adecuado?", options: ["Dank je wel", "Doei", "Dank u wel"], answer: 2, explain: "Con <b>u</b> (usted) eres formal: <span class='nl'>Dank u wel</span>." },
+        { q: "Son las 8 de la noche y llegas a una cena. Dices…", options: ["Goedenavond!", "Goedemorgen!", "Welterusten!"], answer: 0, explain: "<span class='nl'>Goedenavond</span> para saludar por la noche. <span class='nl'>Welterusten</span> es para ir a dormir." },
+        { type: "write", q: "Escribe en holandés: “de nada”.", accept: ["graag gedaan"], explain: "<span class='nl'>Graag gedaan</span> (jraaj je-DAAN)." },
+        { q: "El cajero te da el cambio y dice <span class='nl'>Alsjeblieft</span>. Aquí significa…", options: ["por favor", "aquí tienes", "lo siento"], answer: 1, explain: "Al dar algo, <span class='nl'>alsjeblieft</span> = aquí tienes." },
+        { type: "write", q: "Escribe el saludo informal más corto (empieza con h).", accept: ["hoi", "hallo"], explain: "<span class='nl'>Hoi</span> es informal; <span class='nl'>Hallo</span> sirve siempre." }
+      ]
+    },
+
+    /* ================= TEMA 3 ================= */
+    {
+      id: "t3",
+      title: "Presentarte",
+      goal: "Decir tu nombre, de dónde eres, dónde vives y a qué te dedicas, y preguntárselo a otra persona.",
+      steps: [
+        {
+          title: "Paso 1: Me llamo…",
+          html: "<p>Hay dos formas igual de normales. Mira los ejemplos:</p>",
+          examples: [
+            { nl: "Ik heet Luis.", es: "Me llamo Luis.", pron: "ik heet LU-is" },
+            { nl: "Ik ben Luis.", es: "Soy Luis.", pron: "ik ben LU-is" }
+          ],
+          tip: "<b>Palabra nueva:</b> <span class='nl'>ik</span> = yo. Siempre se dice (en español a veces lo omitimos, en holandés <b>nunca</b>). <span class='nl'>Ik heet</span> = yo me llamo.",
+          check: { q: "¿Cómo dices “me llamo Ana”?", a: "<span class='nl'>Ik heet Ana.</span> (o <span class='nl'>Ik ben Ana.</span>)" }
+        },
+        {
+          title: "Paso 2: Soy de…",
+          html: "<p>Para decir de dónde eres: <span class='nl'>Ik kom uit</span> + país. Literalmente “yo vengo de”.</p>",
+          examples: [
+            { nl: "Ik kom uit Costa Rica.", es: "Soy de Costa Rica.", pron: "ik kom öit KOS-ta RII-ka" },
+            { nl: "Ik kom uit Nederland.", es: "Soy de los Países Bajos.", pron: "ik kom öit NEE-der-lant" },
+            { nl: "Ik kom uit Spanje.", es: "Soy de España.", pron: "ik kom öit SPAN-ye" }
+          ],
+          tip: "<b>Recuerda el sonido:</b> <span class='nl'>uit</span> tiene <b>ui</b> = “öit”, con labios redondos.",
+          check: { q: "¿Cómo dices “soy de Costa Rica”?", a: "<span class='nl'>Ik kom uit Costa Rica.</span>" }
+        },
+        {
+          title: "Paso 3: Vivo en…",
+          html: "<p>Para decir dónde vives: <span class='nl'>Ik woon in</span> + ciudad.</p>",
+          examples: [
+            { nl: "Ik woon in Groningen.", es: "Vivo en Groningen.", pron: "ik woon in JRO-ning-e(n)" },
+            { nl: "Ik woon in Nederland.", es: "Vivo en los Países Bajos.", pron: "ik woon in NEE-der-lant" }
+          ],
+          tip: "<b>Palabra nueva:</b> <span class='nl'>wonen</span> = vivir (residir en un lugar). Para “vivir” en el sentido de “estar vivo” se usa otra palabra (leven), pero eso no lo necesitas ahora.",
+          check: { q: "¿Cómo dices “vivo en Groningen”?", a: "<span class='nl'>Ik woon in Groningen.</span>" }
+        },
+        {
+          title: "Paso 4: Mi trabajo",
+          html: "<p>Para tu profesión: <span class='nl'>Ik ben</span> + profesión. <b>¡Sin “un”!</b>, igual que en español (“soy ingeniero”).</p>",
+          examples: [
+            { nl: "Ik ben ingenieur.", es: "Soy ingeniero.", pron: "ik ben in-je-NIÖR" },
+            { nl: "Ik ben onderzoeker.", es: "Soy investigador.", pron: "ik ben ON-der-zu-ker" },
+            { nl: "Ik werk aan de universiteit.", es: "Trabajo en la universidad.", pron: "ik werk aan de ü-ni-ver-si-TEIT" },
+            { nl: "Ik ben student.", es: "Soy estudiante.", pron: "ik ben stü-DENT" }
+          ],
+          check: { q: "Di “soy investigador”.", a: "<span class='nl'>Ik ben onderzoeker.</span>" }
+        },
+        {
+          title: "Paso 5: Preguntar a la otra persona",
+          html: "<p>Ahora al revés. Estas son las preguntas (informales, con <span class='nl'>je</span> = tú):</p>",
+          examples: [
+            { nl: "Hoe heet je?", es: "¿Cómo te llamas?", pron: "hu heet ye" },
+            { nl: "Waar kom je vandaan?", es: "¿De dónde eres?", pron: "waar kom ye van-DAAN" },
+            { nl: "Waar woon je?", es: "¿Dónde vives?", pron: "waar woon ye" },
+            { nl: "Leuk je te ontmoeten!", es: "¡Encantado de conocerte!", pron: "lök ye te ont-MU-te(n)" }
+          ],
+          tip: "<b>Fíjate:</b> en la pregunta, el verbo va <b>antes</b> de <span class='nl'>je</span>: <span class='nl'>Hoe heet <b>je</b>?</span> (como “¿Cómo te llamas <b>tú</b>?”). <span class='nl'>Hoe</span> = cómo, <span class='nl'>waar</span> = dónde.",
+          check: { q: "¿Qué significa <span class='nl'>Waar woon je?</span>", a: "¿Dónde vives?" }
+        }
+      ],
+      vocab: [
+        { nl: "ik", pron: "ik", es: "yo" },
+        { nl: "Ik heet…", pron: "ik heet", es: "Me llamo…" },
+        { nl: "Ik kom uit…", pron: "ik kom öit", es: "Soy de… (vengo de)" },
+        { nl: "Ik woon in…", pron: "ik woon in", es: "Vivo en…" },
+        { nl: "Ik werk aan de universiteit.", pron: "ik werk aan de ü-ni-ver-si-TEIT", es: "Trabajo en la universidad." },
+        { nl: "de onderzoeker", pron: "de ON-der-zu-ker", es: "el investigador" },
+        { nl: "de ingenieur", pron: "de in-je-NIÖR", es: "el ingeniero" },
+        { nl: "de student", pron: "de stü-DENT", es: "el estudiante" },
+        { nl: "Hoe heet je?", pron: "hu heet ye", es: "¿Cómo te llamas?" },
+        { nl: "Waar kom je vandaan?", pron: "waar kom ye van-DAAN", es: "¿De dónde eres?" },
+        { nl: "Waar woon je?", pron: "waar woon ye", es: "¿Dónde vives?" },
+        { nl: "Leuk je te ontmoeten!", pron: "lök ye te ont-MU-te(n)", es: "¡Encantado de conocerte!" },
+        { nl: "Nederland", pron: "NEE-der-lant", es: "Países Bajos" },
+        { nl: "hoe", pron: "hu", es: "cómo" },
+        { nl: "waar", pron: "waar", es: "dónde" }
+      ],
+      dialogue: {
+        title: "Una fiesta de bienvenida",
+        context: "En una borrel (reunión con bebidas) del departamento conoces a alguien nuevo.",
+        lines: [
+          { who: "Eva", nl: "Hoi! Ik ben Eva. Hoe heet je?", es: "¡Hola! Soy Eva. ¿Cómo te llamas?" },
+          { who: "Tú", nl: "Hoi Eva, ik heet Luis.", es: "Hola Eva, me llamo Luis." },
+          { who: "Eva", nl: "Leuk je te ontmoeten! Waar kom je vandaan?", es: "¡Encantada! ¿De dónde eres?" },
+          { who: "Tú", nl: "Ik kom uit Costa Rica. En jij?", es: "Soy de Costa Rica. ¿Y tú?" },
+          { who: "Eva", nl: "Ik kom uit Groningen. Waar woon je?", es: "Soy de Groningen. ¿Dónde vives?" },
+          { who: "Tú", nl: "Ik woon ook in Groningen. Ik ben onderzoeker.", es: "Yo también vivo en Groningen. Soy investigador." },
+          { who: "Eva", nl: "Leuk!", es: "¡Qué bien!" }
+        ]
+      },
+      practice: [
+        { q: "Preséntate en 3 frases: nombre, país y ciudad. Dilo en voz alta.", a: "<span class='nl'>Ik heet Luis. Ik kom uit Costa Rica. Ik woon in Groningen.</span>" },
+        { q: "Traduce: “Soy estudiante.”", a: "<span class='nl'>Ik ben student.</span>" },
+        { q: "Pregunta a alguien de dónde es.", a: "<span class='nl'>Waar kom je vandaan?</span>" },
+        { q: "Traduce: “Trabajo en la universidad.”", a: "<span class='nl'>Ik werk aan de universiteit.</span>" },
+        { q: "Completa: <span class='nl'>Leuk je te ...!</span>", a: "<span class='nl'>ontmoeten</span> → Leuk je te ontmoeten!" }
+      ],
+      quiz: [
+        { q: "¿Cómo dices “soy de Costa Rica”?", options: ["Ik woon in Costa Rica.", "Ik kom uit Costa Rica.", "Ik heet Costa Rica."], answer: 1, explain: "<span class='nl'>Ik kom uit</span> = soy de / vengo de. <span class='nl'>Ik woon in</span> = vivo en." },
+        { q: "<span class='nl'>Hoe heet je?</span> significa…", options: ["¿Cómo estás?", "¿Dónde vives?", "¿Cómo te llamas?"], answer: 2, explain: "<span class='nl'>heten</span> = llamarse. ¿Cómo estás? sería <span class='nl'>Hoe gaat het?</span>" },
+        { type: "write", q: "Escribe en holandés: “Vivo en Groningen.”", accept: ["ik woon in groningen"], explain: "<span class='nl'>Ik woon in Groningen.</span> Recuerda: <span class='nl'>ik</span> siempre se escribe." },
+        { q: "“Soy ingeniero” en holandés es…", options: ["Ik ben een ingenieur.", "Ik ben ingenieur.", "Ben ingenieur."], answer: 1, explain: "Con profesiones no se usa “een” (un), y <span class='nl'>ik</span> nunca se omite." },
+        { q: "¿Qué palabra significa “dónde”?", options: ["hoe", "waar", "wat"], answer: 1, explain: "<span class='nl'>waar</span> = dónde. <span class='nl'>hoe</span> = cómo, <span class='nl'>wat</span> = qué." },
+        { q: "Respuesta amable al conocer a alguien:", options: ["Leuk je te ontmoeten!", "Tot morgen!", "Sorry!"], answer: 0, explain: "<span class='nl'>Leuk je te ontmoeten</span> = encantado de conocerte." }
+      ]
+    },
+
+    /* ================= TEMA 4 ================= */
+    {
+      id: "t4",
+      title: "Ik ben / ik heb",
+      goal: "Usar las personas (yo, tú, él…) con los dos verbos más importantes: zijn (ser/estar) y hebben (tener).",
+      steps: [
+        {
+          title: "Paso 1: Las personas",
+          html: "<p>Antes de los verbos, las palabras para las personas (se llaman <b>pronombres</b>: palabras que reemplazan a un nombre, como “yo”, “tú”, “ella”).</p>",
+          table: { head: ["Holandés", "Pronunciación", "Español"], rows: [
+            ["ik", "ik", "yo"], ["jij / je", "yei / ye", "tú"], ["u", "ü", "usted"], ["hij", "hei", "él"], ["zij / ze", "zei / ze", "ella"], ["het", "het", "ello (cosas)"],
+            ["wij / we", "wei / we", "nosotros"], ["jullie", "YÜ-li", "ustedes (vosotros)"], ["zij / ze", "zei / ze", "ellos, ellas"]] },
+          tip: "<b>¿Por qué dos formas (jij/je, wij/we)?</b> Son la misma palabra: la larga es con énfasis, la corta es la normal al hablar rápido. Al principio usa la que te salga.",
+          check: { q: "¿Qué significa <span class='nl'>wij</span>?", a: "nosotros" }
+        },
+        {
+          title: "Paso 2: zijn = ser y estar (1)",
+          html: "<p>En español tenemos “ser” y “estar”. En holandés hay <b>un solo verbo</b> para los dos: <span class='nl'>zijn</span>. ¡Una cosa menos! Empecemos con el singular:</p>",
+          examples: [
+            { nl: "Ik ben Luis.", es: "Yo soy Luis.", pron: "ik ben LU-is" },
+            { nl: "Jij bent moe.", es: "Tú estás cansado.", pron: "yei bent mu" },
+            { nl: "U bent welkom.", es: "Usted es bienvenido.", pron: "ü bent WEL-kom" },
+            { nl: "Hij is ingenieur.", es: "Él es ingeniero.", pron: "hei is in-je-NIÖR" },
+            { nl: "Zij is thuis.", es: "Ella está en casa.", pron: "zei is töis" }
+          ],
+          table: { head: ["Persona", "zijn"], rows: [["ik", "<b>ben</b>"], ["jij / je", "<b>bent</b>"], ["u", "<b>bent</b>"], ["hij / zij / het", "<b>is</b>"]] },
+          check: { q: "Completa: <span class='nl'>Hij ___ student.</span>", a: "<span class='nl'>is</span> → Hij is student." }
+        },
+        {
+          title: "Paso 3: zijn = ser y estar (2)",
+          html: "<p>Ahora el plural. Buena noticia: <b>las tres personas del plural usan la misma forma</b>: <span class='nl'>zijn</span>.</p>",
+          examples: [
+            { nl: "Wij zijn in Groningen.", es: "Nosotros estamos en Groningen.", pron: "wei zein in JRO-ning-e(n)" },
+            { nl: "Jullie zijn welkom.", es: "Ustedes son bienvenidos.", pron: "YÜ-li zein WEL-kom" },
+            { nl: "Zij zijn collega's.", es: "Ellos son colegas.", pron: "zei zein ko-LEE-jas" }
+          ],
+          table: { head: ["Persona", "zijn"], rows: [["wij / we", "<b>zijn</b>"], ["jullie", "<b>zijn</b>"], ["zij / ze", "<b>zijn</b>"]] },
+          tip: "<b>Regla de oro para todo el curso:</b> en plural (wij, jullie, zij) el verbo casi siempre es igual al infinitivo. ¡Así aprendes 3 formas de una vez!",
+          check: { q: "Completa: <span class='nl'>Wij ___ moe.</span>", a: "<span class='nl'>zijn</span> → Wij zijn moe (estamos cansados)." }
+        },
+        {
+          title: "Paso 4: hebben = tener",
+          html: "<p>El segundo verbo más importante. Mira primero los ejemplos:</p>",
+          examples: [
+            { nl: "Ik heb een fiets.", es: "Tengo una bicicleta.", pron: "ik hep en fiits" },
+            { nl: "Jij hebt een vraag.", es: "Tú tienes una pregunta.", pron: "yei hept en fraaj" },
+            { nl: "Hij heeft tijd.", es: "Él tiene tiempo.", pron: "hei heeft teit" },
+            { nl: "Wij hebben een huis.", es: "Nosotros tenemos una casa.", pron: "wei HE-be(n) en höis" }
+          ],
+          table: { head: ["Persona", "hebben"], rows: [["ik", "<b>heb</b>"], ["jij / je", "<b>hebt</b>"], ["u", "<b>hebt</b> (o heeft)"], ["hij / zij / het", "<b>heeft</b>"], ["wij / jullie / zij", "<b>hebben</b>"]] },
+          tip: "<b>Palabra nueva:</b> <span class='nl'>een</span> = un / una (se pronuncia corto: “en”).",
+          check: { q: "Completa: <span class='nl'>Zij ___ een fiets.</span> (ella)", a: "<span class='nl'>heeft</span> → Zij heeft een fiets." }
+        },
+        {
+          title: "Paso 5: Cuando preguntas, el verbo va primero",
+          html: "<p>Para preguntar “¿sí o no?”, pon el verbo <b>al principio</b>. Y atención: con <span class='nl'>jij</span>, el verbo pierde la <b>-t</b> si va delante.</p>",
+          examples: [
+            { nl: "Ben jij Luis?", es: "¿Eres tú Luis?", pron: "ben yei LU-is" },
+            { nl: "Heb je tijd?", es: "¿Tienes tiempo?", pron: "hep ye teit" },
+            { nl: "Is hij thuis?", es: "¿Está él en casa?", pron: "is hei töis" },
+            { nl: "Bent u meneer De Vries?", es: "¿Es usted el señor De Vries?", pron: "bent ü me-NEER de friis" }
+          ],
+          tip: "<b>Comparado con el español:</b> “jij bent” → “<b>ben</b> jij?”; “jij hebt” → “<b>heb</b> jij?”. La -t se cae solo cuando <span class='nl'>jij/je</span> va detrás. Con <span class='nl'>u</span> no cambia: <span class='nl'>Bent u…?</span>",
+          check: { q: "Pregunta “¿Tienes una bicicleta?”", a: "<span class='nl'>Heb je een fiets?</span>" }
+        }
+      ],
+      vocab: [
+        { nl: "zijn", pron: "zein", es: "ser / estar" },
+        { nl: "hebben", pron: "HE-be(n)", es: "tener" },
+        { nl: "jij / je", pron: "yei / ye", es: "tú" },
+        { nl: "u", pron: "ü", es: "usted" },
+        { nl: "hij", pron: "hei", es: "él" },
+        { nl: "zij / ze", pron: "zei / ze", es: "ella; ellos" },
+        { nl: "wij / we", pron: "wei / we", es: "nosotros" },
+        { nl: "jullie", pron: "YÜ-li", es: "ustedes" },
+        { nl: "een", pron: "en", es: "un / una" },
+        { nl: "moe", pron: "mu", es: "cansado" },
+        { nl: "thuis", pron: "töis", es: "en casa" },
+        { nl: "de tijd", pron: "de teit", es: "el tiempo (horas)" },
+        { nl: "de vraag", pron: "de fraaj", es: "la pregunta" },
+        { nl: "de collega", pron: "de ko-LEE-ja", es: "el/la colega", note: "plural: collega's" },
+        { nl: "welkom", pron: "WEL-kom", es: "bienvenido" }
+      ],
+      dialogue: {
+        title: "En el pasillo del departamento",
+        context: "Buscas a un colega para una reunión.",
+        lines: [
+          { who: "Tú", nl: "Hallo! Ben jij Tom?", es: "¡Hola! ¿Eres tú Tom?" },
+          { who: "Tom", nl: "Nee, ik ben Pieter. Tom is thuis.", es: "No, soy Pieter. Tom está en casa." },
+          { who: "Tú", nl: "O, sorry! Heb je tijd?", es: "¡Ah, perdón! ¿Tienes tiempo?" },
+          { who: "Pieter", nl: "Ja, ik heb tijd. Heb je een vraag?", es: "Sí, tengo tiempo. ¿Tienes una pregunta?" },
+          { who: "Tú", nl: "Ja, ik heb een vraag.", es: "Sí, tengo una pregunta." },
+          { who: "Pieter", nl: "Goed! Welkom!", es: "¡Bien! ¡Bienvenido!" }
+        ]
+      },
+      practice: [
+        { q: "Completa: <span class='nl'>Ik ___ moe.</span> (zijn)", a: "<span class='nl'>ben</span> → Ik ben moe." },
+        { q: "Completa: <span class='nl'>Jullie ___ een huis.</span> (hebben)", a: "<span class='nl'>hebben</span> → Jullie hebben een huis." },
+        { q: "Completa: <span class='nl'>Hij ___ tijd.</span> (hebben)", a: "<span class='nl'>heeft</span> → Hij heeft tijd." },
+        { q: "Convierte en pregunta: <span class='nl'>Jij bent moe.</span>", a: "<span class='nl'>Ben jij moe?</span> (se cae la -t)" },
+        { q: "Traduce: “Nosotros estamos en casa.”", a: "<span class='nl'>Wij zijn thuis.</span> (o We zijn thuis.)" },
+        { q: "Traduce: “¿Tiene usted una pregunta?”", a: "<span class='nl'>Hebt u een vraag?</span> (también se oye <span class='nl'>Heeft u een vraag?</span>)" }
+      ],
+      quiz: [
+        { q: "<span class='nl'>Zij ___ in Groningen.</span> (ella está)", options: ["ben", "is", "zijn"], answer: 1, explain: "hij / zij (ella) / het → <span class='nl'>is</span>." },
+        { q: "<span class='nl'>Wij ___ een fiets.</span>", options: ["heeft", "hebt", "hebben"], answer: 2, explain: "Plural → igual que el infinitivo: <span class='nl'>hebben</span>." },
+        { q: "¿Cuál es la pregunta correcta?", options: ["Bent jij moe?", "Ben jij moe?", "Jij ben moe?"], answer: 1, explain: "Cuando <span class='nl'>jij</span> va detrás del verbo, la -t se cae: <span class='nl'>Ben jij…?</span>" },
+        { type: "write", q: "Escribe en holandés: “Yo tengo tiempo.”", accept: ["ik heb tijd"], explain: "<span class='nl'>Ik heb tijd.</span>" },
+        { q: "En holandés, “ser” y “estar” son…", options: ["dos verbos distintos, como en español", "un solo verbo: zijn", "hebben y zijn"], answer: 1, explain: "Un solo verbo: <span class='nl'>zijn</span>. Ik ben moe (estoy cansado), ik ben Luis (soy Luis)." },
+        { type: "write", q: "Completa con zijn: <span class='nl'>Jullie ___ welkom.</span>", accept: ["zijn", "jullie zijn welkom"], explain: "Plural → <span class='nl'>zijn</span>." }
+      ]
+    },
+
+    /* ================= TEMA 5 ================= */
+    {
+      id: "t5",
+      title: "Números 0-20",
+      goal: "Contar de 0 a 20 y decir tu edad.",
+      steps: [
+        {
+          title: "Paso 1: Del 0 al 5",
+          html: "<p>Solo seis números. Escúchalos y repítelos contando con los dedos:</p>",
+          examples: [
+            { nl: "nul", es: "0", pron: "nül" },
+            { nl: "een", es: "1", pron: "een (larga)" },
+            { nl: "twee", es: "2", pron: "twee" },
+            { nl: "drie", es: "3", pron: "drii" },
+            { nl: "vier", es: "4", pron: "fiir" },
+            { nl: "vijf", es: "5", pron: "feif" }
+          ],
+          tip: "<b>Ojo:</b> el número 1 se escribe <span class='nl'>een</span> igual que “un/una”. Para distinguirlo, a veces se escribe <span class='nl'>één</span> y se pronuncia largo: “een”.",
+          check: { q: "¿Qué número es <span class='nl'>vier</span>?", a: "4" }
+        },
+        {
+          title: "Paso 2: Del 6 al 10",
+          html: "<p>Cinco más. Recuerda: <b>ch</b> = jota (acht = “ajt”), <b>ij</b> = ei.</p>",
+          examples: [
+            { nl: "zes", es: "6", pron: "zes" },
+            { nl: "zeven", es: "7", pron: "ZEE-ve(n)" },
+            { nl: "acht", es: "8", pron: "ajt" },
+            { nl: "negen", es: "9", pron: "NEE-je(n)" },
+            { nl: "tien", es: "10", pron: "tiin" }
+          ],
+          check: { q: "¿Cómo se dice 8?", a: "<span class='nl'>acht</span> (ajt)" }
+        },
+        {
+          title: "Paso 3: Del 11 al 12 (dos rebeldes)",
+          html: "<p>Como “once” y “doce” en español, estos dos son especiales. Apréndelos de memoria:</p>",
+          examples: [
+            { nl: "elf", es: "11", pron: "elf" },
+            { nl: "twaalf", es: "12", pron: "twaalf" }
+          ],
+          tip: "<b>Truco:</b> <span class='nl'>elf</span> como un duende (“elf” en inglés) y <span class='nl'>twaalf</span> se parece a <span class='nl'>twee</span> (2) → 12.",
+          check: { q: "¿Qué número es <span class='nl'>twaalf</span>?", a: "12" }
+        },
+        {
+          title: "Paso 4: Del 13 al 19: número + tien",
+          html: "<p>A partir del 13 hay un patrón: <b>número + tien</b> (diez). Como “dieci-” pero al revés.</p>",
+          table: { head: ["Número", "Holandés", "Truco"], rows: [
+            ["13", "dertien", "drie → der + tien"], ["14", "veertien", "vier → veer + tien"], ["15", "vijftien", "vijf + tien"], ["16", "zestien", "zes + tien"],
+            ["17", "zeventien", "zeven + tien"], ["18", "achttien", "acht + tien"], ["19", "negentien", "negen + tien"], ["20", "twintig", "¡nuevo!"]] },
+          examples: [
+            { nl: "vijftien", es: "15", pron: "FEIF-tiin" },
+            { nl: "achttien", es: "18", pron: "AJ-tiin" },
+            { nl: "twintig", es: "20", pron: "TWIN-tej" }
+          ],
+          tip: "<b>Cuidado:</b> 13 y 14 cambian un poquito: <span class='nl'>der</span>tien (no drietien), <span class='nl'>veer</span>tien (no viertien).",
+          check: { q: "¿Cómo se dice 16?", a: "<span class='nl'>zestien</span>" }
+        },
+        {
+          title: "Paso 5: ¿Cuántos años tienes?",
+          html: "<p>Atención: en holandés la edad se dice con <b>ser</b>, no con tener: “yo <b>soy</b> 30 años”.</p>",
+          examples: [
+            { nl: "Hoe oud ben je?", es: "¿Cuántos años tienes? (lit. ¿qué tan viejo eres?)", pron: "hu aut ben ye" },
+            { nl: "Ik ben twintig jaar.", es: "Tengo veinte años.", pron: "ik ben TWIN-tej yaar" },
+            { nl: "Mijn zoon is vijf jaar.", es: "Mi hijo tiene cinco años.", pron: "mein zoon is feif yaar" }
+          ],
+          tip: "<b>Comparado con el español:</b> error típico: “Ik heb 20 jaar” ✗. Correcto: <span class='nl'>Ik <b>ben</b> 20 jaar</span> ✓. (Números mayores de 20 los verás en A1.)",
+          check: { q: "Di “tengo 18 años”.", a: "<span class='nl'>Ik ben achttien jaar.</span>" }
+        }
+      ],
+      vocab: [
+        { nl: "nul", pron: "nül", es: "0" },
+        { nl: "een / één", pron: "een", es: "1" },
+        { nl: "twee", pron: "twee", es: "2" },
+        { nl: "drie", pron: "drii", es: "3" },
+        { nl: "vier", pron: "fiir", es: "4" },
+        { nl: "vijf", pron: "feif", es: "5" },
+        { nl: "zes", pron: "zes", es: "6" },
+        { nl: "zeven", pron: "ZEE-ve(n)", es: "7" },
+        { nl: "acht", pron: "ajt", es: "8" },
+        { nl: "negen", pron: "NEE-je(n)", es: "9" },
+        { nl: "tien", pron: "tiin", es: "10" },
+        { nl: "elf", pron: "elf", es: "11" },
+        { nl: "twaalf", pron: "twaalf", es: "12" },
+        { nl: "dertien", pron: "DER-tiin", es: "13" },
+        { nl: "veertien", pron: "FEER-tiin", es: "14" },
+        { nl: "twintig", pron: "TWIN-tej", es: "20" },
+        { nl: "het jaar", pron: "het yaar", es: "el año" },
+        { nl: "Hoe oud ben je?", pron: "hu aut ben ye", es: "¿Cuántos años tienes?" }
+      ],
+      dialogue: {
+        title: "Un número de teléfono",
+        context: "Un compañero te pide tu número para el grupo de WhatsApp (en Países Bajos se suelen decir cifra por cifra).",
+        lines: [
+          { who: "Joris", nl: "Wat is je nummer?", es: "¿Cuál es tu número?" },
+          { who: "Tú", nl: "Nul zes, twaalf, vier, acht…", es: "Cero seis, doce, cuatro, ocho…" },
+          { who: "Joris", nl: "Pardon? Langzaam, alsjeblieft.", es: "¿Perdón? Despacio, por favor." },
+          { who: "Tú", nl: "Nul, zes, een, twee, vier, acht.", es: "Cero, seis, uno, dos, cuatro, ocho." },
+          { who: "Joris", nl: "Oké, dank je! En hoe oud ben je?", es: "¡Vale, gracias! ¿Y cuántos años tienes?" },
+          { who: "Tú", nl: "Haha, dat is geheim!", es: "¡Jaja, eso es secreto!" }
+        ]
+      },
+      practice: [
+        { q: "Cuenta en voz alta de 0 a 10 sin mirar. Luego comprueba.", a: "nul, een, twee, drie, vier, vijf, zes, zeven, acht, negen, tien" },
+        { q: "¿Qué número es <span class='nl'>negentien</span>?", a: "19 (negen = 9 + tien)" },
+        { q: "Escribe 14 en holandés.", a: "<span class='nl'>veertien</span> (¡no viertien!)" },
+        { q: "Traduce: “Tengo 20 años.”", a: "<span class='nl'>Ik ben twintig jaar.</span>" },
+        { q: "Suma en holandés: <span class='nl'>drie + vijf</span> = ?", a: "<span class='nl'>acht</span> (8)" }
+      ],
+      quiz: [
+        { q: "¿Qué número es <span class='nl'>zeven</span>?", options: ["6", "7", "9"], answer: 1, explain: "<span class='nl'>zes</span> = 6, <span class='nl'>zeven</span> = 7, <span class='nl'>negen</span> = 9." },
+        { q: "¿Cómo se dice 13?", options: ["drietien", "dertien", "tiendrie"], answer: 1, explain: "13 = <span class='nl'>dertien</span> (drie cambia a der)." },
+        { type: "write", q: "Escribe en holandés el número 12.", accept: ["twaalf"], explain: "<span class='nl'>twaalf</span>, uno de los dos rebeldes (11 elf, 12 twaalf)." },
+        { q: "¿Cómo dices “tengo 19 años”?", options: ["Ik heb negentien jaar.", "Ik ben negentien jaar.", "Ik negentien jaar."], answer: 1, explain: "La edad va con <span class='nl'>zijn</span>: Ik <b>ben</b> … jaar." },
+        { type: "write", q: "Escribe el número 8 en holandés.", accept: ["acht"], explain: "<span class='nl'>acht</span>: ch = jota → “ajt”." },
+        { q: "<span class='nl'>vijf + tien</span> =", options: ["vijftien (15)", "vijftig (50)", "veertien (14)"], answer: 0, explain: "5 + 10 = 15 = <span class='nl'>vijftien</span>." }
+      ]
+    },
+
+    /* ================= TEMA 6 ================= */
+    {
+      id: "t6",
+      title: "Frases salvavidas",
+      goal: "Sobrevivir cuando no entiendes: pedir que repitan, que hablen despacio, preguntar dónde está algo y cuánto cuesta.",
+      steps: [
+        {
+          title: "Paso 1: No entiendo",
+          html: "<p>La frase más útil de todo el nivel. Apréndela primero:</p>",
+          examples: [
+            { nl: "Ik begrijp het niet.", es: "No lo entiendo.", pron: "ik be-JREIP het niit" },
+            { nl: "Ik weet het niet.", es: "No lo sé.", pron: "ik weet het niit" }
+          ],
+          tip: "<b>Fíjate en el orden:</b> en holandés <span class='nl'>niet</span> (no) va <b>al final</b>: “yo entiendo lo no”. En español va antes del verbo. Solo memoriza la frase entera por ahora.",
+          check: { q: "¿Cómo dices “no lo entiendo”?", a: "<span class='nl'>Ik begrijp het niet.</span>" }
+        },
+        {
+          title: "Paso 2: ¿Puede repetir, más despacio?",
+          html: "<p>Los holandeses hablan rápido. Con estas frases (formales, con <span class='nl'>u</span>) controlas la situación:</p>",
+          examples: [
+            { nl: "Kunt u dat herhalen?", es: "¿Puede repetir eso?", pron: "künt ü dat her-HAA-le(n)" },
+            { nl: "Langzaam, alstublieft.", es: "Despacio, por favor.", pron: "LANG-zaam, als-tü-BLIIFT" },
+            { nl: "Kunt u langzaam praten?", es: "¿Puede hablar despacio?", pron: "künt ü LANG-zaam PRAA-te(n)" }
+          ],
+          tip: "<b>Truco:</b> <span class='nl'>Kunt u…?</span> = “¿Puede usted…?”. Con amigos: <span class='nl'>Kun je…?</span>",
+          check: { q: "Pide a alguien que hable despacio (formal).", a: "<span class='nl'>Kunt u langzaam praten?</span> o simplemente <span class='nl'>Langzaam, alstublieft.</span>" }
+        },
+        {
+          title: "Paso 3: ¿Habla inglés? / Hablo un poco de neerlandés",
+          html: "<p>En Groningen casi todos hablan inglés. Pero si intentas en holandés primero, a la gente le encanta.</p>",
+          examples: [
+            { nl: "Spreekt u Engels?", es: "¿Habla usted inglés?", pron: "spreekt ü ENG-els" },
+            { nl: "Ik spreek een beetje Nederlands.", es: "Hablo un poco de neerlandés.", pron: "ik spreek en BEE-tye NEE-der-lants" },
+            { nl: "Ik leer Nederlands.", es: "Estoy aprendiendo neerlandés.", pron: "ik leer NEE-der-lants" }
+          ],
+          tip: "<b>Consejo real:</b> cuando la gente cambie al inglés, di con una sonrisa: <span class='nl'>Ik leer Nederlands. Nederlands, alstublieft!</span> Así practicas.",
+          check: { q: "¿Cómo dices “hablo un poco de neerlandés”?", a: "<span class='nl'>Ik spreek een beetje Nederlands.</span>" }
+        },
+        {
+          title: "Paso 4: ¿Qué significa…? ¿Cómo se dice…?",
+          html: "<p>Dos preguntas para aprender en la calle:</p>",
+          examples: [
+            { nl: "Wat betekent “fiets”?", es: "¿Qué significa “fiets”?", pron: "wat be-TEE-kent fiits" },
+            { nl: "Hoe zeg je “gracias” in het Nederlands?", es: "¿Cómo se dice “gracias” en neerlandés?", pron: "hu zej ye … in het NEE-der-lants" }
+          ],
+          check: { q: "Pregunta qué significa la palabra “gezellig”.", a: "<span class='nl'>Wat betekent “gezellig”?</span>" }
+        },
+        {
+          title: "Paso 5: ¿Dónde está…? ¿Cuánto cuesta?",
+          html: "<p>Para moverte y comprar:</p>",
+          examples: [
+            { nl: "Waar is het station?", es: "¿Dónde está la estación?", pron: "waar is het sta-SJON" },
+            { nl: "Waar is de wc?", es: "¿Dónde está el baño?", pron: "waar is de wee-SEE" },
+            { nl: "Hoeveel kost het?", es: "¿Cuánto cuesta?", pron: "hu-VEEL kost het" },
+            { nl: "Mag ik pinnen?", es: "¿Puedo pagar con tarjeta?", pron: "maj ik PI-ne(n)" }
+          ],
+          tip: "<b>Cultura:</b> en Países Bajos casi todo se paga con tarjeta de débito; “pagar con tarjeta” se dice <span class='nl'>pinnen</span>. Algunas tiendas ni aceptan efectivo.",
+          check: { q: "¿Cómo preguntas el precio?", a: "<span class='nl'>Hoeveel kost het?</span>" }
+        }
+      ],
+      vocab: [
+        { nl: "Ik begrijp het niet.", pron: "ik be-JREIP het niit", es: "No lo entiendo." },
+        { nl: "Ik weet het niet.", pron: "ik weet het niit", es: "No lo sé." },
+        { nl: "Kunt u dat herhalen?", pron: "künt ü dat her-HAA-le(n)", es: "¿Puede repetir eso?" },
+        { nl: "langzaam", pron: "LANG-zaam", es: "despacio" },
+        { nl: "Spreekt u Engels?", pron: "spreekt ü ENG-els", es: "¿Habla inglés?" },
+        { nl: "een beetje", pron: "en BEE-tye", es: "un poco" },
+        { nl: "Nederlands", pron: "NEE-der-lants", es: "neerlandés (idioma)" },
+        { nl: "Wat betekent…?", pron: "wat be-TEE-kent", es: "¿Qué significa…?" },
+        { nl: "Hoe zeg je…?", pron: "hu zej ye", es: "¿Cómo se dice…?" },
+        { nl: "Waar is…?", pron: "waar is", es: "¿Dónde está…?" },
+        { nl: "de wc", pron: "de wee-SEE", es: "el baño" },
+        { nl: "Hoeveel kost het?", pron: "hu-VEEL kost het", es: "¿Cuánto cuesta?" },
+        { nl: "pinnen", pron: "PI-ne(n)", es: "pagar con tarjeta" },
+        { nl: "niet", pron: "niit", es: "no (negación)" },
+        { nl: "wat", pron: "wat", es: "qué" }
+      ],
+      dialogue: {
+        title: "En una tienda de la Herestraat",
+        context: "Quieres comprar un paraguas y la dependienta habla muy rápido.",
+        lines: [
+          { who: "Verkoper", nl: "Goedemiddag! Kan ik u helpen?", es: "¡Buenas tardes! ¿Puedo ayudarle?" },
+          { who: "Tú", nl: "Goedemiddag. Hoeveel kost de paraplu?", es: "Buenas tardes. ¿Cuánto cuesta el paraguas?" },
+          { who: "Verkoper", nl: "Die kost vijftien euro, maar vandaag is er korting…", es: "Cuesta quince euros, pero hoy hay descuento…" },
+          { who: "Tú", nl: "Sorry, ik begrijp het niet. Langzaam, alstublieft.", es: "Perdón, no lo entiendo. Despacio, por favor." },
+          { who: "Verkoper", nl: "Vijf-tien eu-ro.", es: "Quin-ce eu-ros." },
+          { who: "Tú", nl: "Ah, vijftien! Mag ik pinnen?", es: "¡Ah, quince! ¿Puedo pagar con tarjeta?" },
+          { who: "Verkoper", nl: "Ja, natuurlijk!", es: "¡Sí, claro!" }
+        ]
+      },
+      practice: [
+        { q: "No entiendes lo que te dicen. ¿Qué dices?", a: "<span class='nl'>Sorry, ik begrijp het niet.</span>" },
+        { q: "Pide que lo repitan.", a: "<span class='nl'>Kunt u dat herhalen?</span>" },
+        { q: "Pregunta dónde está el baño.", a: "<span class='nl'>Waar is de wc?</span>" },
+        { q: "Traduce: “Estoy aprendiendo neerlandés.”", a: "<span class='nl'>Ik leer Nederlands.</span>" },
+        { q: "Pregunta si puedes pagar con tarjeta.", a: "<span class='nl'>Mag ik pinnen?</span>" }
+      ],
+      quiz: [
+        { q: "<span class='nl'>Ik begrijp het niet</span> significa…", options: ["No lo sé", "No lo entiendo", "No hablo neerlandés"], answer: 1, explain: "<span class='nl'>begrijpen</span> = entender. “No lo sé” = <span class='nl'>Ik weet het niet</span>." },
+        { q: "¿Dónde va <span class='nl'>niet</span> en <span class='nl'>Ik begrijp het niet</span>?", options: ["Antes del verbo, como en español", "Al final", "Al principio"], answer: 1, explain: "En estas frases, <span class='nl'>niet</span> va al final." },
+        { type: "write", q: "Escribe en holandés: “¿Cuánto cuesta?”", accept: ["hoeveel kost het", "wat kost het"], explain: "<span class='nl'>Hoeveel kost het?</span> (también se dice <span class='nl'>Wat kost het?</span>)" },
+        { q: "<span class='nl'>pinnen</span> significa…", options: ["pagar con tarjeta", "pagar en efectivo", "firmar"], answer: 0, explain: "<span class='nl'>pinnen</span> = pagar con la tarjeta (con PIN)." },
+        { q: "Para pedir que hablen despacio dices…", options: ["Langzaam, alstublieft.", "Tot ziens, alstublieft.", "Graag gedaan."], answer: 0, explain: "<span class='nl'>langzaam</span> = despacio." },
+        { type: "write", q: "Completa: <span class='nl'>___ is het station?</span> (¿Dónde…?)", accept: ["waar", "waar is het station"], explain: "<span class='nl'>Waar</span> = dónde." }
+      ]
+    },
+
+    /* ================= TEMA 7 ================= */
+    {
+      id: "t7",
+      title: "de / het / een",
+      goal: "Entender que cada sustantivo lleva de o het, y usar een (un/una).",
+      steps: [
+        {
+          title: "Paso 1: Dos palabras para “el/la”",
+          html: "<p>En español tenemos “el” y “la”. En holandés hay <span class='nl'>de</span> y <span class='nl'>het</span>. Pero ¡cuidado!: <b>no</b> son masculino/femenino como en español. Simplemente, cada palabra “tiene” el suyo.</p>",
+          examples: [
+            { nl: "de fiets", es: "la bicicleta", pron: "de fiits" },
+            { nl: "de man", es: "el hombre", pron: "de man" },
+            { nl: "de vrouw", es: "la mujer", pron: "de frau" },
+            { nl: "het huis", es: "la casa", pron: "het höis" },
+            { nl: "het boek", es: "el libro", pron: "het buk" }
+          ],
+          tip: "<b>La buena noticia:</b> alrededor de 2 de cada 3 palabras usan <span class='nl'>de</span>. Si no sabes, di <span class='nl'>de</span>: acertarás muchas veces y te entenderán siempre.",
+          check: { q: "¿Qué artículo lleva <span class='nl'>huis</span>?", a: "<span class='nl'>het</span> → het huis" }
+        },
+        {
+          title: "Paso 2: En plural, siempre de",
+          html: "<p>¡Una regla sin excepciones! En plural, <b>todas</b> las palabras usan <span class='nl'>de</span>.</p>",
+          examples: [
+            { nl: "het huis → de huizen", es: "la casa → las casas", pron: "het höis → de HÖI-ze(n)" },
+            { nl: "het boek → de boeken", es: "el libro → los libros", pron: "het buk → de BU-ke(n)" },
+            { nl: "de fiets → de fietsen", es: "la bici → las bicis", pron: "de fiits → de FIIT-se(n)" }
+          ],
+          check: { q: "¿Cuál es el artículo de <span class='nl'>boeken</span> (plural)?", a: "<span class='nl'>de</span>. En plural siempre es de." }
+        },
+        {
+          title: "Paso 3: Truco: las palabras pequeñas (-je) son het",
+          html: "<p>Los holandeses aman los diminutivos (como nuestro -ito). Se forman con <span class='nl'>-je</span> y <b>siempre llevan het</b>, aunque la palabra original lleve de.</p>",
+          examples: [
+            { nl: "de fiets → het fietsje", es: "la bici → la bicita", pron: "het FIIT-sye" },
+            { nl: "het huis → het huisje", es: "la casa → la casita", pron: "het HÖIS-ye" },
+            { nl: "het meisje", es: "la chica", pron: "het MEIS-ye" },
+            { nl: "het kopje koffie", es: "la tacita de café", pron: "het KOP-ye KO-fi" }
+          ],
+          tip: "<b>Truco:</b> ¿termina en <span class='nl'>-je</span>? → <span class='nl'>het</span>. Siempre.",
+          check: { q: "¿De o het? ___ meisje", a: "<span class='nl'>het</span> meisje (termina en -je)" }
+        },
+        {
+          title: "Paso 4: een = un / una (fácil)",
+          html: "<p>Para “un / una” solo hay <b>una palabra</b>: <span class='nl'>een</span> (se pronuncia corto, “en”). No importa si la palabra es de o het.</p>",
+          examples: [
+            { nl: "een fiets", es: "una bicicleta", pron: "en fiits" },
+            { nl: "een huis", es: "una casa", pron: "en höis" },
+            { nl: "een koffie, alstublieft", es: "un café, por favor", pron: "en KO-fi, als-tü-BLIIFT" }
+          ],
+          tip: "<b>Pronunciación:</b> <span class='nl'>een</span> (un) = “en” corto. <span class='nl'>één</span> (el número 1) = “een” largo.",
+          check: { q: "Di “una casa”.", a: "<span class='nl'>een huis</span>" }
+        },
+        {
+          title: "Paso 5: Cómo aprender de/het sin sufrir",
+          html: "<p>No intentes aprender reglas ahora. El método que funciona: <b>aprende siempre la palabra junto con su artículo</b>, como si fueran una sola palabra: no “fiets”, sino “<b>de</b>fiets”.</p><p>En este curso, en el vocabulario, <span class='art-de'>de</span> es azul y <span class='art-het'>het</span> es morado para que tu memoria visual te ayude.</p>",
+          examples: [
+            { nl: "de koffie", es: "el café", pron: "de KO-fi" },
+            { nl: "het water", es: "el agua", pron: "het WAA-ter" },
+            { nl: "de stad", es: "la ciudad", pron: "de stat" },
+            { nl: "het werk", es: "el trabajo", pron: "het werk" }
+          ],
+          check: { q: "¿Cómo debes aprender la palabra “agua”?", a: "Como <span class='nl'>het water</span>, siempre con su artículo." }
+        }
+      ],
+      vocab: [
+        { nl: "de man", pron: "de man", es: "el hombre" },
+        { nl: "de vrouw", pron: "de frau", es: "la mujer" },
+        { nl: "het boek", pron: "het buk", es: "el libro" },
+        { nl: "het meisje", pron: "het MEIS-ye", es: "la chica" },
+        { nl: "de jongen", pron: "de YON-je(n)", es: "el chico" },
+        { nl: "de koffie", pron: "de KO-fi", es: "el café" },
+        { nl: "de thee", pron: "de tee", es: "el té" },
+        { nl: "het water", pron: "het WAA-ter", es: "el agua" },
+        { nl: "de stad", pron: "de stat", es: "la ciudad" },
+        { nl: "het werk", pron: "het werk", es: "el trabajo" },
+        { nl: "het kopje", pron: "het KOP-ye", es: "la tacita" },
+        { nl: "de auto", pron: "de AU-to", es: "el carro" },
+        { nl: "het kind", pron: "het kint", es: "el niño / la niña", note: "plural: de kinderen" },
+        { nl: "een", pron: "en", es: "un / una" }
+      ],
+      dialogue: {
+        title: "En la cafetería",
+        context: "Pides algo de beber con un amigo.",
+        lines: [
+          { who: "Ober", nl: "Hallo! Wat wilt u drinken?", es: "¡Hola! ¿Qué desean tomar?" },
+          { who: "Tú", nl: "Een koffie, alstublieft.", es: "Un café, por favor." },
+          { who: "Amigo", nl: "En een thee, alstublieft.", es: "Y un té, por favor." },
+          { who: "Ober", nl: "Een koffie en een thee. En water?", es: "Un café y un té. ¿Y agua?" },
+          { who: "Tú", nl: "Ja, een glas water. Dank u wel!", es: "Sí, un vaso de agua. ¡Muchas gracias!" },
+          { who: "Ober", nl: "Graag gedaan.", es: "De nada." }
+        ]
+      },
+      practice: [
+        { q: "¿De o het? ___ koffie", a: "<span class='nl'>de koffie</span>" },
+        { q: "¿De o het? ___ huisje", a: "<span class='nl'>het huisje</span> (termina en -je)" },
+        { q: "¿De o het? ___ boeken (plural)", a: "<span class='nl'>de boeken</span> (plural siempre de)" },
+        { q: "Traduce: “un libro”", a: "<span class='nl'>een boek</span>" },
+        { q: "Pide un café en holandés (formal).", a: "<span class='nl'>Een koffie, alstublieft.</span>" }
+      ],
+      quiz: [
+        { q: "<span class='nl'>de</span> y <span class='nl'>het</span> significan…", options: ["masculino y femenino", "“el/la”, cada palabra tiene el suyo", "“un” y “una”"], answer: 1, explain: "No son masculino/femenino: cada palabra tiene su artículo, que se memoriza con ella." },
+        { q: "En plural se usa siempre…", options: ["het", "een", "de"], answer: 2, explain: "Plural = siempre <span class='nl'>de</span>." },
+        { q: "¿Cuál es correcto?", options: ["de meisje", "het meisje", "een meisjes"], answer: 1, explain: "Palabras con -je → <span class='nl'>het</span>." },
+        { type: "write", q: "Escribe en holandés: “un café”.", accept: ["een koffie"], explain: "<span class='nl'>een</span> sirve para todas: <span class='nl'>een koffie</span>." },
+        { q: "Si no sabes el artículo, lo más probable es…", options: ["de", "het"], answer: 0, explain: "Unas 2 de cada 3 palabras usan <span class='nl'>de</span>." },
+        { type: "write", q: "Escribe “la casa” en holandés (con artículo).", accept: ["het huis"], explain: "<span class='nl'>het huis</span>. ¡Es una palabra het!" }
+      ]
+    }
+  ],
+
+  verbs: [
+    {
+      title: "Los dos verbos más importantes",
+      intro: "Son irregulares (no siguen reglas), así que se aprenden de memoria. ¡Pero los usarás todos los días!",
+      rows: [
+        { inf: "zijn", es: "ser / estar", ik: "ben", jij: "bent", hij: "is", wij: "zijn", note: "Pregunta: ben jij? · Edad: ik ben 30 jaar" },
+        { inf: "hebben", es: "tener", ik: "heb", jij: "hebt", hij: "heeft", wij: "hebben", note: "Pregunta: heb jij? · u hebt / u heeft" }
+      ]
+    },
+    {
+      title: "Verbos para presentarte y sobrevivir",
+      intro: "Solo necesitas la forma con <span class='nl'>ik</span> por ahora. Las demás las verás en A1 (siguen una regla muy fácil).",
+      rows: [
+        { inf: "heten", es: "llamarse", ik: "heet", jij: "heet", hij: "heet", wij: "heten", note: "Hoe heet je?" },
+        { inf: "komen", es: "venir", ik: "kom", jij: "komt", hij: "komt", wij: "komen", note: "Ik kom uit Costa Rica." },
+        { inf: "wonen", es: "vivir (residir)", ik: "woon", jij: "woont", hij: "woont", wij: "wonen", note: "Ik woon in Groningen." },
+        { inf: "werken", es: "trabajar", ik: "werk", jij: "werkt", hij: "werkt", wij: "werken", note: "Ik werk aan de universiteit." },
+        { inf: "spreken", es: "hablar (un idioma)", ik: "spreek", jij: "spreekt", hij: "spreekt", wij: "spreken", note: "Spreekt u Engels?" },
+        { inf: "leren", es: "aprender", ik: "leer", jij: "leert", hij: "leert", wij: "leren", note: "Ik leer Nederlands." },
+        { inf: "begrijpen", es: "entender", ik: "begrijp", jij: "begrijpt", hij: "begrijpt", wij: "begrijpen", note: "Ik begrijp het niet." },
+        { inf: "weten", es: "saber", ik: "weet", jij: "weet", hij: "weet", wij: "weten", note: "Ik weet het niet." },
+        { inf: "kosten", es: "costar", ik: "—", jij: "—", hij: "kost", wij: "kosten", note: "Hoeveel kost het?" },
+        { inf: "kunnen", es: "poder", ik: "kan", jij: "kunt / kan", hij: "kan", wij: "kunnen", note: "Kunt u dat herhalen?" }
+      ]
+    }
+  ],
+
+  finalQuiz: [
+    { q: "¿Cómo suena la <b>g</b> en <span class='nl'>goedemorgen</span>?", options: ["como la g de “gato”", "como una jota suave", "no suena"], answer: 1, explain: "g = jota suave: “ju-de-MOR-je(n)”." },
+    { q: "Son las 14:00 y entras a una oficina. Dices…", options: ["Goedemorgen!", "Goedemiddag!", "Welterusten!"], answer: 1, explain: "De 12 a 18 h: <span class='nl'>Goedemiddag</span>." },
+    { type: "write", q: "Escribe: “Soy de Costa Rica.”", accept: ["ik kom uit costa rica"], explain: "<span class='nl'>Ik kom uit Costa Rica.</span>" },
+    { q: "<span class='nl'>Hij ___ een fiets.</span>", options: ["heb", "heeft", "hebben"], answer: 1, explain: "hij → <span class='nl'>heeft</span>." },
+    { q: "¿Cuál es la pregunta correcta?", options: ["Heb jij tijd?", "Hebt jij tijd?", "Jij hebt tijd?"], answer: 0, explain: "Verbo delante de <span class='nl'>jij</span> → se cae la -t: <span class='nl'>Heb jij…?</span>" },
+    { type: "write", q: "Escribe en holandés el número 15.", accept: ["vijftien"], explain: "vijf + tien = <span class='nl'>vijftien</span>." },
+    { q: "“Tengo 30 años” se dice con…", options: ["hebben: ik heb 30 jaar", "zijn: ik ben 30 jaar"], answer: 1, explain: "La edad va con <span class='nl'>zijn</span>." },
+    { type: "write", q: "No entiendes. Escribe: “No lo entiendo.”", accept: ["ik begrijp het niet", "sorry ik begrijp het niet"], explain: "<span class='nl'>Ik begrijp het niet.</span>" },
+    { q: "¿Cuál es correcto?", options: ["de huisje", "het huisje", "een huisjes"], answer: 1, explain: "-je → siempre <span class='nl'>het</span>." },
+    { q: "<span class='nl'>Wij ___ in Groningen.</span>", options: ["zijn", "is", "bent"], answer: 0, explain: "Plural → <span class='nl'>zijn</span>." },
+    { type: "write", q: "Escribe: “muchas gracias” (informal).", accept: ["dank je wel", "dankjewel", "dank je"], explain: "<span class='nl'>Dank je wel</span>. Formal: <span class='nl'>Dank u wel</span>." },
+    { q: "<span class='nl'>Hoeveel kost het?</span> significa…", options: ["¿Dónde está?", "¿Cuánto cuesta?", "¿Qué hora es?"], answer: 1, explain: "<span class='nl'>hoeveel</span> = cuánto, <span class='nl'>kosten</span> = costar." }
+  ],
+
+  microGoal: "Mañana, antes de abrir el nivel A1, preséntate en voz alta en 4 frases (nombre, país, ciudad, trabajo) y cuenta de 0 a 20. Si te sale, ¡estás listo!",
+  cheer: [
+    "Goed gedaan! ¡Muy bien hecho!",
+    "Super! Cada palabra cuenta.",
+    "Heel goed! ¡Vas muy bien!",
+    "Top! Poco a poco se llega lejos.",
+    "Knap gedaan! ¡Eso estuvo muy bien!"
+  ]
+};
+</script>
+<script>(function(){
+"use strict";
+const L = window.LEVEL;
+// Progreso guardado solo en memoria (dura mientras la página esté abierta)
+const S = { done:{}, final:null, rate:0.75, last:null };
+// Progreso guardado en este navegador (localStorage), compartido con el índice
+const KEY = 'holandes_progreso_v1';
+function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function saveLevel(){
+  try {
+    const all = loadAll(); const tops = L.topics || [];
+    all[L.id] = { done: S.done, final: S.final, last: S.last,
+      complete: tops.every(t => S.done[t.id]) && !!(S.final && S.final.ok),
+      topicsDone: tops.filter(t => S.done[t.id]).length, topicsTotal: tops.length, updated: Date.now() };
+    localStorage.setItem(KEY, JSON.stringify(all));
+  } catch(e){}
+}
+(function(){ const me = loadAll()[L.id]; if(me){ S.done = me.done || {}; S.final = me.final || null; S.last = me.last || null; } try{ const r = parseFloat(localStorage.getItem('holandes_audio')); if(r) S.rate = r; }catch(e){} })();
+const LEVELS = ['A0','A1','A2','B1','B2'];
+const $ = (s, el) => (el||document).querySelector(s);
+const $$ = (s, el) => Array.from((el||document).querySelectorAll(s));
+const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const strip = s => String(s||'').replace(/<[^>]*>/g,'').replace(/&nbsp;/g,' ');
+const SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const say = t => `<button class="say" title="Escuchar" aria-label="Escuchar" data-say="${esc(strip(t))}">${SPK}</button>`;
+const art = s => String(s).replace(/^(de|het)\s/i, (m,a) => `<span class="art-${a.toLowerCase()}">${a}</span> `);
+const TOPICS = L.topics || [];
+
+/* ---------- audio ---------- */
+let nlVoice = null;
+function pickVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const vs = speechSynthesis.getVoices();
+  nlVoice = vs.find(v => /^nl[-_]NL/i.test(v.lang)) || vs.find(v => /^nl/i.test(v.lang)) || null;
+  const w = $('#voicewarn');
+  if(w) w.style.display = (vs.length && !nlVoice) ? 'block' : 'none';
+}
+function speak(text, btn){
+  if(!('speechSynthesis' in window)) { toast('Tu navegador no tiene audio. Usa la pronunciación escrita en azul.'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/\(.*?\)/g,'').replace(/\s*\/\s*/g,', '));
+  u.lang = 'nl-NL'; if(nlVoice) u.voice = nlVoice; u.rate = S.rate;
+  if(btn){ btn.classList.add('playing'); u.onend = u.onerror = () => btn.classList.remove('playing'); }
+  speechSynthesis.speak(u);
+}
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+
+/* ---------- helpers ---------- */
+function toast(msg){ const t=$('#toast'); t.innerHTML=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2800); }
+const cheer = () => { const c = L.cheer && L.cheer.length ? L.cheer : ['Goed gedaan! ¡Muy bien hecho!']; return c[Math.floor(Math.random()*c.length)]; };
+const exHTML = e => `<div class="ex">${say(e.nl)}<div class="t"><div class="nlt">${e.nl}</div>${e.pron?`<div class="pron">${e.pron}</div>`:''}<div class="es">${e.es}</div></div></div>`;
+const tableHTML = t => `<div class="tscroll"><table class="t"><thead><tr>${t.head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const vitemHTML = v => `<div class="vitem">${say(v.nl)}<div class="t"><div class="w">${art(v.nl)}</div>${v.pron?`<div class="pron">${v.pron}</div>`:''}<div class="m">${v.es}</div>${v.note?`<div class="n">${v.note}</div>`:''}</div></div>`;
+const norm = s => strip(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[.,!?¿¡;:"“”'’()]/g,'').replace(/\s+/g,' ').trim();
+
+/* ---------- quiz ---------- */
+function renderQuiz(box, qs, onDone){
+  let answered = 0, right = 0;
+  box.innerHTML = qs.map((q,i)=>{
+    const tag = q.review ? '<span class="rv">REPASO</span>' : '';
+    const body = q.type === 'write'
+      ? `<input class="winput" placeholder="Escribe tu respuesta..." autocomplete="off" autocapitalize="off" spellcheck="false"><div class="row"><button class="btn small" data-act="chk">Comprobar</button><button class="btn small ghost" data-act="idk">No lo sé</button></div>`
+      : `<div class="opts">${q.options.map((o,j)=>`<button class="opt" data-j="${j}">${o}</button>`).join('')}</div>`;
+    return `<div class="qz" data-i="${i}"><div class="q">${tag}${i+1}. ${q.q}</div>${body}<div class="fb"></div></div>`;
+  }).join('') + `<div class="qres"></div>`;
+  const finish = (card, ok, q, given) => {
+    answered++; if(ok) right++;
+    const fb = $('.fb', card);
+    const sol = q.type === 'write' ? `<div>Respuesta: <span class="nl">${q.accept[0]}</span> ${say(q.accept[0])}</div>` : '';
+    fb.className = 'fb on ' + (ok ? 'ok' : 'ko');
+    fb.innerHTML = `<b>${ok ? '¡Correcto!' : (given==='idk' ? 'No pasa nada, así se aprende:' : 'Casi. Mira por qué:')}</b>${sol}${q.explain||''}`;
+    if(answered === qs.length){
+      const pct = Math.round(100*right/qs.length);
+      const res = $('.qres', box);
+      res.innerHTML = `<div class="result ${pct>=60?'':'meh'}"><div class="score">${right} de ${qs.length} correctas (${pct}%)</div><div>${pct>=60 ? cheer() : 'Está bien equivocarse: repasa los pasos con calma y vuelve a intentarlo. Cada intento cuenta.'}</div><button class="btn small ghost" data-act="redo">Repetir este quiz</button></div>`;
+      $('[data-act=redo]', res).onclick = () => renderQuiz(box, shuffleQs(qs), onDone);
+      onDone && onDone(right, qs.length);
+    }
+  };
+  $$('.qz', box).forEach(card => {
+    const q = qs[+card.dataset.i];
+    if(q.type === 'write'){
+      const inp = $('.winput', card);
+      const check = (idk) => {
+        if(card.dataset.done) return; card.dataset.done = 1;
+        const ok = !idk && q.accept.some(a => norm(a) === norm(inp.value));
+        inp.disabled = true; $$('button', card).forEach(b=>b.disabled=true);
+        inp.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+        finish(card, ok, q, idk?'idk':'');
+      };
+      $('[data-act=chk]', card).onclick = () => { if(!inp.value.trim()){ inp.focus(); return; } check(false); };
+      $('[data-act=idk]', card).onclick = () => check(true);
+      inp.addEventListener('keydown', e => { if(e.key==='Enter' && inp.value.trim()) check(false); });
+    } else {
+      $$('.opt', card).forEach(b => b.onclick = () => {
+        const j = +b.dataset.j, ok = j === q.answer;
+        $$('.opt', card).forEach(x => { x.disabled = true; if(+x.dataset.j === q.answer) x.classList.add('right'); });
+        if(!ok) b.classList.add('wrong');
+        finish(card, ok, q);
+      });
+    }
+  });
+}
+function shuffleQs(qs){
+  return qs.map(q => {
+    if(q.type === 'write' || !q.options) return q;
+    const idx = q.options.map((_,i)=>i).sort(()=>Math.random()-.5);
+    return Object.assign({}, q, { options: idx.map(i=>q.options[i]), answer: idx.indexOf(q.answer) });
+  });
+}
+
+/* ---------- layout ---------- */
+const tabs = [{id:'inicio', label:'Inicio'}]
+  .concat(TOPICS.map((t,i)=>({id:t.id, label:`${i+1}. ${t.title}`})))
+  .concat([{id:'verbos',label:'Verbos',sp:1},{id:'vocab',label:'Vocabulario',sp:1},{id:'final',label:'Quiz final',sp:1}]);
+
+document.body.innerHTML = `
+<header class="top">
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Menú</a>
+    <select class="lvsel" id="lvsel" aria-label="Cambiar de nivel">${LEVELS.map(x=>`<option value="${x}" ${x===L.id?'selected':''}>Nivel ${x}</option>`).join('')}</select>
+    <span class="badge">${L.id}</span>
+    <div class="ttl"><h1>${L.title}</h1><p>${L.subtitle||''}</p></div>
+    <div class="prog"><div class="bar"><span id="pbar"></span></div><small id="ptxt"></small></div>
+    <button class="speed" id="speed" title="Velocidad del audio">Audio: ${S.rate<0.9?'lento':'normal'}</button>
+  </div>
+  <nav class="tabs" id="tabs">${tabs.map(t=>`<button class="tab${t.sp?' special':''}" data-tab="${t.id}">${t.label}</button>`).join('')}</nav>
+</header>
+<main class="wrap" id="main"></main>
+<div class="toast" id="toast"></div>`;
+
+const main = $('#main');
+
+/* ---------- Inicio ---------- */
+function inicioHTML(){
+  return `<section class="panel" id="p-inicio">
+    <span class="kicker">Nivel ${L.id}</span><h2>${L.title}</h2>
+    <p>${L.intro}</p>
+    <p class="warn" id="voicewarn" style="display:none">Tu navegador no tiene una voz en holandés instalada: el audio puede sonar raro. Guíate por la pronunciación escrita en azul (o prueba en Chrome/Edge).</p>
+    <div id="resume"></div>
+    <div id="lvl-done"></div>
+    ${L.canDo ? `<div class="card"><h3>Al terminar este nivel podrás…</h3><ul>${L.canDo.map(c=>`<li>${c}</li>`).join('')}</ul></div>`:''}
+    <div class="card"><h3>Tu camino en este nivel</h3><ul class="toplist" id="toplist"></ul></div>
+    ${L.studyPlan ? `<div class="card"><h3>Ritmo sugerido (sin prisa)</h3><ul>${L.studyPlan.map(c=>`<li>${c}</li>`).join('')}</ul>
+      <p class="muted">Cada tema se abre paso a paso: lee un paso, escucha los ejemplos en voz alta, repítelos, y solo entonces pasa al siguiente.</p></div>`:''}
+    ${L.review && L.review.length ? `<div class="card"><h3>Repaso rápido del nivel anterior</h3><p class="muted">Estas frases volverán a aparecer en los ejercicios (con la etiqueta <span class="rv">REPASO</span>).</p><div class="exs">${L.review.map(exHTML).join('')}</div></div>`:''}
+    <details><summary>Cómo leer la pronunciación en azul</summary>
+      <ul>
+        <li><b>MAYÚSCULAS</b> = sílaba fuerte: <span class="pron">ju-de-MOR-je(n)</span></li>
+        <li><b>j</b> = la <i>g</i> y la <i>ch</i> holandesas, como la jota española pero suave.</li>
+        <li><b>y</b> = la <i>j</i> holandesa: <span class="nl">ja</span> = <span class="pron">ya</span></li>
+        <li><b>sj</b> = <i>sch</i>: s + jota. <b>h</b> = aspirada, como en inglés <i>hello</i>.</li>
+        <li><b>ei</b> = <i>ij</i> / <i>ei</i> (como en “rey”). <b>öi</b> = <i>ui</i> (labios redondos). <b>ö</b> = <i>eu</i>.</li>
+        <li><b>u</b> = <i>oe</i>. <b>ü</b> = <i>u / uu</i> (como la u francesa: di “i” con los labios redondos).</li>
+        <li>Vocales dobles (<b>aa, ee, oo, ii</b>) = sonido largo. <b>(n)</b> final = casi no se pronuncia.</li>
+      </ul></details>
+  </section>`;
+}
+function refreshInicio(){
+  const ul = $('#toplist'); if(!ul) return;
+  ul.innerHTML = TOPICS.map((t,i)=>`<li><span class="dot ${S.done[t.id]?'ok':''}">${S.done[t.id]?'✓':i+1}</span><a href="#" data-go="${t.id}">${t.title}</a><span class="muted" style="margin-left:auto;font-size:13px">${S.done[t.id]?'completado':''}</span></li>`).join('')
+    + `<li><span class="dot ${S.final&&S.final.ok?'ok':''}">${S.final&&S.final.ok?'✓':'★'}</span><a href="#" data-go="final">Quiz final del nivel</a></li>`;
+}
+
+/* ---------- Temas ---------- */
+function topicHTML(t, i){
+  const stages = [];
+  stages.push({key:'steps', label:'Explicación paso a paso'});
+  if(t.vocab && t.vocab.length) stages.push({key:'vocab', label:'Vocabulario'});
+  if(t.dialogue) stages.push({key:'dlg', label:'Diálogo'});
+  if(t.practice && t.practice.length) stages.push({key:'prac', label:'Práctica'});
+  if(t.quiz && t.quiz.length) stages.push({key:'quiz', label:'Mini-quiz'});
+  t._stages = stages;
+  const stepHTML = (s, k) => `<div class="card step ${k>0?'hidden':''}" data-step="${k}">
+      <h4>${s.title}</h4><div>${s.html}</div>
+      ${s.examples && s.examples.length ? `<div class="exs">${s.examples.map(exHTML).join('')}</div>`:''}
+      ${s.table ? tableHTML(s.table):''}
+      ${s.tip ? `<div class="tip">${s.tip}</div>`:''}
+      ${s.check ? `<div class="check"><div class="q">Comprueba: ${s.check.q}</div><button class="btn small ghost" data-rev>Ver respuesta</button><div class="reveal">${s.check.a}</div></div>`:''}
+      ${k < t.steps.length-1 ? `<button class="btn" data-next-step>Entendido, siguiente paso (${k+2}/${t.steps.length})</button>` : ''}
+    </div>`;
+  const body = {
+    steps: () => t.steps.map(stepHTML).join(''),
+    vocab: () => `<p class="muted">Pulsa el altavoz, escucha y repite en voz alta. <span class="art-de">de</span> y <span class="art-het">het</span> tienen colores distintos para que los memorices.</p><div class="vgrid">${t.vocab.map(vitemHTML).join('')}</div>`,
+    dlg: () => `<div class="card"><h3>${t.dialogue.title||''}</h3>${t.dialogue.context?`<p class="muted">${t.dialogue.context}</p>`:''}
+        <div class="row" style="margin-bottom:8px"><button class="btn small ghost" data-tr>Mostrar / ocultar traducción</button><button class="btn small ghost" data-playall>Escuchar todo</button></div>
+        <div class="dlg">${t.dialogue.lines.map(l=>`<div class="line"><div class="who">${l.who||''}</div><div class="bubble"><div class="row" style="gap:8px;flex-wrap:nowrap;align-items:flex-start">${say(l.nl)}<div><div>${l.nl}</div><div class="es">${l.es}</div></div></div></div></div>`).join('')}</div>
+        <p class="muted" style="font-size:14px">Truco: primero léelo sin traducción. Luego ábrela y comprueba cuánto entendiste.</p></div>`,
+    prac: () => `<div class="card">${t.practice.map(p=>`<div class="pq"><div>${p.review?'<span class="rv">REPASO</span>':''}${p.q}</div>${p.hint?`<div class="muted" style="font-size:14px">Pista: ${p.hint}</div>`:''}<button class="btn small ghost" data-rev>Ver respuesta</button><div class="reveal">${p.a} ${say(p.a)}</div></div>`).join('')}</div>`,
+    quiz: () => `<div class="quizbox"></div>`
+  };
+  return `<section class="panel" id="p-${t.id}">
+    <div class="row"><span class="kicker">Tema ${i+1} de ${TOPICS.length}</span><button class="showall" data-showall>Mostrar todo el tema</button></div>
+    <h2>${t.title}</h2>
+    <div class="goal"><b>Al terminar podrás:</b> ${t.goal}</div>
+    <div class="stepper">${stages.map((s,k)=>`<span class="chip ${k===0?'reached current':''}" data-chip="${k}">${k+1}. ${s.label}</span>`).join('')}</div>
+    ${stages.map((s,k)=>`<div class="stage ${k>0?'hidden':''}" data-stage="${k}">
+       <div class="stage-title"><span class="num">${k+1}/${stages.length}</span><h3>${s.label}</h3></div>
+       ${body[s.key]()}
+       ${k < stages.length-1 ? `<button class="btn ${s.key==='steps'?'hidden-until-steps':''}" data-next-stage="${k+1}" ${s.key==='steps'&&t.steps.length>1?'style="display:none"':''}>Continuar: ${stages[k+1].label} &rarr;</button>`:''}
+     </div>`).join('')}
+    <div class="topicdone"></div>
+    <div class="navbtns">
+      ${i>0?`<button class="btn ghost" data-go="${TOPICS[i-1].id}">&larr; Tema anterior</button>`:'<span></span>'}
+      <button class="btn ghost" data-markdone="${t.id}">Marcar tema como completado</button>
+      ${i<TOPICS.length-1?`<button class="btn ghost" data-go="${TOPICS[i+1].id}">Siguiente tema &rarr;</button>`:`<button class="btn ghost" data-go="verbos">Ir a Verbos &rarr;</button>`}
+    </div>
+  </section>`;
+}
+function wireTopic(t){
+  const sec = $('#p-'+t.id);
+  const reach = k => {
+    const st = $(`[data-stage="${k}"]`, sec); if(!st) return;
+    st.classList.remove('hidden');
+    $$('.chip', sec).forEach(c => { const n=+c.dataset.chip; if(n<=k) c.classList.add('reached'); c.classList.toggle('current', n===k); });
+    return st;
+  };
+  $$('[data-next-step]', sec).forEach(b => b.onclick = () => {
+    const cur = b.closest('.step'); const n = +cur.dataset.step + 1;
+    b.style.display = 'none';
+    const nx = $(`[data-step="${n}"]`, sec); nx.classList.remove('hidden');
+    if(n === t.steps.length-1){ const c = $('[data-stage="0"] [data-next-stage]', sec); if(c) c.style.display=''; }
+    nx.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  $$('[data-next-stage]', sec).forEach(b => b.onclick = () => { b.style.display='none'; const st = reach(+b.dataset.nextStage); st.scrollIntoView({behavior:'smooth', block:'start'}); });
+  $$('.chip', sec).forEach(c => c.onclick = () => { if(!c.classList.contains('reached')) return; $(`[data-stage="${c.dataset.chip}"]`, sec).scrollIntoView({behavior:'smooth', block:'start'}); });
+  $('[data-showall]', sec).onclick = () => {
+    $$('.step', sec).forEach(s=>s.classList.remove('hidden')); $$('[data-next-step]', sec).forEach(b=>b.style.display='none');
+    $$('[data-next-stage]', sec).forEach(b=>b.style.display='none');
+    t._stages.forEach((_,k)=>reach(k)); reach(0);
+  };
+  const dlg = $('.dlg', sec);
+  if(dlg){
+    $('[data-tr]', sec).onclick = () => dlg.classList.toggle('tr');
+    $('[data-playall]', sec).onclick = () => {
+      if(!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      t.dialogue.lines.forEach(l => { const u = new SpeechSynthesisUtterance(strip(l.nl)); u.lang='nl-NL'; if(nlVoice) u.voice=nlVoice; u.rate=S.rate; speechSynthesis.speak(u); });
+    };
+  }
+  const qb = $('.quizbox', sec);
+  if(qb) renderQuiz(qb, t.quiz, (r,n) => completeTopic(t, r, n));
+}
+function completeTopic(t, r, n){
+  const first = !S.done[t.id];
+  S.done[t.id] = true; refresh();
+  const box = $('#p-'+t.id+' .topicdone');
+  const i = TOPICS.indexOf(t);
+  box.innerHTML = `<div class="celebrate"><h3>Tema completado</h3><p>${cheer()}</p>
+    <p class="muted">Antes de seguir: repite en voz alta 3 palabras de este tema. Si algo te costó, vuelve a los pasos: repetir es parte del método.</p>
+    ${i<TOPICS.length-1?`<button class="btn" data-go="${TOPICS[i+1].id}">Siguiente tema: ${TOPICS[i+1].title} &rarr;</button>`:`<button class="btn" data-go="final">Ir al quiz final &rarr;</button>`}</div>`;
+  if(first) toast('Tema completado: ' + t.title);
+}
+
+/* ---------- Verbos ---------- */
+const VCOLS = [['inf','Verbo'],['es','Significado'],['ik','ik'],['jij','jij / je'],['hij','hij / zij / u*'],['wij','wij / jullie / zij'],['imperf','Pasado simple'],['perf','Perfecto'],['note','Nota']];
+function verbosHTML(){
+  return `<section class="panel" id="p-verbos"><span class="kicker">Nivel ${L.id}</span><h2>Verbos del nivel</h2>
+   <p class="muted">No intentes memorizarlos todos de golpe. Elige 5 al día, escúchalos y di una frase con cada uno.</p>
+   ${(L.verbs||[]).map(g => {
+     const cols = VCOLS.filter(([k]) => g.rows.some(r => r[k]));
+     return `<div class="card"><h3>${g.title}</h3>${g.intro?`<p>${g.intro}</p>`:''}<div class="tscroll"><table class="t"><thead><tr>${cols.map(c=>`<th>${c[1]}</th>`).join('')}</tr></thead><tbody>
+       ${g.rows.map(r=>`<tr>${cols.map(([k])=>`<td>${k==='inf'?`<div class="row" style="gap:6px;flex-wrap:nowrap">${say(r.inf)}<b class="nl">${r.inf}</b></div>`:(r[k]||'')}</td>`).join('')}</tr>`).join('')}
+     </tbody></table></div></div>`;
+   }).join('')}
+   <p class="muted" style="font-size:14px">* Con <b>u</b> (usted) el verbo va igual que con hij: u werkt, u bent (o u is), u hebt/heeft.</p>
+  </section>`;
+}
+
+/* ---------- Vocabulario (lista + flashcards) ---------- */
+const ALLV = [];
+TOPICS.forEach(t => (t.vocab||[]).forEach(v => ALLV.push(Object.assign({topic:t.id, ttitle:t.title}, v))));
+function vocabHTML(){
+  return `<section class="panel" id="p-vocab"><span class="kicker">Nivel ${L.id}</span><h2>Vocabulario del nivel</h2>
+   <p class="muted">${ALLV.length} palabras y frases. Usa las tarjetas: lo que ya sabes sale del mazo; lo que no, vuelve a aparecer pronto.</p>
+   <div class="filters">
+     <select id="vtopic"><option value="">Todos los temas</option>${TOPICS.map((t,i)=>`<option value="${t.id}">${i+1}. ${t.title}</option>`).join('')}</select>
+     <input id="vsearch" placeholder="Buscar (holandés o español)">
+     <div class="seg"><button data-vmode="fc" class="on">Tarjetas</button><button data-vmode="list">Lista</button></div>
+   </div>
+   <div id="vbody"></div></section>`;
+}
+const FC = { deck:[], known:0, dir:'nl' };
+function vfiltered(){
+  const tp = $('#vtopic').value, q = norm($('#vsearch').value);
+  return ALLV.filter(v => (!tp || v.topic===tp) && (!q || norm(v.nl).includes(q) || norm(v.es).includes(q)));
+}
+function drawVocab(){
+  const mode = $('[data-vmode].on').dataset.vmode, list = vfiltered(), vb = $('#vbody');
+  if(mode === 'list'){ vb.innerHTML = list.length ? `<div class="vgrid">${list.map(vitemHTML).join('')}</div>` : '<p class="muted">Nada encontrado.</p>'; return; }
+  FC.deck = list.slice().sort(()=>Math.random()-.5); FC.known = 0; FC.total = list.length;
+  drawCard();
+}
+function drawCard(){
+  const vb = $('#vbody');
+  if(!FC.total){ vb.innerHTML = '<p class="muted">Nada encontrado.</p>'; return; }
+  if(!FC.deck.length){ vb.innerHTML = `<div class="celebrate"><h3>¡Mazo terminado!</h3><p>Repasaste ${FC.total} tarjetas. ${cheer()}</p><button class="btn" id="fcagain">Empezar otra vez</button></div>`; $('#fcagain').onclick = drawVocab; return; }
+  const v = FC.deck[0], front = FC.dir==='nl';
+  vb.innerHTML = `<div class="row"><span class="muted">Sabidas: ${FC.known} / ${FC.total}</span><div class="seg" style="margin-left:auto"><button data-dir="nl" class="${front?'on':''}">Holandés → español</button><button data-dir="es" class="${front?'':'on'}">Español → holandés</button></div></div>
+   <div class="bar" style="margin:10px 0"><span style="width:${Math.round(100*FC.known/FC.total)}%"></span></div>
+   <div class="fc"><div class="fcard" id="fcard">
+     <div class="muted" style="font-size:13px">${v.ttitle}</div>
+     ${front ? `<div class="big">${art(v.nl)}</div>` : `<div class="big" style="font-size:24px">${v.es}</div>`}
+     <div class="back">${front ? `<div class="pron">${v.pron||''}</div><div style="font-size:20px">${v.es}</div>` : `<div class="big">${art(v.nl)}</div><div class="pron">${v.pron||''}</div>`}${v.note?`<div class="muted" style="font-size:14px">${v.note}</div>`:''}</div>
+   </div></div>
+   <div class="row" style="justify-content:center">${say(v.nl)}<button class="btn" id="fcflip">Mostrar respuesta</button></div>
+   <div class="row" style="justify-content:center;display:none" id="fcgrade"><button class="btn ghost" id="fcagain2">Repasar otra vez</button><button class="btn green" id="fcok">Lo sé</button></div>`;
+  if(front) speak(v.nl);
+  $$('[data-dir]', vb).forEach(b => b.onclick = () => { FC.dir = b.dataset.dir; drawCard(); });
+  $('#fcflip').onclick = () => { $('#fcard').classList.add('flip'); $('#fcflip').style.display='none'; $('#fcgrade').style.display='flex'; if(!front) speak(v.nl); };
+  $('#fcok').onclick = () => { FC.deck.shift(); FC.known++; drawCard(); };
+  $('#fcagain2').onclick = () => { const c = FC.deck.shift(); FC.deck.splice(Math.min(3, FC.deck.length), 0, c); drawCard(); };
+}
+
+/* ---------- Quiz final ---------- */
+function finalHTML(){
+  return `<section class="panel" id="p-final"><span class="kicker">Nivel ${L.id}</span><h2>Quiz final</h2>
+    <p class="muted">Mezcla de todo el nivel, sin presión: no es un examen. Si aciertas el 70% o más, el nivel cuenta como completado.</p>
+    <div id="finalbox"></div><div id="finaldone"></div></section>`;
+}
+function onFinal(r, n){
+  const pct = Math.round(100*r/n);
+  const prev = S.final;
+  S.final = { r, n, ok: pct >= 70 || !!(prev && prev.ok), best: Math.max(pct, (prev && prev.best) || 0) };
+  refresh();
+  const allTopics = TOPICS.every(t => S.done[t.id]);
+  const box = $('#finaldone');
+  if(pct >= 70 && allTopics) box.innerHTML = levelDoneHTML();
+  else if(pct >= 70) box.innerHTML = `<div class="result">¡Muy buen resultado! Te faltan algunos temas por marcar como completados: ${TOPICS.filter(t=>!S.done[t.id]).map(t=>`<a href="#" data-go="${t.id}">${t.title}</a>`).join(', ')}.</div>`;
+  else box.innerHTML = `<div class="result meh">Todavía no llegas al 70%, y eso es totalmente normal. Mira qué preguntas fallaste, vuelve a esos temas un ratito y repite el quiz mañana.</div>`;
+  const ld = $('#lvl-done'); if(pct>=70 && allTopics) ld.innerHTML = levelDoneHTML();
+}
+function levelDoneHTML(){
+  return `<div class="celebrate"><h3>¡Nivel ${L.id} completado!</h3><p>${cheer()}</p>
+   <p><b>Micro-meta para mañana:</b> ${L.microGoal}</p>
+   <p class="muted">Tu progreso quedó guardado en este navegador y el menú ya muestra el nivel como completado.</p>
+   <a class="btn ghost" style="display:inline-block;text-decoration:none;margin-right:8px" href="index.html">&larr; Volver al menú</a>
+   ${L.next ? `<a class="btn" style="display:inline-block;text-decoration:none" href="holandes_${L.next}.html">Ir al nivel ${L.next} &rarr;</a>`:''}</div>`;
+}
+
+/* ---------- montar ---------- */
+main.innerHTML = inicioHTML() + TOPICS.map(topicHTML).join('') + verbosHTML() + vocabHTML() + finalHTML();
+TOPICS.forEach(wireTopic);
+renderQuiz($('#finalbox'), L.finalQuiz || [], onFinal);
+$('#vtopic').onchange = drawVocab; $('#vsearch').oninput = drawVocab;
+$$('[data-vmode]').forEach(b => b.onclick = () => { $$('[data-vmode]').forEach(x=>x.classList.toggle('on', x===b)); drawVocab(); });
+
+let vocabDrawn = false;
+function show(id){
+  $$('.panel').forEach(p => p.classList.toggle('on', p.id === 'p-'+id));
+  $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === id));
+  const tb = $(`.tab[data-tab="${id}"]`); if(tb) tb.scrollIntoView({block:'nearest', inline:'center'});
+  if(id === 'vocab' && !vocabDrawn){ vocabDrawn = true; drawVocab(); }
+  window.scrollTo(0,0);
+  if(history.replaceState) history.replaceState(null,'','#'+id);
+  if(id !== 'inicio'){ S.last = id; saveLevel(); }
+}
+function refresh(){
+  const total = TOPICS.length + 1;
+  const done = TOPICS.filter(t=>S.done[t.id]).length + (S.final && S.final.ok ? 1 : 0);
+  $('#pbar').style.width = Math.round(100*done/total) + '%';
+  $('#ptxt').textContent = `${done} de ${total} completados`; $('#ptxt').title = 'Temas + quiz final. El progreso se guarda en este navegador.';
+  saveLevel();
+  $$('.tab').forEach(t => { const id=t.dataset.tab; t.classList.toggle('done', !!S.done[id] || (id==='final' && S.final && S.final.ok)); });
+  refreshInicio();
+}
+
+document.addEventListener('click', e => {
+  const s = e.target.closest('.say'); if(s){ e.preventDefault(); speak(s.dataset.say, s); return; }
+  const tb = e.target.closest('.tab'); if(tb){ show(tb.dataset.tab); return; }
+  const go = e.target.closest('[data-go]'); if(go){ e.preventDefault(); show(go.dataset.go); return; }
+  const rv = e.target.closest('[data-rev]'); if(rv){ const r = rv.nextElementSibling; r.classList.toggle('on'); rv.textContent = r.classList.contains('on') ? 'Ocultar respuesta' : 'Ver respuesta'; return; }
+  const md = e.target.closest('[data-markdone]'); if(md){ const t = TOPICS.find(x=>x.id===md.dataset.markdone); if(t) completeTopic(t); return; }
+});
+$('#speed').onclick = () => { S.rate = S.rate < 0.9 ? 1 : 0.75; $('#speed').textContent = 'Audio: ' + (S.rate < 0.9 ? 'lento' : 'normal'); try{ localStorage.setItem('holandes_audio', S.rate); }catch(e){} };
+$('#lvsel').onchange = e => { location.href = 'holandes_' + e.target.value + '.html'; };
+const lastSeen = S.last;
+refresh(); pickVoice();
+if(TOPICS.every(t => S.done[t.id]) && S.final && S.final.ok) $('#lvl-done').innerHTML = levelDoneHTML();
+if(lastSeen && tabs.some(t=>t.id===lastSeen)){
+  const lt = tabs.find(t=>t.id===lastSeen);
+  $('#resume').innerHTML = `<div class="goal"><b>Continuar donde lo dejaste:</b> ${lt.label} <button class="btn small" data-go="${lastSeen}" style="margin-left:8px">Continuar &rarr;</button></div>`;
+}
+const start = (location.hash||'').slice(1);
+show(tabs.some(t=>t.id===start) ? start : 'inicio');
+})();
+</script>
+</body></html>
