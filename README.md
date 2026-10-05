@@ -2,7 +2,7 @@
 
 Curso interactivo de neerlandés para hispanohablantes, paso a paso, desde A0 (cero absoluto) hasta B2.
 
-**Abrir el curso:** `https://TU-USUARIO.github.io/curso-holandes/` (cambia `TU-USUARIO` por tu usuario de GitHub).
+**Abrir el curso:** `https://lmesquivelsancho-TICO.github.io/curso-holandes/` (cambia `TU-USUARIO` por tu usuario de GitHub).
 
 ## Qué incluye
 
